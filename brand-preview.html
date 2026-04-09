@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vela — Brand Identity Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Vela — Deep Forest Constellation Palette */
+    --night-sky: #0D1210;
+    --deep-indigo: #141E18;
+    --slate-harbor: #1E2A22;
+    --star-gold: #D4A843;
+    --nebula-amber: #E8A849;
+    --ember-copper: #C87B56;
+    --moonlight: #F0EDE6;
+    --dusk: #8FA797;
+    --constellation: #566B5C;
+    --lime: #E6F163;
+    --amber-warn: #FFB547;
+    --meteor-red: #E05252;
+    --stardust: #263530;
+    --glow-gold: rgba(212, 168, 67, 0.08);
+    --glow-teal: rgba(200, 123, 86, 0.06);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--night-sky);
+    color: var(--moonlight);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── Constellation canvas (behind everything) ─── */
+  .constellation-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .constellation-bg .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--star-gold);
+    border-radius: 50%;
+    opacity: 0;
+    animation: twinkle var(--dur) ease-in-out infinite;
+    animation-delay: var(--delay);
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.1; }
+    50% { opacity: var(--peak); }
+  }
+
+  /* ─── Page structure ─── */
+  .page { position: relative; z-index: 1; }
+
+  /* ─── Hero ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 40px;
+    position: relative;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--stardust), var(--star-gold), var(--stardust), transparent);
+    opacity: 0.5;
+  }
+
+  .hero-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--constellation);
+    margin-bottom: 32px;
+  }
+  .hero-label span { color: var(--star-gold); }
+
+  .vela-logo {
+    margin-bottom: 48px;
+    position: relative;
+  }
+  .vela-logo h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(72px, 12vw, 140px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--moonlight);
+    line-height: 1;
+  }
+  .vela-logo .star-dot {
+    position: absolute;
+    top: -8px;
+    right: -20px;
+    width: 8px;
+    height: 8px;
+    background: var(--star-gold);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--star-gold), 0 0 60px rgba(212, 168, 67, 0.3);
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px var(--star-gold), 0 0 60px rgba(242,201,76,0.2); }
+    50% { box-shadow: 0 0 30px var(--star-gold), 0 0 80px rgba(242,201,76,0.4); }
+  }
+
+  .hero-tagline {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--dusk);
+    max-width: 480px;
+    margin-bottom: 48px;
+    line-height: 1.7;
+  }
+  .hero-tagline em {
+    color: var(--star-gold);
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--night-sky);
+    background: var(--star-gold);
+    padding: 14px 36px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+  .hero-cta:hover {
+    background: var(--moonlight);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(212, 168, 67, 0.2);
+  }
+  .hero-cta .arrow { transition: transform 0.3s ease; }
+  .hero-cta:hover .arrow { transform: translateX(4px); }
+
+  /* ─── Section wrapper ─── */
+  .section {
+    padding: 100px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--constellation);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 42px;
+    font-weight: 400;
+    color: var(--moonlight);
+    margin-bottom: 56px;
+    line-height: 1.15;
+  }
+
+  /* ─── Constellation divider ─── */
+  .constellation-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 40px 0;
+    position: relative;
+  }
+  .constellation-divider .line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--stardust));
+    max-width: 200px;
+  }
+  .constellation-divider .line:last-child {
+    background: linear-gradient(90deg, var(--stardust), transparent);
+  }
+  .constellation-divider .dots {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 20px;
+  }
+  .constellation-divider .dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--constellation);
+  }
+  .constellation-divider .dot.bright {
+    width: 6px;
+    height: 6px;
+    background: var(--star-gold);
+    box-shadow: 0 0 8px rgba(212, 168, 67, 0.4);
+  }
+  .constellation-divider .connector {
+    width: 24px;
+    height: 1px;
+    background: var(--stardust);
+  }
+
+  /* ─── Palette grid ─── */
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+    margin-bottom: 64px;
+  }
+  .swatch {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--stardust);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .swatch:hover {
+    transform: translateY(-3px);
+    border-color: var(--constellation);
+  }
+  .swatch-color {
+    height: 80px;
+    position: relative;
+  }
+  .swatch-info {
+    padding: 12px 14px;
+    background: var(--deep-indigo);
+  }
+  .swatch-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--moonlight);
+    margin-bottom: 2px;
+  }
+  .swatch-hex {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--constellation);
+  }
+
+  /* ─── Type specimen ─── */
+  .type-specimen {
+    margin-bottom: 64px;
+  }
+  .type-row {
+    padding: 32px 0;
+    border-bottom: 1px solid var(--stardust);
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 40px;
+    align-items: baseline;
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--constellation);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    line-height: 1.8;
+  }
+  .type-meta .font-name { color: var(--dusk); font-size: 11px; }
+  .type-display {
+    font-family: 'Instrument Serif', serif;
+    font-size: 56px;
+    color: var(--moonlight);
+    line-height: 1.1;
+  }
+  .type-body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 17px;
+    color: var(--dusk);
+    line-height: 1.7;
+    max-width: 560px;
+  }
+  .type-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--ember-copper);
+    line-height: 1.8;
+    background: var(--slate-harbor);
+    padding: 20px 24px;
+    border-radius: 8px;
+    border: 1px solid var(--stardust);
+  }
+  .type-code .comment { color: var(--constellation); }
+  .type-code .key { color: var(--star-gold); }
+  .type-code .string { color: var(--lime); }
+
+  /* ─── Sample UI: Setup Flow Card ─── */
+  .sample-ui {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 64px;
+  }
+  @media (max-width: 768px) { .sample-ui { grid-template-columns: 1fr; } }
+
+  .ui-card {
+    background: var(--deep-indigo);
+    border: 1px solid var(--stardust);
+    border-radius: 12px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+  }
+  .ui-card:hover { border-color: var(--constellation); }
+  .ui-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--star-gold), var(--ember-copper));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .ui-card:hover::before { opacity: 1; }
+
+  .card-step {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--star-gold);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-step .step-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--star-gold);
+    box-shadow: 0 0 8px rgba(212, 168, 67, 0.4);
+  }
+  .card-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 22px;
+    color: var(--moonlight);
+    margin-bottom: 12px;
+  }
+  .card-desc {
+    font-size: 14px;
+    color: var(--dusk);
+    line-height: 1.65;
+    margin-bottom: 24px;
+  }
+  .card-checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .card-checklist li {
+    font-size: 13px;
+    color: var(--dusk);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: var(--slate-harbor);
+    border-radius: 6px;
+    border: 1px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+  .card-checklist li:hover { border-color: var(--stardust); }
+  .card-checklist .check {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1.5px solid var(--constellation);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+  .card-checklist li.done .check {
+    background: var(--star-gold);
+    border-color: var(--star-gold);
+  }
+  .card-checklist li.done .check::after {
+    content: '✓';
+    font-size: 10px;
+    color: var(--night-sky);
+    font-weight: 700;
+  }
+  .card-checklist li.done { color: var(--moonlight); }
+
+  /* ─── Sample UI: Rule Card ─── */
+  .rule-card {
+    background: var(--deep-indigo);
+    border: 1px solid var(--stardust);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+  }
+  .rule-card:hover { border-color: var(--constellation); }
+  .rule-card-header {
+    padding: 20px 28px;
+    background: var(--slate-harbor);
+    border-bottom: 1px solid var(--stardust);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .rule-card-header h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--moonlight);
+  }
+  .rule-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: rgba(200, 123, 86, 0.12);
+    color: var(--ember-copper);
+  }
+  .rule-tag.methodology {
+    background: rgba(212, 168, 67, 0.12);
+    color: var(--star-gold);
+  }
+  .rule-tag.failure {
+    background: rgba(224, 82, 82, 0.12);
+    color: var(--meteor-red);
+  }
+  .rule-card-body {
+    padding: 24px 28px;
+    font-size: 13px;
+    color: var(--dusk);
+    line-height: 1.7;
+  }
+  .rule-card-body strong { color: var(--moonlight); font-weight: 500; }
+
+  /* ─── Constellation map preview ─── */
+  .constellation-map {
+    background: var(--deep-indigo);
+    border: 1px solid var(--stardust);
+    border-radius: 12px;
+    padding: 48px;
+    margin-bottom: 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .constellation-map::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 40%, var(--glow-gold), transparent 60%),
+                radial-gradient(ellipse at 70% 60%, var(--glow-teal), transparent 60%);
+  }
+  .map-inner { position: relative; z-index: 1; }
+  .map-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--constellation);
+    margin-bottom: 24px;
+  }
+  .map-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px;
+    color: var(--moonlight);
+    margin-bottom: 16px;
+  }
+  .map-desc {
+    font-size: 14px;
+    color: var(--dusk);
+    max-width: 480px;
+    margin-bottom: 40px;
+    line-height: 1.7;
+  }
+
+  /* SVG constellation map */
+  .setup-constellation {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    display: block;
+  }
+  .setup-constellation text {
+    font-family: 'DM Sans', sans-serif;
+  }
+  .setup-constellation .node-label {
+    font-size: 11px;
+    fill: var(--moonlight);
+    font-weight: 500;
+  }
+  .setup-constellation .node-sublabel {
+    font-size: 9px;
+    fill: var(--constellation);
+  }
+  .setup-constellation .node-dot {
+    fill: var(--star-gold);
+    filter: drop-shadow(0 0 6px rgba(242,201,76,0.5));
+  }
+  .setup-constellation .node-dot.teal {
+    fill: var(--ember-copper);
+    filter: drop-shadow(0 0 6px rgba(78,205,196,0.4));
+  }
+  .setup-constellation .node-ring {
+    fill: none;
+    stroke: var(--star-gold);
+    stroke-width: 1;
+    opacity: 0.3;
+  }
+  .setup-constellation .edge {
+    stroke: var(--stardust);
+    stroke-width: 1;
+    opacity: 0.6;
+  }
+  .setup-constellation .edge.active {
+    stroke: var(--star-gold);
+    opacity: 0.35;
+    stroke-dasharray: 4 4;
+  }
+
+  /* ─── Nav preview ─── */
+  .nav-preview {
+    background: var(--deep-indigo);
+    border: 1px solid var(--stardust);
+    border-radius: 12px;
+    padding: 16px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .nav-brand {
+    font-family: 'Instrument Serif', serif;
+    font-size: 22px;
+    color: var(--moonlight);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-brand .brand-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--star-gold);
+    box-shadow: 0 0 8px rgba(242,201,76,0.5);
+    margin-top: -14px;
+  }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links li a {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--dusk);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    letter-spacing: 0.02em;
+  }
+  .nav-links li a:hover { color: var(--moonlight); }
+  .nav-links li a.active { color: var(--star-gold); }
+
+  /* ─── Footer ─── */
+  .footer {
+    text-align: center;
+    padding: 80px 40px;
+    font-size: 12px;
+    color: var(--constellation);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.1em;
+  }
+  .footer em {
+    color: var(--dusk);
+    font-style: italic;
+    font-family: 'Instrument Serif', serif;
+    font-size: 14px;
+    letter-spacing: 0;
+    display: block;
+    margin-top: 8px;
+  }
+
+  /* ─── Dark panel section ─── */
+  .dark-panel {
+    background: var(--slate-harbor);
+    border-top: 1px solid var(--stardust);
+    border-bottom: 1px solid var(--stardust);
+    padding: 80px 40px;
+    margin: 0 -40px;
+  }
+  .dark-panel .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ─── Pill / badge ─── */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 100px;
+    background: rgba(212, 168, 67, 0.1);
+    color: var(--star-gold);
+    border: 1px solid rgba(212, 168, 67, 0.15);
+  }
+  .pill.teal {
+    background: rgba(200, 123, 86, 0.1);
+    color: var(--ember-copper);
+    border-color: rgba(200, 123, 86, 0.15);
+  }
+  .pill.lime {
+    background: rgba(230, 241, 99, 0.1);
+    color: var(--lime);
+    border-color: rgba(230, 241, 99, 0.15);
+  }
+
+  /* ─── Button variants ─── */
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--dusk);
+    background: transparent;
+    border: 1px solid var(--stardust);
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .btn-ghost:hover {
+    border-color: var(--constellation);
+    color: var(--moonlight);
+  }
+
+  /* ─── Rules grid ─── */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 768px) { .rules-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<!-- Constellation background -->
+<div class="constellation-bg" id="starfield"></div>
+
+<div class="page">
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="hero-label">Brand Identity Preview <span>·</span> April 2026</div>
+    <div class="vela-logo">
+      <h1>Vela</h1>
+      <div class="star-dot"></div>
+    </div>
+    <p class="hero-tagline">
+      A system for building with AI — <em>charted, not guessed.</em><br>
+      Portable rules. Encoded judgment. Your own constellation.
+    </p>
+    <a href="#palette" class="hero-cta">
+      Explore the System <span class="arrow">→</span>
+    </a>
+  </section>
+
+  <!-- ═══ PALETTE ═══ -->
+  <section class="section" id="palette">
+    <div class="section-label">01 · Palette</div>
+    <h2 class="section-title">Forest at Night</h2>
+
+    <p style="font-size:14px; color:var(--dusk); max-width:520px; margin-bottom:40px; line-height:1.7;">
+      Graza's forest pushed past midnight. Dark-mode default.
+      Warm golds as lamplight through canopy. Teal for interactive moments.
+      The palette of working late under trees, not under fluorescents.
+    </p>
+
+    <div class="palette-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#0D1210"></div>
+        <div class="swatch-info"><div class="swatch-name">Forest Floor</div><div class="swatch-hex">#0D1210</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#141E18"></div>
+        <div class="swatch-info"><div class="swatch-name">Deep Canopy</div><div class="swatch-hex">#141E18</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#1E2A22"></div>
+        <div class="swatch-info"><div class="swatch-name">Understory</div><div class="swatch-hex">#1E2A22</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#263530"></div>
+        <div class="swatch-info"><div class="swatch-name">Stardust</div><div class="swatch-hex">#263530</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#D4A843"></div>
+        <div class="swatch-info"><div class="swatch-name">Star Gold</div><div class="swatch-hex">#D4A843</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#E8A849"></div>
+        <div class="swatch-info"><div class="swatch-name">Nebula Amber</div><div class="swatch-hex">#E8A849</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#C87B56"></div>
+        <div class="swatch-info"><div class="swatch-name">Ember Copper</div><div class="swatch-hex">#C87B56</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#E6F163"></div>
+        <div class="swatch-info"><div class="swatch-name">Lime</div><div class="swatch-hex">#E6F163</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: linear-gradient(135deg, #F0EDE6 60%, #8FA797)"></div>
+        <div class="swatch-info"><div class="swatch-name">Moonlight → Dusk</div><div class="swatch-hex">#F0EDE6 · #8FA797</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#566B5C"></div>
+        <div class="swatch-info"><div class="swatch-name">Constellation</div><div class="swatch-hex">#566B5C</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#E05252"></div>
+        <div class="swatch-info"><div class="swatch-name">Meteor Red</div><div class="swatch-hex">#E05252</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#FFB547"></div>
+        <div class="swatch-info"><div class="swatch-name">Amber Warn</div><div class="swatch-hex">#FFB547</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ DIVIDER ═══ -->
+  <div class="constellation-divider">
+    <div class="line"></div>
+    <div class="dots">
+      <div class="dot"></div>
+      <div class="connector"></div>
+      <div class="dot bright"></div>
+      <div class="connector"></div>
+      <div class="dot"></div>
+      <div class="connector"></div>
+      <div class="dot bright"></div>
+      <div class="connector"></div>
+      <div class="dot"></div>
+    </div>
+    <div class="line"></div>
+  </div>
+
+  <!-- ═══ TYPOGRAPHY ═══ -->
+  <section class="section">
+    <div class="section-label">02 · Typography</div>
+    <h2 class="section-title">Three Voices</h2>
+
+    <div class="type-specimen">
+      <div class="type-row">
+        <div class="type-meta">
+          Display<br>
+          <span class="font-name">Instrument Serif</span>
+        </div>
+        <div class="type-display">Chart your own course.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          Body<br>
+          <span class="font-name">DM Sans</span>
+        </div>
+        <div class="type-body">
+          Rules aren't constraints — they're encoded judgment from real failure. Every skill in Vela was extracted from a project that broke, a deliverable that shipped wrong, a pipeline that silently dropped data. You inherit the lessons without paying for the mistakes.
+        </div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          Code / System<br>
+          <span class="font-name">JetBrains Mono</span>
+        </div>
+        <div class="type-code">
+          <span class="comment"># Your project's CLAUDE.md</span><br>
+          <span class="key">operating_loop</span>: build → challenge → resolve → promote<br>
+          <span class="key">workspace</span>: <span class="string">"~/white-papers/"</span><br>
+          <span class="key">challenge_threshold</span>: <span class="string">"any cited number"</span><br>
+          <span class="key">failure_modes</span>: [<span class="string">"plausible-wrong-numbers"</span>, <span class="string">"ai-data-smoothing"</span>]
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ DIVIDER ═══ -->
+  <div class="constellation-divider">
+    <div class="line"></div>
+    <div class="dots">
+      <div class="dot bright"></div>
+      <div class="connector"></div>
+      <div class="dot"></div>
+      <div class="connector"></div>
+      <div class="dot"></div>
+      <div class="connector"></div>
+      <div class="dot bright"></div>
+    </div>
+    <div class="line"></div>
+  </div>
+
+  <!-- ═══ UI COMPONENTS ═══ -->
+  <section class="section">
+    <div class="section-label">03 · UI Components</div>
+    <h2 class="section-title">How It Feels</h2>
+
+    <!-- Nav preview -->
+    <div class="nav-preview">
+      <div class="nav-brand">Vela<span class="brand-dot"></span></div>
+      <ul class="nav-links">
+        <li><a href="#" class="active">Setup</a></li>
+        <li><a href="#">Rules</a></li>
+        <li><a href="#">Sandbox</a></li>
+        <li><a href="#">Cameron</a></li>
+      </ul>
+    </div>
+
+    <!-- Pills row -->
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:32px;">
+      <span class="pill">★ Universal</span>
+      <span class="pill teal">↻ Operating Loop</span>
+      <span class="pill lime">✓ Loaded</span>
+      <span class="pill" style="background:rgba(224,82,82,0.1); color:var(--meteor-red); border-color:rgba(224,82,82,0.15);">⚠ Failure Mode</span>
+    </div>
+
+    <!-- Setup cards -->
+    <div class="sample-ui">
+      <div class="ui-card">
+        <div class="card-step"><div class="step-dot"></div> Step 01</div>
+        <div class="card-title">Organize Reference Docs</div>
+        <div class="card-desc">
+          Before your agent writes a single word, it needs to know what to cite.
+          Structure your sources so the AI can find them.
+        </div>
+        <ul class="card-checklist">
+          <li class="done"><div class="check"></div>Create <code style="color:var(--ember-copper); font-family:'JetBrains Mono',monospace; font-size:12px;">~/white-papers/ref-docs/</code></li>
+          <li class="done"><div class="check"></div>Add PDFs, papers, data sources</li>
+          <li><div class="check"></div>Tag each with provenance category</li>
+          <li><div class="check"></div>Run the reference audit script</li>
+        </ul>
+      </div>
+      <div class="ui-card">
+        <div class="card-step"><div class="step-dot"></div> Step 02</div>
+        <div class="card-title">Write Your CLAUDE.md</div>
+        <div class="card-desc">
+          The rules file that makes your agent consistent. Start from a template,
+          customize for your domain. This is your operating system.
+        </div>
+        <ul class="card-checklist">
+          <li class="done"><div class="check"></div>Copy starter CLAUDE.md template</li>
+          <li><div class="check"></div>Set domain (white papers → HBR)</li>
+          <li><div class="check"></div>Load relevant failure modes</li>
+          <li><div class="check"></div>Define output contracts</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Rule cards -->
+    <div class="rules-grid">
+      <div class="rule-card">
+        <div class="rule-card-header">
+          <h3>Operating Loop</h3>
+          <span class="rule-tag methodology">Methodology</span>
+        </div>
+        <div class="rule-card-body">
+          <strong>Build → Challenge → Resolve → Promote.</strong> Every non-trivial deliverable runs through all four steps.
+          The challenger can be a second model, an adversarial prompt, or your own checklist. The point is: nothing ships unchallenged.
+        </div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-card-header">
+          <h3>Plausible-but-Wrong Numbers</h3>
+          <span class="rule-tag failure">Failure Mode</span>
+        </div>
+        <div class="rule-card-body">
+          AI generates statistics that <strong>feel correct</strong> but were never verified — magnitude errors, wrong dates, fabricated percentages.
+          Every cited number needs a provenance tag: PUBLISHED, DERIVED, or ANALYST.
+        </div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-card-header">
+          <h3>Cross-Model Verification</h3>
+          <span class="rule-tag teal">Verification</span>
+        </div>
+        <div class="rule-card-body">
+          Before submitting anything with cited claims, run your argument through <strong>an adversarial model</strong>.
+          The second model's job is to find what you missed. Three protocols: adversarial review, parallel generation, acceptance testing.
+        </div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-card-header">
+          <h3>Build Log Protocol</h3>
+          <span class="rule-tag methodology">Methodology</span>
+        </div>
+        <div class="rule-card-body">
+          One append-only file per project: <strong>_BUILD_LOG.md</strong>.
+          What was built, what's canonical, what changed, what broke, what was learned.
+          Read it before starting. Write it before stopping. That's the whole system.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONSTELLATION MAP ═══ -->
+  <div class="constellation-divider">
+    <div class="line"></div>
+    <div class="dots">
+      <div class="dot"></div>
+      <div class="connector"></div>
+      <div class="dot bright"></div>
+      <div class="connector"></div>
+      <div class="dot"></div>
+    </div>
+    <div class="line"></div>
+  </div>
+
+  <section class="section">
+    <div class="section-label">04 · The Constellation Map</div>
+    <h2 class="section-title">Setup as Wayfinding</h2>
+
+    <div class="constellation-map">
+      <div class="map-inner">
+        <div class="map-label">Cameron's Setup Path</div>
+        <div class="map-title">Each step is a star. Lines show what depends on what.</div>
+        <div class="map-desc">
+          The setup flow isn't a linear checklist — it's a constellation.
+          Some stars can be reached in parallel. Some require others first.
+          Your path lights up as you complete each waypoint.
+        </div>
+
+        <svg class="setup-constellation" viewBox="0 0 700 320">
+          <!-- Edges (connections between steps) -->
+          <line class="edge active" x1="110" y1="60" x2="300" y2="45" />
+          <line class="edge active" x1="110" y1="60" x2="250" y2="140" />
+          <line class="edge" x1="300" y1="45" x2="460" y2="100" />
+          <line class="edge" x1="250" y1="140" x2="460" y2="100" />
+          <line class="edge" x1="460" y1="100" x2="580" y2="180" />
+          <line class="edge" x1="250" y1="140" x2="350" y2="240" />
+          <line class="edge" x1="460" y1="100" x2="350" y2="240" />
+          <line class="edge" x1="350" y1="240" x2="580" y2="180" />
+          <line class="edge" x1="580" y1="180" x2="630" y2="280" />
+
+          <!-- Ambient stars (tiny) -->
+          <circle cx="50" cy="20" r="1" fill="#5A6478" opacity="0.4" />
+          <circle cx="180" cy="280" r="1" fill="#5A6478" opacity="0.3" />
+          <circle cx="520" cy="30" r="1" fill="#5A6478" opacity="0.5" />
+          <circle cx="650" cy="60" r="1" fill="#5A6478" opacity="0.3" />
+          <circle cx="420" cy="280" r="1.5" fill="#5A6478" opacity="0.4" />
+          <circle cx="80" cy="200" r="1" fill="#5A6478" opacity="0.3" />
+          <circle cx="680" cy="150" r="1" fill="#5A6478" opacity="0.4" />
+
+          <!-- Node: Choose Environment -->
+          <circle class="node-ring" cx="110" cy="60" r="18" />
+          <circle class="node-dot" cx="110" cy="60" r="7" />
+          <text class="node-label" x="110" y="96" text-anchor="middle">Choose Environment</text>
+          <text class="node-sublabel" x="110" y="110" text-anchor="middle">CLI / Cursor / Web</text>
+
+          <!-- Node: Organize Refs -->
+          <circle class="node-ring" cx="300" cy="45" r="16" />
+          <circle class="node-dot" cx="300" cy="45" r="6" />
+          <text class="node-label" x="300" y="78" text-anchor="middle">Organize References</text>
+          <text class="node-sublabel" x="300" y="92" text-anchor="middle">PDFs, papers, sources</text>
+
+          <!-- Node: Write CLAUDE.md -->
+          <circle class="node-ring" cx="250" cy="140" r="16" />
+          <circle class="node-dot teal" cx="250" cy="140" r="6" />
+          <text class="node-label" x="250" y="173" text-anchor="middle">Write CLAUDE.md</text>
+          <text class="node-sublabel" x="250" y="187" text-anchor="middle">Your rules file</text>
+
+          <!-- Node: Load Skills -->
+          <circle class="node-ring" cx="460" cy="100" r="16" />
+          <circle class="node-dot" cx="460" cy="100" r="6" />
+          <text class="node-label" x="460" y="133" text-anchor="middle">Load Skills</text>
+          <text class="node-sublabel" x="460" y="147" text-anchor="middle">Failure modes + methodology</text>
+
+          <!-- Node: Build Log -->
+          <circle class="node-ring" cx="350" cy="240" r="16" />
+          <circle class="node-dot teal" cx="350" cy="240" r="6" />
+          <text class="node-label" x="350" y="273" text-anchor="middle">Start Build Log</text>
+          <text class="node-sublabel" x="350" y="287" text-anchor="middle">_BUILD_LOG.md</text>
+
+          <!-- Node: First Build -->
+          <circle class="node-ring" cx="580" cy="180" r="20" />
+          <circle class="node-dot" cx="580" cy="180" r="8" />
+          <text class="node-label" x="580" y="218" text-anchor="middle">First Build Session</text>
+          <text class="node-sublabel" x="580" y="232" text-anchor="middle">Run the loop</text>
+
+          <!-- Node: Ship -->
+          <circle class="node-ring" cx="630" cy="280" r="14" style="stroke:var(--ember-copper)" />
+          <circle cx="630" cy="280" r="5" fill="var(--ember-copper)" style="filter:drop-shadow(0 0 6px rgba(78,205,196,0.5))" />
+          <text class="node-label" x="630" y="306" text-anchor="middle" style="fill:var(--ember-copper)">Submit</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    VELA · BRAND IDENTITY · V0.1
+    <em>Charted, not guessed.</em>
+  </footer>
+
+</div>
+
+<script>
+  // Generate starfield
+  const starfield = document.getElementById('starfield');
+  const count = 80;
+  for (let i = 0; i < count; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.setProperty('--dur', (3 + Math.random() * 5) + 's');
+    star.style.setProperty('--delay', Math.random() * 5 + 's');
+    star.style.setProperty('--peak', (0.2 + Math.random() * 0.5).toFixed(2));
+    if (Math.random() > 0.85) {
+      star.style.width = '3px';
+      star.style.height = '3px';
+      star.style.boxShadow = '0 0 4px rgba(242,201,76,0.3)';
+    }
+    starfield.appendChild(star);
+  }
+</script>
+
+</body>
+</html>

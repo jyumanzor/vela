@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+.next/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Doldol POC (separate project, not part of Vela)
+Clients/Doldol POC/
+
+# Build output
+site/.next/
+site/out/
+
+# Misc
+*.tsbuildinfo
+next-env.d.ts

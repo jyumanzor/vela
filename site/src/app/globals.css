@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+:root {
+  --forest-floor: #0D1210;
+  --deep-canopy: #141E18;
+  --understory: #1E2A22;
+  --stardust: #263530;
+  --star-gold: #D4A843;
+  --nebula-amber: #E8A849;
+  --ember-copper: #C87B56;
+  --moonlight: #F0EDE6;
+  --dusk: #8FA797;
+  --constellation: #566B5C;
+  --lime: #E6F163;
+  --amber-warn: #FFB547;
+  --meteor-red: #E05252;
+}
+
+body {
+  background: var(--forest-floor);
+  color: var(--moonlight);
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background: rgba(212, 168, 67, 0.3);
+  color: var(--moonlight);
+}
+
+.vela-quick-link {
+  transition: border-color 0.15s ease;
+}
+.vela-quick-link:hover {
+  border-color: var(--constellation) !important;
+}

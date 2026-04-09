@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vela — Setup Guide for Cameron</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --forest-floor: #0D1210;
+  --deep-canopy: #141E18;
+  --understory: #1E2A22;
+  --stardust: #263530;
+  --star-gold: #D4A843;
+  --nebula-amber: #E8A849;
+  --ember-copper: #C87B56;
+  --moonlight: #F0EDE6;
+  --dusk: #8FA797;
+  --constellation: #566B5C;
+  --lime: #E6F163;
+  --amber-warn: #FFB547;
+  --meteor-red: #E05252;
+  --glow-gold: rgba(212, 168, 67, 0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--forest-floor);
+  color: var(--moonlight);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* ── Starfield ── */
+.starfield {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.starfield .star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--star-gold);
+  border-radius: 50%;
+  opacity: 0;
+  animation: twinkle var(--dur) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.08; }
+  50% { opacity: var(--peak); }
+}
+
+/* ── Top nav bar ── */
+.topnav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  background: rgba(13, 18, 16, 0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--stardust);
+}
+.topnav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.topnav-brand h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--moonlight);
+  letter-spacing: -0.01em;
+}
+.topnav-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--star-gold);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--star-gold), 0 0 32px rgba(212, 168, 67, 0.25);
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 12px var(--star-gold), 0 0 32px rgba(212,168,67,0.2); }
+  50% { box-shadow: 0 0 20px var(--star-gold), 0 0 48px rgba(212,168,67,0.35); }
+}
+.topnav-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--constellation);
+}
+.topnav-meta span { color: var(--dusk); }
+
+/* ── Sidebar constellation nav ── */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 56px;
+  bottom: 0;
+  width: 72px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 40px 0;
+}
+.sidebar-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.sidebar-dot {
+  position: relative;
+  z-index: 1;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--understory);
+  border: 1.5px solid var(--constellation);
+  cursor: pointer;
+  transition: all 0.4s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sidebar-dot.active {
+  border-color: var(--star-gold);
+  background: var(--deep-canopy);
+  box-shadow: 0 0 12px rgba(212, 168, 67, 0.3);
+}
+.sidebar-dot.done {
+  background: var(--star-gold);
+  border-color: var(--star-gold);
+  box-shadow: 0 0 16px rgba(212, 168, 67, 0.4);
+}
+.sidebar-dot-inner {
+  width: 5px;
+  height: 5px;
+  background: var(--forest-floor);
+  border-radius: 50%;
+  display: none;
+}
+.sidebar-dot.done .sidebar-dot-inner { display: block; }
+.sidebar-connector {
+  width: 1px;
+  height: 32px;
+  background: var(--stardust);
+  transition: background 0.4s ease;
+}
+.sidebar-connector.done-conn {
+  background: rgba(212, 168, 67, 0.4);
+}
+.sidebar-tooltip {
+  position: absolute;
+  left: 52px;
+  background: var(--understory);
+  border: 1px solid var(--stardust);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--moonlight);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: all 0.2s ease;
+}
+.sidebar-dot:hover .sidebar-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ── Main content ── */
+.main {
+  position: relative;
+  z-index: 1;
+  margin-left: 72px;
+  max-width: 820px;
+  padding: 56px 48px 120px;
+}
+
+/* ── Hero ── */
+.hero {
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 0 40px;
+}
+.hero-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--constellation);
+  margin-bottom: 24px;
+}
+.hero-label span { color: var(--star-gold); }
+.hero h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(40px, 6vw, 64px);
+  font-weight: 400;
+  color: var(--moonlight);
+  line-height: 1.1;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+}
+.hero h1 em {
+  color: var(--star-gold);
+  font-style: italic;
+}
+.hero-sub {
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--dusk);
+  max-width: 540px;
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+.hero-meta {
+  display: flex;
+  gap: 32px;
+  font-size: 12px;
+  color: var(--constellation);
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 40px;
+}
+.hero-meta span { color: var(--dusk); }
+
+/* ── Download CTA ── */
+.download-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--forest-floor);
+  background: var(--star-gold);
+  padding: 14px 32px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+.download-cta:hover {
+  background: var(--moonlight);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(212, 168, 67, 0.2);
+}
+.download-cta svg { width: 16px; height: 16px; }
+
+/* ── Sections ── */
+.guide-section {
+  padding-top: 100px;
+}
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.section-number {
+  font-family: 'Instrument Serif', serif;
+  font-size: 48px;
+  color: var(--stardust);
+  line-height: 1;
+  flex-shrink: 0;
+  min-width: 48px;
+}
+.section-header-text {}
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--constellation);
+  margin-bottom: 8px;
+}
+.section-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--moonlight);
+  line-height: 1.2;
+}
+
+.section-body p {
+  color: var(--dusk);
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+.section-body strong {
+  color: var(--moonlight);
+  font-weight: 500;
+}
+.section-body em.gold {
+  color: var(--star-gold);
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* ── Mark complete button ── */
+.mark-complete {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border: 1px solid var(--stardust);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--constellation);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 32px;
+}
+.mark-complete:hover {
+  border-color: var(--star-gold);
+  color: var(--star-gold);
+}
+.mark-complete.completed {
+  border-color: var(--star-gold);
+  color: var(--star-gold);
+  background: rgba(212, 168, 67, 0.08);
+}
+.mark-complete .check-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-size: 10px;
+}
+.mark-complete.completed .check-icon {
+  background: var(--star-gold);
+  border-color: var(--star-gold);
+  color: var(--forest-floor);
+}
+
+/* ── Code blocks ── */
+.code-block {
+  position: relative;
+  background: var(--deep-canopy);
+  border: 1px solid var(--stardust);
+  border-radius: 8px;
+  margin: 20px 0;
+  overflow: hidden;
+}
+.code-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: rgba(38, 53, 48, 0.5);
+  border-bottom: 1px solid var(--stardust);
+}
+.code-block-lang {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--constellation);
+}
+.copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  color: var(--constellation);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+.copy-btn:hover { color: var(--star-gold); }
+.copy-btn.copied { color: var(--lime); }
+.copy-btn svg { width: 14px; height: 14px; }
+.code-block pre {
+  padding: 16px 20px;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--moonlight);
+}
+
+/* ── Tool comparison cards ── */
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 24px 0 32px;
+}
+.tool-card {
+  background: var(--deep-canopy);
+  border: 1px solid var(--stardust);
+  border-radius: 12px;
+  padding: 28px 24px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.tool-card:hover { border-color: var(--constellation); }
+.tool-card.primary {
+  border-color: var(--star-gold);
+  background: linear-gradient(160deg, var(--deep-canopy), rgba(212, 168, 67, 0.06));
+}
+.tool-card.primary::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--star-gold), var(--nebula-amber));
+}
+.tool-card-badge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+.badge-primary { background: rgba(212, 168, 67, 0.15); color: var(--star-gold); }
+.badge-secondary { background: rgba(143, 167, 151, 0.15); color: var(--dusk); }
+.badge-optional { background: rgba(86, 107, 92, 0.15); color: var(--constellation); }
+.tool-card h4 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--moonlight);
+  margin-bottom: 6px;
+}
+.tool-card .tool-maker {
+  font-size: 12px;
+  color: var(--constellation);
+  margin-bottom: 16px;
+}
+.tool-card .tool-desc {
+  font-size: 13px;
+  color: var(--dusk);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.tool-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.tool-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: var(--understory);
+  border: 1px solid var(--stardust);
+  color: var(--dusk);
+}
+.tool-card.primary .tool-tag {
+  border-color: rgba(212, 168, 67, 0.2);
+}
+.tool-card .tool-use {
+  font-size: 12px;
+  color: var(--constellation);
+  font-style: italic;
+  padding-top: 12px;
+  border-top: 1px solid var(--stardust);
+}
+
+/* ── Toolkit summary panel ── */
+.toolkit-panel {
+  background: linear-gradient(135deg, var(--deep-canopy), rgba(212, 168, 67, 0.03));
+  border: 1px solid var(--stardust);
+  border-radius: 12px;
+  padding: 32px;
+  margin: 32px 0;
+}
+.toolkit-panel h4 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 20px;
+  color: var(--moonlight);
+  margin-bottom: 20px;
+}
+.toolkit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.toolkit-stat {
+  text-align: center;
+  padding: 16px 12px;
+  background: var(--understory);
+  border-radius: 8px;
+  border: 1px solid var(--stardust);
+}
+.toolkit-stat .num {
+  font-family: 'Instrument Serif', serif;
+  font-size: 32px;
+  color: var(--star-gold);
+  line-height: 1;
+}
+.toolkit-stat .label {
+  font-size: 11px;
+  color: var(--constellation);
+  margin-top: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── Comparison grid (old, kept for checklist section) ── */
+.compare-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 24px 0;
+}
+
+/* ── Folder tree ── */
+.folder-tree {
+  background: var(--deep-canopy);
+  border: 1px solid var(--stardust);
+  border-radius: 10px;
+  padding: 24px 28px;
+  margin: 20px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--dusk);
+}
+.folder-tree .dir { color: var(--star-gold); }
+.folder-tree .file { color: var(--moonlight); }
+.folder-tree .note { color: var(--constellation); font-size: 11px; }
+
+/* ── Info cards ── */
+.info-card {
+  background: var(--deep-canopy);
+  border: 1px solid var(--stardust);
+  border-radius: 10px;
+  padding: 24px;
+  margin: 16px 0;
+}
+.info-card h5 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--moonlight);
+  margin-bottom: 8px;
+}
+.info-card p {
+  font-size: 13px;
+  color: var(--dusk);
+  margin-bottom: 0;
+}
+
+/* ── Skill list ── */
+.skill-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 20px 0;
+}
+.skill-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--deep-canopy);
+  border: 1px solid var(--stardust);
+  border-radius: 8px;
+  font-size: 13px;
+}
+.skill-item code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--star-gold);
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 200px;
+}
+.skill-item span {
+  color: var(--dusk);
+  flex: 1;
+}
+.skill-item .skill-copy-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: 1px solid var(--stardust);
+  color: var(--constellation);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+.skill-item .skill-copy-btn:hover {
+  border-color: var(--star-gold);
+  color: var(--star-gold);
+}
+
+/* ── Download buttons ── */
+.dl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: 1px solid var(--star-gold);
+  border-radius: 6px;
+  background: rgba(212, 168, 67, 0.08);
+  color: var(--star-gold);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  margin: 4px 8px 4px 0;
+}
+.dl-btn:hover {
+  background: rgba(212, 168, 67, 0.15);
+  transform: translateY(-1px);
+}
+.dl-btn svg { width: 14px; height: 14px; }
+.dl-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+/* ── Operating loop ── */
+.loop-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 24px 0;
+}
+.loop-step {
+  text-align: center;
+  padding: 20px 12px;
+  background: var(--deep-canopy);
+  border: 1px solid var(--stardust);
+  border-radius: 10px;
+}
+.loop-step h5 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--star-gold);
+  margin-bottom: 6px;
+}
+.loop-step p {
+  font-size: 12px;
+  color: var(--dusk);
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
+/* ── Session example ── */
+.session-step {
+  display: flex;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(38, 53, 48, 0.6);
+}
+.session-step:last-child { border-bottom: none; }
+.session-step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--understory);
+  border: 1px solid var(--stardust);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--constellation);
+  flex-shrink: 0;
+}
+.session-step-content p {
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+/* ── Checklist ── */
+.checklist {
+  margin: 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  user-select: none;
+}
+.checklist-item:hover {
+  background: rgba(38, 53, 48, 0.4);
+}
+.checklist-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1.5px solid var(--constellation);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+.checklist-item.checked .checklist-box {
+  background: var(--star-gold);
+  border-color: var(--star-gold);
+}
+.checklist-check {
+  display: none;
+  color: var(--forest-floor);
+  font-size: 13px;
+  font-weight: 700;
+}
+.checklist-item.checked .checklist-check { display: block; }
+.checklist-text {
+  font-size: 14px;
+  color: var(--dusk);
+  transition: color 0.2s ease;
+}
+.checklist-item.checked .checklist-text {
+  color: var(--moonlight);
+}
+
+/* ── Provenance tags ── */
+.prov-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 20px 0;
+}
+.prov-tag {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--deep-canopy);
+  border-radius: 8px;
+  border: 1px solid var(--stardust);
+}
+.prov-tag-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  padding: 3px 10px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.prov-tag-name.published { background: rgba(230, 241, 99, 0.15); color: var(--lime); }
+.prov-tag-name.derived { background: rgba(212, 168, 67, 0.15); color: var(--star-gold); }
+.prov-tag-name.analyst { background: rgba(200, 123, 86, 0.15); color: var(--ember-copper); }
+.prov-tag-desc {
+  font-size: 13px;
+  color: var(--dusk);
+}
+.prov-tag-example {
+  font-size: 12px;
+  color: var(--constellation);
+  font-style: italic;
+  margin-top: 4px;
+}
+
+/* ── Divider ── */
+.section-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 0;
+}
+.section-divider .line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--stardust));
+  max-width: 120px;
+}
+.section-divider .line:last-child {
+  background: linear-gradient(90deg, var(--stardust), transparent);
+}
+.section-divider .dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--constellation);
+  margin: 0 16px;
+}
+
+/* ── Inline code ── */
+.ic {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--star-gold);
+  background: var(--deep-canopy);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .tool-grid { grid-template-columns: 1fr; }
+  .toolkit-grid { grid-template-columns: repeat(3, 1fr); }
+  .skill-item code { min-width: 140px; }
+}
+@media (max-width: 768px) {
+  .topnav { padding: 0 16px; }
+  .sidebar {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    width: 100%;
+    height: 48px;
+    flex-direction: row;
+    justify-content: center;
+    padding: 0 16px;
+    background: rgba(13, 18, 16, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--stardust);
+  }
+  .sidebar-inner {
+    flex-direction: row;
+    gap: 0;
+  }
+  .sidebar-connector {
+    width: 16px;
+    height: 1px;
+  }
+  .sidebar-dot .sidebar-tooltip { display: none; }
+  .main {
+    margin-left: 0;
+    padding: 112px 20px 80px;
+  }
+  .tool-grid { grid-template-columns: 1fr; }
+  .toolkit-grid { grid-template-columns: 1fr 1fr 1fr; }
+  .loop-steps { grid-template-columns: repeat(2, 1fr); }
+  .hero { min-height: auto; padding: 60px 0 20px; }
+  .skill-item { flex-direction: column; align-items: flex-start; }
+  .skill-item code { min-width: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- Starfield -->
+<div class="starfield" id="starfield"></div>
+
+<!-- Top nav bar -->
+<nav class="topnav">
+  <div class="topnav-brand">
+    <div class="topnav-dot"></div>
+    <h1>Vela</h1>
+  </div>
+  <div class="topnav-meta">Setup Guide <span>/</span> Cameron</div>
+</nav>
+
+<!-- Sidebar constellation nav -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-inner" id="sidebarInner">
+    <!-- Built by JS -->
+  </div>
+</nav>
+
+<!-- Main content -->
+<div class="main">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-label">Vela <span>/</span> Setup Guide</div>
+    <h1>Chart your <em>course</em></h1>
+    <p class="hero-sub">
+      Eight waypoints between you and an AI writing environment built for white papers that hold up under scrutiny. Three tools, thirteen skills, one operating loop. Complete them in order, and you'll have a workspace that thinks with you.
+    </p>
+    <div class="hero-meta">
+      <div>8 SECTIONS <span>/</span></div>
+      <div>~40 MIN <span>/</span></div>
+      <div>ONE-TIME SETUP</div>
+    </div>
+    <button class="download-cta" onclick="downloadStarterKit()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download Starter Kit
+    </button>
+  </div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Section 1: Your Toolkit -->
+  <!-- ════════════════════════════════════════════ -->
+  <section class="guide-section" id="section-1">
+    <div class="section-header">
+      <div class="section-number">01</div>
+      <div class="section-header-text">
+        <div class="section-label">Waypoint One</div>
+        <h2 class="section-title">Your Toolkit</h2>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>You have access to three AI tools. Each has a different strength. The goal is not to pick one but to use the <em class="gold">right tool for each task</em>.</p>
+
+      <div class="tool-grid">
+        <div class="tool-card primary">
+          <div class="tool-card-badge badge-primary">Primary Tool</div>
+          <h4>Claude Code</h4>
+          <div class="tool-maker">Anthropic</div>
+          <div class="tool-tags">
+            <span class="tool-tag">writing</span>
+            <span class="tool-tag">research synthesis</span>
+            <span class="tool-tag">long context</span>
+            <span class="tool-tag">file management</span>
+            <span class="tool-tag">rule systems</span>
+          </div>
+          <div class="tool-desc">Deep thinker. Reads your entire project folder, follows complex rule systems, maintains session memory through build logs. Excellent at nuance and long-form reasoning.</div>
+          <div class="tool-use">Your use: Writing drafts, organizing references, build log entries, adversarial review, citation checking.</div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-badge badge-secondary">Secondary Tool</div>
+          <h4>Codex</h4>
+          <div class="tool-maker">OpenAI</div>
+          <div class="tool-tags">
+            <span class="tool-tag">conceptual review</span>
+            <span class="tool-tag">logic checking</span>
+            <span class="tool-tag">background tasks</span>
+            <span class="tool-tag">parallel execution</span>
+          </div>
+          <div class="tool-desc">Good at catching what the first model missed. Runs in the background while you keep working. Brings a fresh perspective to arguments that have been through multiple Claude revisions.</div>
+          <div class="tool-use">Your use: "Review my argument while I keep writing." Background logic checks, gap detection, second-opinion validation.</div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-badge badge-optional">Optional</div>
+          <h4>Cursor / VS Code</h4>
+          <div class="tool-maker">IDE</div>
+          <div class="tool-tags">
+            <span class="tool-tag">visual editing</span>
+            <span class="tool-tag">inline changes</span>
+            <span class="tool-tag">visual diff</span>
+          </div>
+          <div class="tool-desc">If you prefer a visual editor for markdown. Useful for quick inline edits and seeing tracked changes. Not required for the workflow, but available.</div>
+          <div class="tool-use">Your use: Optional visual editing if terminal-only writing feels limiting.</div>
+        </div>
+      </div>
+
+      <div class="toolkit-panel">
+        <h4>Your Toolkit at a Glance</h4>
+        <div class="toolkit-grid">
+          <div class="toolkit-stat">
+            <div class="num">3</div>
+            <div class="label">Tools</div>
+          </div>
+          <div class="toolkit-stat">
+            <div class="num">13</div>
+            <div class="label">Skills</div>
+          </div>
+          <div class="toolkit-stat">
+            <div class="num">1</div>
+            <div class="label">Operating Loop</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="mark-complete" data-section="1">
+        <span class="check-icon"></span>
+        Mark complete
+      </button>
+    </div>
+  </section>
+
+  <div class="section-divider"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Section 2: Set Up Claude Code -->
+  <!-- ════════════════════════════════════════════ -->
+  <section class="guide-section" id="section-2">
+    <div class="section-header">
+      <div class="section-number">02</div>
+      <div class="section-header-text">
+        <div class="section-label">Waypoint Two</div>
+        <h2 class="section-title">Set Up Claude Code</h2>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>Claude Code is your primary writing environment. It runs in your terminal, directly alongside your files. It reads your reference documents, follows your rules, and maintains a log of what happened across sessions.</p>
+
+      <p><strong>Install it:</strong></p>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">Terminal</span>
+          <button class="copy-btn" data-copy="npm install -g @anthropic-ai/claude-code">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copy
+          </button>
+        </div>
+        <pre>npm install -g @anthropic-ai/claude-code</pre>
+      </div>
+
+      <p style="font-size:13px; color:var(--constellation);">Or if you prefer Homebrew: <code class="ic">brew install claude-code</code></p>
+
+      <p><strong>Verify it works:</strong></p>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">Terminal</span>
+          <button class="copy-btn" data-copy="claude --version">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copy
+          </button>
+        </div>
+        <pre>claude --version</pre>
+      </div>
+
+      <p>When Claude Code starts, it automatically reads your <code class="ic">CLAUDE.md</code> file and every skill in the <code class="ic">skills/</code> folder. No manual configuration. The rules and methodology load every time.</p>
+
+      <button class="mark-complete" data-section="2">
+        <span class="check-icon"></span>
+        Mark complete
+      </button>
+    </div>
+  </section>
+
+  <div class="section-divider"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Section 3: Set Up Codex -->
+  <!-- ════════════════════════════════════════════ -->
+  <section class="guide-section" id="section-3">
+    <div class="section-header">
+      <div class="section-number">03</div>
+      <div class="section-header-text">
+        <div class="section-label">Waypoint Three</div>
+        <h2 class="section-title">Set Up Codex</h2>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>Codex is your second pair of eyes. While Claude Code is your primary writer and researcher, Codex runs in the background as an adversarial reviewer. It catches what the first model misses.</p>
+
+      <p><strong>Get access:</strong></p>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">Setup</span>
+          <button class="copy-btn" data-copy="npm install -g @openai/codex">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copy
+          </button>
+        </div>
+        <pre>npm install -g @openai/codex</pre>
+      </div>
+
+      <p><strong>Point it at your project:</strong></p>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">Terminal</span>
+          <button class="copy-btn" data-copy="cd ~/white-papers && codex">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copy
+          </button>
+        </div>
+        <pre>cd ~/white-papers &amp;&amp; codex</pre>
+      </div>
+
+      <div class="info-card">
+        <h5><span style="color:var(--star-gold);">&#9679;</span> Key difference from Claude Code</h5>
+        <p>Codex runs tasks in the background. You can ask it to review a section while you continue writing in Claude Code. It reads the same project folder and the same skills files.</p>
+      </div>
+
+      <div class="info-card">
+        <h5><span style="color:var(--star-gold);">&#9679;</span> Sharing rules between tools</h5>
+        <p>Your <code class="ic">CLAUDE.md</code> and <code class="ic">skills/</code> folder work for both tools. Codex reads markdown instruction files the same way Claude Code does. One workspace, two models, zero duplication.</p>
+      </div>
+
+      <p><strong>When to use Codex:</strong></p>
+      <p>After writing a section in Claude Code, open a second terminal and ask Codex: <em class="gold">"Read output/introduction.md. Find logical gaps, uncited claims, and arguments that wouldn't survive peer review."</em> Let it work while you move to the next section.</p>
+
+      <button class="mark-complete" data-section="3">
+        <span class="check-icon"></span>
+        Mark complete
+      </button>
+    </div>
+  </section>
+
+  <div class="section-divider"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Section 4: Create Your Workspace -->
+  <!-- ════════════════════════════════════════════ -->
+  <section class="guide-section" id="section-4">
+    <div class="section-header">
+      <div class="section-number">04</div>
+      <div class="section-header-text">
+        <div class="section-label">Waypoint Four</div>
+        <h2 class="section-title">Create Your Workspace</h2>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>Your workspace structure determines how well the agent can think. A flat folder of files is chaos. A structured project is a mind the agent can navigate.</p>
+
+      <p><strong>Run this to create everything at once:</strong></p>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">Terminal</span>
+          <button class="copy-btn" data-copy="mkdir -p ~/white-papers/{ref-docs/{papers,data,notes,drafts},output/_archive,skills}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copy
+          </button>
+        </div>
+        <pre>mkdir -p ~/white-papers/{ref-docs/{papers,data,notes,drafts},output/_archive,skills}</pre>
+      </div>
+
+      <p><strong>This creates:</strong></p>
+      <div class="folder-tree">
+        <span class="dir">white-papers/</span><br>
+        &#9500;&#9472;&#9472; <span class="file">CLAUDE.md</span> <span class="note">&#8592; your rules (installed in Step 6)</span><br>
+        &#9500;&#9472;&#9472; <span class="file">_BUILD_LOG.md</span> <span class="note">&#8592; session history</span><br>
+        &#9500;&#9472;&#9472; <span class="file">_WORKSPACE.md</span> <span class="note">&#8592; canonical files, archive rules</span><br>
+        &#9500;&#9472;&#9472; <span class="dir">skills/</span> <span class="note">&#8592; portable methodology (13 files)</span><br>
+        &#9500;&#9472;&#9472; <span class="dir">ref-docs/</span> <span class="note">&#8592; source materials</span><br>
+        &#9474;&nbsp;&nbsp; &#9500;&#9472;&#9472; <span class="dir">papers/</span><br>
+        &#9474;&nbsp;&nbsp; &#9500;&#9472;&#9472; <span class="dir">data/</span><br>
+        &#9474;&nbsp;&nbsp; &#9500;&#9472;&#9472; <span class="dir">notes/</span><br>
+        &#9474;&nbsp;&nbsp; &#9492;&#9472;&#9472; <span class="dir">drafts/</span><br>
+        &#9500;&#9472;&#9472; <span class="dir">output/</span> <span class="note">&#8592; current canonical drafts</span><br>
+        &#9492;&#9472;&#9472; <span class="dir">output/_archive/</span> <span class="note">&#8592; dated previous versions</span>
+      </div>
+
+      <p>The <code class="ic">output/_archive/</code> folder is important. Every time you have a draft worth keeping, date it and move it there. Your <code class="ic">output/</code> folder should only ever contain the current canonical version.</p>
+
+      <button class="mark-complete" data-section="4">
+        <span class="check-icon"></span>
+        Mark complete
+      </button>
+    </div>
+  </section>
+
+  <div class="section-divider"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Section 5: Organize References -->
+  <!-- ════════════════════════════════════════════ -->
+  <section class="guide-section" id="section-5">
+    <div class="section-header">
+      <div class="section-number">05</div>
+      <div class="section-header-text">
+        <div class="section-label">Waypoint Five</div>
+        <h2 class="section-title">Organize Reference Documents</h2>
+      </div>
+    </div>
+    <div class="section-body">
+      <p><em class="gold">Your agent is only as good as what it can read.</em> If a study isn't in the ref-docs folder, the agent cannot cite it. If a dataset isn't there, the agent cannot analyze it. There is no magic.</p>
+
+      <div class="info-card">
+        <h5><span style="color:var(--star-gold);">&#9679;</span> papers/</h5>
+        <p>Academic papers, published research, reports from institutions. The things you'd put in a bibliography. PDFs, downloaded articles, anything with an author and a date.</p>
+      </div>
+      <div class="info-card">
+        <h5><span style="color:var(--star-gold);">&#9679;</span> data/</h5>
+        <p>Datasets, spreadsheets, CSVs, raw numbers. If your paper makes a quantitative claim, the data supporting it lives here.</p>
+      </div>
+      <div class="info-card">
+        <h5><span style="color:var(--star-gold);">&#9679;</span> notes/</h5>
+        <p>Your personal notes, interview transcripts, observations, rough thinking. The messy stuff that isn't published but informs your argument.</p>
+      </div>
+      <div class="info-card">
+        <h5><span style="color:var(--star-gold);">&#9679;</span> drafts/</h5>
+        <p>Previous drafts and reviewer feedback. When a reviewer sends you comments, put them here. The agent can read reviewer feedback and help you address it point by point.</p>
+      </div>
+
+      <p style="margin-top:24px;">For example: if you're writing about AI adoption in healthcare, your <code class="ic">ref-docs/papers/</code> should have the actual studies you're citing. Not summaries. Not abstracts. The full papers.</p>
+
+      <button class="mark-complete" data-section="5">
+        <span class="check-icon"></span>
+        Mark complete
+      </button>
+    </div>
+  </section>
+
+  <div class="section-divider"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Section 6: Install Your Rules -->
+  <!-- ════════════════════════════════════════════ -->
+  <section class="guide-section" id="section-6">
+    <div class="section-header">
+      <div class="section-number">06</div>
+      <div class="section-header-text">
+        <div class="section-label">Waypoint Six</div>
+        <h2 class="section-title">Install Your Rules</h2>
+      </div>
+    </div>
+    <div class="section-body">
+      <p><strong>CLAUDE.md</strong> is the file that tells Claude Code how to behave in your project. Without it, the agent is generic. With it, the agent knows your citation standards, your operating rhythm, and what to check before you submit.</p>
+
+      <p>Your starter kit includes CLAUDE.md, two workspace templates, and thirteen skill files. Download them individually or grab the full kit from the hero section above.</p>
+
+      <div class="dl-group">
+        <button class="dl-btn" onclick="downloadFile('CLAUDE.md', TEMPLATES.claudeMd)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          CLAUDE.md
+        </button>
+        <button class="dl-btn" onclick="downloadFile('_BUILD_LOG.md', TEMPLATES.buildLog)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          _BUILD_LOG.md
+        </button>
+        <button class="dl-btn" onclick="downloadFile('_WORKSPACE.md', TEMPLATES.workspace)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          _WORKSPACE.md
+        </button>
+      </div>
+
+      <p><strong>Your thirteen skill files:</strong></p>
+
+      <div class="skill-list">
+        <div class="skill-item">
+          <code>operating-loop.md</code>
+          <span>The BUILD &#8594; CHALLENGE &#8594; RESOLVE &#8594; PROMOTE rhythm for every draft section</span>
+        </div>
+        <div class="skill-item">
+          <code>testifying-expert.md</code>
+          <span>Provenance categories (PUBLISHED/DERIVED/ANALYST) and defensibility checks</span>
+        </div>
+        <div class="skill-item">
+          <code>cross-model-review.md</code>
+          <span>How to use a second AI model as an adversarial reviewer</span>
+        </div>
+        <div class="skill-item">
+          <code>plausible-but-wrong-numbers.md</code>
+          <span>Catching AI-fabricated statistics that sound right but aren't</span>
+        </div>
+        <div class="skill-item">
+          <code>ai-data-smoothing.md</code>
+          <span>Catching AI that interpolates volatile data into smooth trends</span>
+        </div>
+        <div class="skill-item">
+          <code>silent-data-drop.md</code>
+          <span>Catching data that gets filtered away unnoticed during analysis</span>
+        </div>
+        <div class="skill-item">
+          <code>build-log-protocol.md</code>
+          <span>Cross-session memory so you never lose context between writing sessions</span>
+        </div>
+        <div class="skill-item">
+          <code>workspace-hygiene.md</code>
+          <span>Folder structure rules that prevent version confusion</span>
+        </div>
+        <div class="skill-item">
+          <code>operational-inheritance.md</code>
+          <span>How to promote durable learnings from one project into your permanent system</span>
+        </div>
+        <div class="skill-item">
+          <code>claude-handoff-notes.md</code>
+          <span>How to brief an agent on a project so it starts productive, not confused</span>
+        </div>
+        <div class="skill-item">
+          <code>holistic-review.md</code>
+          <span>Drift detection after multiple edit rounds to catch accumulated inconsistencies</span>
+        </div>
+        <div class="skill-item">
+          <code>testing-ai-output.md</code>
+          <span>Validation checkpoints, forbidden strings, oracle validation for AI-generated content</span>
+        </div>
+        <div class="skill-item">
+          <code>multi-round-editing.md</code>
+          <span>Handling revision cycles without losing earlier decisions or introducing regressions</span>
+        </div>
+      </div>
+
+      <p>You don't need to memorize these. The agent reads them automatically before every major action. They're the encoded judgment that makes the difference between a generic chatbot and a writing environment that catches its own mistakes.</p>
+
+      <button class="mark-complete" data-section="6">
+        <span class="check-icon"></span>
+        Mark complete
+      </button>
+    </div>
+  </section>
+
+  <div class="section-divider"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Section 7: Your First Session -->
+  <!-- ════════════════════════════════════════════ -->
+  <section class="guide-section" id="section-7">
+    <div class="section-header">
+      <div class="section-number">07</div>
+      <div class="section-header-text">
+        <div class="section-label">Waypoint Seven</div>
+        <h2 class="section-title">Your First Session</h2>
+      </div>
+    </div>
+    <div class="section-body">
+      <p><strong>Start Claude Code from your project folder:</strong></p>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">Terminal</span>
+          <button class="copy-btn" data-copy="cd ~/white-papers && claude">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copy
+          </button>
+        </div>
+        <pre>cd ~/white-papers &amp;&amp; claude</pre>
+      </div>
+
+      <p>When Claude starts, it reads your CLAUDE.md and skills automatically. No configuration needed. The operating loop drives every section you write:</p>
+
+      <div class="loop-steps">
+        <div class="loop-step">
+          <h5>Build</h5>
+          <p>Write the section draft</p>
+        </div>
+        <div class="loop-step">
+          <h5>Challenge</h5>
+          <p>Adversarial review</p>
+        </div>
+        <div class="loop-step">
+          <h5>Resolve</h5>
+          <p>Accept, reject, revise</p>
+        </div>
+        <div class="loop-step">
+          <h5>Promote</h5>
+          <p>Record in build log</p>
+        </div>
+      </div>
+
+      <p><strong>A realistic first session looks like this:</strong></p>
+
+      <div class="session-example">
+        <div class="session-step">
+          <div class="session-step-num">1</div>
+          <div class="session-step-content">
+            <p>You type: <em class="gold">"Write the introduction section of my paper on AI adoption in healthcare. Read the papers in ref-docs/ first."</em></p>
+          </div>
+        </div>
+        <div class="session-step">
+          <div class="session-step-num">2</div>
+          <div class="session-step-content">
+            <p>The agent reads your reference documents, understands the landscape, and writes a draft introduction with citations pointing to specific papers.</p>
+          </div>
+        </div>
+        <div class="session-step">
+          <div class="session-step-num">3</div>
+          <div class="session-step-content">
+            <p>You type: <em class="gold">"Review this section. Are all claims cited? Any uncited statistics? Check provenance on every number."</em></p>
+          </div>
+        </div>
+        <div class="session-step">
+          <div class="session-step-num">4</div>
+          <div class="session-step-content">
+            <p>The agent identifies weak spots: an uncited statistic in paragraph 2, a claim that needs a DERIVED tag, a sentence that sounds confident but has no backing source.</p>
+          </div>
+        </div>
+        <div class="session-step">
+          <div class="session-step-num">5</div>
+          <div class="session-step-content">
+            <p>Meanwhile, in a second terminal: <em class="gold">"codex: Read output/introduction.md and find logical gaps I missed."</em> Codex runs in the background while you fix the issues Claude found.</p>
+          </div>
+        </div>
+        <div class="session-step">
+          <div class="session-step-num">6</div>
+          <div class="session-step-content">
+            <p>You type: <em class="gold">"Fix those issues. Then append to _BUILD_LOG.md what we did this session."</em></p>
+          </div>
+        </div>
+      </div>
+
+      <p>That's it. BUILD, CHALLENGE, RESOLVE, PROMOTE. Every section, every session. The build log means you never start cold next time.</p>
+
+      <button class="mark-complete" data-section="7">
+        <span class="check-icon"></span>
+        Mark complete
+      </button>
+    </div>
+  </section>
+
+  <div class="section-divider"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Section 8: Before You Submit -->
+  <!-- ════════════════════════════════════════════ -->
+  <section class="guide-section" id="section-8">
+    <div class="section-header">
+      <div class="section-number">08</div>
+      <div class="section-header-text">
+        <div class="section-label">Waypoint Eight</div>
+        <h2 class="section-title">Before You Submit</h2>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>Every claim in your paper falls into one of three provenance categories. Tagging them isn't bureaucracy. It's how you know what's solid, what's derived, and what's your judgment call.</p>
+
+      <div class="prov-tags">
+        <div class="prov-tag">
+          <span class="prov-tag-name published">PUBLISHED</span>
+          <div>
+            <div class="prov-tag-desc">Directly from a citable source. Paper, dataset, institutional report.</div>
+            <div class="prov-tag-example">"42% of hospitals adopted AI tools by 2024 (McKinsey, 2024)"</div>
+          </div>
+        </div>
+        <div class="prov-tag">
+          <span class="prov-tag-name derived">DERIVED</span>
+          <div>
+            <div class="prov-tag-desc">Calculated from published data. Show the math.</div>
+            <div class="prov-tag-example">"Adoption grew 3.2x from 2020 to 2024 (calculated from Table 2)"</div>
+          </div>
+        </div>
+        <div class="prov-tag">
+          <span class="prov-tag-name analyst">ANALYST</span>
+          <div>
+            <div class="prov-tag-desc">Your judgment call. Flag it explicitly, defend it in the text.</div>
+            <div class="prov-tag-example">"This trend suggests a tipping point by 2026 (author's assessment)"</div>
+          </div>
+        </div>
+      </div>
+
+      <p><strong>Cross-model verification:</strong> Before submitting, run your core argument through Codex as a final check. Paste your thesis and key claims. Ask it to find weaknesses, uncited claims, or logical gaps. What survives two models disagreeing is what you can trust.</p>
+
+      <p><strong>Your pre-submission checklist:</strong></p>
+
+      <div class="checklist" id="submitChecklist">
+        <div class="checklist-item">
+          <div class="checklist-box"><span class="checklist-check">&#10003;</span></div>
+          <span class="checklist-text">Every cited number has a provenance tag (PUBLISHED / DERIVED / ANALYST)</span>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-box"><span class="checklist-check">&#10003;</span></div>
+          <span class="checklist-text">Cross-model adversarial review completed on full draft</span>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-box"><span class="checklist-check">&#10003;</span></div>
+          <span class="checklist-text">No uncited statistics remain</span>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-box"><span class="checklist-check">&#10003;</span></div>
+          <span class="checklist-text">Build log reflects all major revision decisions</span>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-box"><span class="checklist-check">&#10003;</span></div>
+          <span class="checklist-text">Reference docs folder is complete and organized</span>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-box"><span class="checklist-check">&#10003;</span></div>
+          <span class="checklist-text">Holistic review run for drift after multiple edit rounds</span>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-box"><span class="checklist-check">&#10003;</span></div>
+          <span class="checklist-text">PDF export reviewed for formatting quality</span>
+        </div>
+      </div>
+
+      <button class="mark-complete" data-section="8">
+        <span class="check-icon"></span>
+        Mark complete
+      </button>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <div style="padding:80px 0 40px; text-align:center;">
+    <div class="section-divider"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+    <p style="font-family:'Instrument Serif',serif; font-size:28px; color:var(--moonlight); margin-top:48px; margin-bottom:16px;">Your course is charted.</p>
+    <p style="font-size:14px; color:var(--constellation); max-width:400px; margin:0 auto;">Open your terminal, start Claude Code, and write something worth defending.</p>
+  </div>
+
+</div>
+
+<script>
+// ── Embedded template contents for offline download ──
+var TEMPLATES = {
+  claudeMd: "# White Papers \u2014 Claude Code Instructions\n\n## Project Context\nWriting white papers for Harvard Business Review submission.\nAll work must be defensible, cited, and professionally formatted.\n\n## Reference Documents\nStore all source materials in `ref-docs/` organized by:\n- `ref-docs/papers/` \u2014 academic papers, published research\n- `ref-docs/data/` \u2014 datasets, spreadsheets, raw data\n- `ref-docs/notes/` \u2014 personal notes, interview transcripts\n- `ref-docs/drafts/` \u2014 previous drafts and reviewer feedback\n\n## Citation Rules\n- Every factual claim MUST have a provenance tag:\n  - **PUBLISHED**: Directly from a citable source (paper, dataset, report)\n  - **DERIVED**: Calculated from published data (show the math)\n  - **ANALYST**: Your judgment call (flag explicitly, defend in text)\n- Never let AI generate statistics without verification\n- If a number feels right but you can\u2019t trace it, flag it\n\n## Operating Loop\nEvery draft section runs through: BUILD \u2192 CHALLENGE \u2192 RESOLVE \u2192 PROMOTE\n- BUILD: Write the section\n- CHALLENGE: Run through cross-model verification (adversarial review)\n- RESOLVE: Accept, reject, or revise based on challenge findings\n- PROMOTE: Record what survived in _BUILD_LOG.md\n\n## Skills (Always Loaded)\nRead these before every major writing session:\n- `skills/operating-loop.md` \u2014 the build\u2192challenge\u2192resolve\u2192promote rhythm\n- `skills/testifying-expert.md` \u2014 provenance categories, defensibility checks\n- `skills/cross-model-review.md` \u2014 adversarial review protocols\n- `skills/plausible-but-wrong-numbers.md` \u2014 catching AI-fabricated statistics\n- `skills/ai-data-smoothing.md` \u2014 catching AI that interpolates volatile data\n- `skills/silent-data-drop.md` \u2014 catching data that gets filtered away unnoticed\n- `skills/build-log-protocol.md` \u2014 cross-session memory\n- `skills/workspace-hygiene.md` \u2014 folder structure that prevents version confusion\n- `skills/operational-inheritance.md` \u2014 how to promote learnings into your system\n- `skills/claude-handoff-notes.md` \u2014 how to brief an agent on a project\n- `skills/holistic-review.md` \u2014 drift detection after multiple edit rounds\n- `skills/testing-ai-output.md` \u2014 validation checkpoints for AI-generated content\n- `skills/multi-round-editing.md` \u2014 handling revision cycles without regressions\n\n## Before You Submit Checklist\n- [ ] Every cited number has a provenance tag (PUBLISHED/DERIVED/ANALYST)\n- [ ] Cross-model adversarial review completed on full draft\n- [ ] No uncited statistics remain\n- [ ] Build log reflects all major revision decisions\n- [ ] Reference docs folder is complete and organized\n- [ ] Holistic review run for drift after multiple edit rounds\n- [ ] PDF export reviewed for formatting quality\n\n## Build Log\nMaintain `_BUILD_LOG.md` in the project root.\nAppend an entry after every significant writing session.\nRead it before starting any new session.\n\n## Workspace Structure\n```\nwhite-papers/\n\u251c\u2500\u2500 CLAUDE.md              \u2190 this file\n\u251c\u2500\u2500 _BUILD_LOG.md          \u2190 session history\n\u251c\u2500\u2500 _WORKSPACE.md          \u2190 canonical files, archive rules\n\u251c\u2500\u2500 skills/                \u2190 portable methodology\n\u251c\u2500\u2500 ref-docs/              \u2190 source materials\n\u2502   \u251c\u2500\u2500 papers/\n\u2502   \u251c\u2500\u2500 data/\n\u2502   \u251c\u2500\u2500 notes/\n\u2502   \u2514\u2500\u2500 drafts/\n\u251c\u2500\u2500 output/                \u2190 current canonical drafts\n\u2514\u2500\u2500 output/_archive/       \u2190 dated previous versions\n```\n",
+
+  buildLog: "# Build Log \u2014 White Papers\n\n> Append-only. Read before starting. Write before stopping.\n\n---\n\n<!-- Copy this template for each entry:\n\n## YYYY-MM-DD | description\n**Built**: What was produced\n**Canonical**: Current canonical output file(s)\n**Changed**: What changed from previous version\n**Learned**: Durable insight (if any)\n\n-->\n",
+
+  workspace: "# Workspace \u2014 White Papers\n\n## Canonical Files\n- Current draft: `output/[paper-name].md` (or .docx)\n- Reference docs: `ref-docs/`\n\n## Archive Rules\n- Previous drafts: `output/_archive/[paper-name]_vN_YYYY-MM-DD.md`\n- Never keep multiple \"current\" versions in `output/`\n- Lock files (`~$*`) \u2014 delete on sight\n\n## Naming Convention\n- Canonical: `Paper_Title.md` (unversioned, always latest)\n- Archive: `Paper_Title_v2_2026-04-15.md`\n"
+};
+
+// ── Download helpers ──
+function downloadFile(filename, content) {
+  var blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function downloadStarterKit() {
+  // Download all three files in sequence
+  downloadFile('CLAUDE.md', TEMPLATES.claudeMd);
+  setTimeout(function() { downloadFile('_BUILD_LOG.md', TEMPLATES.buildLog); }, 300);
+  setTimeout(function() { downloadFile('_WORKSPACE.md', TEMPLATES.workspace); }, 600);
+}
+
+// ── Starfield ──
+(function createStarfield() {
+  var container = document.getElementById('starfield');
+  var count = 80;
+  for (var i = 0; i < count; i++) {
+    var star = document.createElement('div');
+    star.className = 'star';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.setProperty('--dur', (3 + Math.random() * 5) + 's');
+    star.style.setProperty('--delay', (Math.random() * 5) + 's');
+    star.style.setProperty('--peak', (0.3 + Math.random() * 0.5).toString());
+    if (Math.random() > 0.7) {
+      star.style.width = '3px';
+      star.style.height = '3px';
+    }
+    container.appendChild(star);
+  }
+})();
+
+// ── State ──
+var SECTION_COUNT = 8;
+var sectionNames = [
+  'Your Toolkit',
+  'Set Up Claude Code',
+  'Set Up Codex',
+  'Create Your Workspace',
+  'Organize References',
+  'Install Your Rules',
+  'Your First Session',
+  'Before You Submit'
+];
+var completedSections = {};
+var activeSection = 1;
+
+// ── Build sidebar ──
+function buildSidebar() {
+  var inner = document.getElementById('sidebarInner');
+  while (inner.firstChild) { inner.removeChild(inner.firstChild); }
+
+  for (var i = 1; i <= SECTION_COUNT; i++) {
+    var dot = document.createElement('div');
+    dot.className = 'sidebar-dot';
+    if (i === activeSection) dot.classList.add('active');
+    if (completedSections[i]) dot.classList.add('done');
+
+    var dotInner = document.createElement('div');
+    dotInner.className = 'sidebar-dot-inner';
+    dot.appendChild(dotInner);
+
+    var tip = document.createElement('div');
+    tip.className = 'sidebar-tooltip';
+    tip.textContent = sectionNames[i - 1];
+    dot.appendChild(tip);
+
+    (function(idx) {
+      dot.addEventListener('click', function() {
+        var target = document.getElementById('section-' + idx);
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    })(i);
+
+    inner.appendChild(dot);
+
+    if (i < SECTION_COUNT) {
+      var conn = document.createElement('div');
+      conn.className = 'sidebar-connector';
+      if (completedSections[i] && completedSections[i + 1]) {
+        conn.classList.add('done-conn');
+      }
+      inner.appendChild(conn);
+    }
+  }
+}
+buildSidebar();
+
+// ── Scroll tracking ──
+function updateActiveSection() {
+  var sections = document.querySelectorAll('.guide-section');
+  var scrollY = window.scrollY + window.innerHeight / 3;
+  var current = 1;
+  for (var i = 0; i < sections.length; i++) {
+    if (sections[i].offsetTop <= scrollY) current = i + 1;
+  }
+  if (current !== activeSection) {
+    activeSection = current;
+    buildSidebar();
+  }
+}
+window.addEventListener('scroll', updateActiveSection, { passive: true });
+
+// ── Mark complete ──
+document.querySelectorAll('.mark-complete').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var n = parseInt(this.getAttribute('data-section'));
+    if (completedSections[n]) {
+      delete completedSections[n];
+      this.classList.remove('completed');
+      this.textContent = '';
+      var icon = document.createElement('span');
+      icon.className = 'check-icon';
+      this.appendChild(icon);
+      this.appendChild(document.createTextNode(' Mark complete'));
+    } else {
+      completedSections[n] = true;
+      this.classList.add('completed');
+      this.textContent = '';
+      var icon2 = document.createElement('span');
+      icon2.className = 'check-icon';
+      icon2.textContent = '\u2713';
+      this.appendChild(icon2);
+      this.appendChild(document.createTextNode(' Completed'));
+    }
+    buildSidebar();
+  });
+});
+
+// ── Checklist ──
+document.querySelectorAll('.checklist-item').forEach(function(item) {
+  item.addEventListener('click', function() {
+    this.classList.toggle('checked');
+  });
+});
+
+// ── Copy code ──
+document.querySelectorAll('.copy-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var text = this.getAttribute('data-copy');
+    var button = this;
+    navigator.clipboard.writeText(text).then(function() {
+      button.classList.add('copied');
+      while (button.firstChild) { button.removeChild(button.firstChild); }
+      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('viewBox', '0 0 24 24');
+      svg.setAttribute('fill', 'none');
+      svg.setAttribute('stroke', 'currentColor');
+      svg.setAttribute('stroke-width', '2');
+      var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', 'M20 6L9 17l-5-5');
+      svg.appendChild(path);
+      button.appendChild(svg);
+      button.appendChild(document.createTextNode(' Copied!'));
+
+      setTimeout(function() {
+        button.classList.remove('copied');
+        while (button.firstChild) { button.removeChild(button.firstChild); }
+        var svg2 = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg2.setAttribute('viewBox', '0 0 24 24');
+        svg2.setAttribute('fill', 'none');
+        svg2.setAttribute('stroke', 'currentColor');
+        svg2.setAttribute('stroke-width', '2');
+        var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rect.setAttribute('x', '9');
+        rect.setAttribute('y', '9');
+        rect.setAttribute('width', '13');
+        rect.setAttribute('height', '13');
+        rect.setAttribute('rx', '2');
+        svg2.appendChild(rect);
+        var p2 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        p2.setAttribute('d', 'M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1');
+        svg2.appendChild(p2);
+        button.appendChild(svg2);
+        button.appendChild(document.createTextNode(' Copy'));
+      }, 2000);
+    });
+  });
+});
+</script>
+</body>
+</html>
