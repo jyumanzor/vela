@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
@@ -11,7 +11,7 @@ const fj = 'var(--font-jetbrains), monospace';
 
 type Tab = 'signin' | 'signup';
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirectTo') || '/dashboard';
@@ -325,5 +325,17 @@ export default function LoginPage() {
         }
       `}</style>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+        <span style={{ fontFamily: 'var(--font-dm-sans), sans-serif', color: 'var(--dusk)' }}>Loading...</span>
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }
