@@ -1,5 +1,10 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getClient } from '@/data/clients';
+import { createClient } from '@/lib/supabase/client';
+import { clients } from '@/data/clients';
+import type { Client } from '@/data/clients';
 import { ConstellationDivider } from '@/components/ConstellationDivider';
 
 const fi = 'var(--font-instrument), serif';
@@ -15,21 +20,62 @@ const agentLabels: Record<string, string> = {
 };
 
 const quickLinks = [
-  { path: '/setup', title: 'Get Started', description: 'Set up Claude Code and Codex for white paper writing' },
-  { path: '/skills', title: 'Browse Your Skills', description: 'Portable skills loaded for your domain' },
-  { path: '/explainers', title: 'Read Explainers', description: 'Evidence behind the methodology' },
-  { path: '/downloads', title: 'Download Starter Kit', description: 'CLAUDE.md, skills, and templates' },
+  { path: '/dashboard/setup', title: 'Get Started', description: 'Set up Claude Code and Codex for white paper writing' },
+  { path: '/dashboard/skills', title: 'Browse Your Skills', description: 'Portable skills loaded for your domain' },
+  { path: '/dashboard/explainers', title: 'Read Explainers', description: 'Evidence behind the methodology' },
+  { path: '/dashboard/downloads', title: 'Download Starter Kit', description: 'CLAUDE.md, skills, and templates' },
 ];
 
-export default async function ClientDashboard({
-  params,
-}: {
-  params: Promise<{ client: string }>;
-}) {
-  const { client: slug } = await params;
-  const client = getClient(slug);
+export default function DashboardPage() {
+  const [client, setClient] = useState<Client | null>(null);
+  const [userName, setUserName] = useState('');
 
-  if (!client) return null; // Layout handles the not-found case
+  useEffect(() => {
+    async function load() {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      // Try Supabase client record
+      const { data: clientRecord } = await supabase
+        .from('clients')
+        .select('*')
+        .eq('user_id', user.id)
+        .single();
+
+      if (clientRecord) {
+        setClient({
+          slug: clientRecord.slug,
+          name: clientRecord.name,
+          domain: clientRecord.domain,
+          domainLabel: clientRecord.domain_label,
+          domainKit: clientRecord.domain_kit,
+          loadedSkillIds: clientRecord.loaded_skill_ids || [],
+          setupSteps: [],
+          agents: clientRecord.agent_ids || [],
+        });
+        setUserName(clientRecord.name);
+      } else {
+        // Fallback to hardcoded Cameron data
+        const fallback = clients[0];
+        if (fallback) {
+          setClient(fallback);
+          setUserName(fallback.name);
+        }
+      }
+    }
+
+    load();
+  }, []);
+
+  if (!client) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 200 }}>
+        <p style={{ fontFamily: fd, fontSize: 14, color: 'var(--dusk)' }}>Loading...</p>
+      </div>
+    );
+  }
 
   const completedSteps = client.setupSteps.filter((s) => s.completed).length;
 
@@ -38,7 +84,7 @@ export default async function ClientDashboard({
       {/* Header */}
       <div style={{ marginBottom: 32 }}>
         <h1 style={{ fontFamily: fi, fontSize: 32, color: 'var(--moonlight)', marginBottom: 6 }}>
-          Welcome back, {client.name}
+          Welcome back, {userName}
         </h1>
         <p style={{ fontFamily: fj, fontSize: 12, color: 'var(--constellation)', letterSpacing: '0.08em' }}>
           {client.domainLabel}
@@ -50,7 +96,9 @@ export default async function ClientDashboard({
         {[
           { value: client.loadedSkillIds.length, label: 'Skills Loaded' },
           { value: client.agents.length, label: 'Agents Available' },
-          { value: `${completedSteps} of ${client.setupSteps.length}`, label: 'Setup Steps' },
+          ...(client.setupSteps.length > 0
+            ? [{ value: `${completedSteps} of ${client.setupSteps.length}`, label: 'Setup Steps' }]
+            : []),
         ].map((stat) => (
           <div
             key={stat.label}
@@ -82,7 +130,7 @@ export default async function ClientDashboard({
           {quickLinks.map((link) => (
             <Link
               key={link.path}
-              href={`/${slug}${link.path}`}
+              href={link.path}
               className="vela-quick-link"
               style={{
                 display: 'block',

@@ -1,7 +1,9 @@
 'use client';
 
-import { useState, use } from 'react';
-import { getClient } from '@/data/clients';
+import { useState, useEffect } from 'react';
+import { createClient } from '@/lib/supabase/client';
+import { clients } from '@/data/clients';
+import type { Client } from '@/data/clients';
 import { portableRules } from '@/data/portable-rules';
 import { RuleCard } from '@/components/RuleCard';
 import { ConstellationDivider } from '@/components/ConstellationDivider';
@@ -25,14 +27,39 @@ const domainKitLabels: Record<string, string> = {
   data: 'Data Kit',
 };
 
-export default function ClientSkillsPage({
-  params,
-}: {
-  params: Promise<{ client: string }>;
-}) {
-  const { client: slug } = use(params);
-  const client = getClient(slug);
+export default function SkillsPage() {
   const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
+  const [client, setClient] = useState<Client | null>(null);
+
+  useEffect(() => {
+    async function load() {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data: clientRecord } = await supabase
+        .from('clients')
+        .select('*')
+        .eq('user_id', user.id)
+        .single();
+
+      if (clientRecord) {
+        setClient({
+          slug: clientRecord.slug,
+          name: clientRecord.name,
+          domain: clientRecord.domain,
+          domainLabel: clientRecord.domain_label,
+          domainKit: clientRecord.domain_kit,
+          loadedSkillIds: clientRecord.loaded_skill_ids || [],
+          setupSteps: [],
+          agents: clientRecord.agent_ids || [],
+        });
+      } else {
+        setClient(clients[0] || null);
+      }
+    }
+    load();
+  }, []);
 
   if (!client) return null;
 
@@ -155,8 +182,8 @@ export default function ClientSkillsPage({
               }}
             >
               {rule.tier === 1
-                ? 'Universal — loaded for all Vela users'
-                : `${kitLabel} — loaded because your domain is ${client.domainLabel.toLowerCase()}`}
+                ? 'Universal \u2014 loaded for all Vela users'
+                : `${kitLabel} \u2014 loaded because your domain is ${client.domainLabel.toLowerCase()}`}
             </p>
           </div>
         ))}

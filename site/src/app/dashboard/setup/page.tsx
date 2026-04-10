@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import { use } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { getClient } from '@/data/clients';
+import { createClient } from '@/lib/supabase/client';
+import { clients } from '@/data/clients';
+import type { Client } from '@/data/clients';
 
 const fi = 'var(--font-instrument), serif';
 const fd = 'var(--font-dm-sans), sans-serif';
@@ -36,16 +37,44 @@ function CodeBlock({ code }: { code: string }) {
 const tabs = ['Claude Code', 'Codex'] as const;
 type Tab = typeof tabs[number];
 
-export default function SetupPage({ params }: { params: Promise<{ client: string }> }) {
-  const { client: slug } = use(params);
-  const client = getClient(slug);
+export default function SetupPage() {
   const [activeTab, setActiveTab] = useState<Tab>('Claude Code');
   const [checked, setChecked] = useState<Record<string, boolean>>({});
+  const [client, setClient] = useState<Client | null>(null);
+
+  useEffect(() => {
+    async function load() {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data: clientRecord } = await supabase
+        .from('clients')
+        .select('*')
+        .eq('user_id', user.id)
+        .single();
+
+      if (clientRecord) {
+        setClient({
+          slug: clientRecord.slug,
+          name: clientRecord.name,
+          domain: clientRecord.domain,
+          domainLabel: clientRecord.domain_label,
+          domainKit: clientRecord.domain_kit,
+          loadedSkillIds: clientRecord.loaded_skill_ids || [],
+          setupSteps: [],
+          agents: clientRecord.agent_ids || [],
+        });
+      } else {
+        setClient(clients[0] || null);
+      }
+    }
+    load();
+  }, []);
 
   if (!client) return null;
 
   const toggle = (id: string) => setChecked((prev) => ({ ...prev, [id]: !prev[id] }));
-  const basePath = `/${client.slug}`;
 
   return (
     <div>
@@ -91,7 +120,7 @@ export default function SetupPage({ params }: { params: Promise<{ client: string
           <Section num={3} title="Install your rules">
             <p style={{ fontFamily: fd, fontSize: 14, color: 'var(--dusk)', lineHeight: 1.6 }}>
               Download your starter kit from the{' '}
-              <Link href={`${basePath}/downloads`} style={{ color: 'var(--star-gold)', textDecoration: 'none' }}>
+              <Link href="/dashboard/downloads" style={{ color: 'var(--star-gold)', textDecoration: 'none' }}>
                 Downloads page
               </Link>
               , or copy these files manually.
@@ -138,52 +167,54 @@ export default function SetupPage({ params }: { params: Promise<{ client: string
       )}
 
       {/* Progress checklist */}
-      <div style={{ marginTop: 48, background: 'var(--deep-canopy)', border: '1px solid var(--stardust)', borderRadius: 12, padding: '24px 28px' }}>
-        <p style={{ fontFamily: fj, fontSize: 11, letterSpacing: '0.15em', color: 'var(--constellation)', textTransform: 'uppercase', marginBottom: 12 }}>
-          Progress
-        </p>
-        <h3 style={{ fontFamily: fi, fontSize: 22, color: 'var(--moonlight)', marginBottom: 20 }}>
-          Setup checklist
-        </h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          {client.setupSteps.map((step) => (
-            <label
-              key={step.id}
-              style={{ display: 'flex', gap: 12, alignItems: 'flex-start', cursor: 'pointer' }}
-              onClick={() => toggle(step.id)}
-            >
-              <span
-                style={{
-                  width: 20, height: 20, borderRadius: 4, flexShrink: 0, marginTop: 1,
-                  border: checked[step.id] ? '2px solid var(--star-gold)' : '2px solid var(--constellation)',
-                  background: checked[step.id] ? 'var(--star-gold)' : 'transparent',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  transition: 'all 0.15s',
-                }}
+      {client.setupSteps.length > 0 && (
+        <div style={{ marginTop: 48, background: 'var(--deep-canopy)', border: '1px solid var(--stardust)', borderRadius: 12, padding: '24px 28px' }}>
+          <p style={{ fontFamily: fj, fontSize: 11, letterSpacing: '0.15em', color: 'var(--constellation)', textTransform: 'uppercase', marginBottom: 12 }}>
+            Progress
+          </p>
+          <h3 style={{ fontFamily: fi, fontSize: 22, color: 'var(--moonlight)', marginBottom: 20 }}>
+            Setup checklist
+          </h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {client.setupSteps.map((step) => (
+              <label
+                key={step.id}
+                style={{ display: 'flex', gap: 12, alignItems: 'flex-start', cursor: 'pointer' }}
+                onClick={() => toggle(step.id)}
               >
-                {checked[step.id] && (
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M2 6l3 3 5-5" stroke="var(--forest-floor)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                )}
-              </span>
-              <div>
-                <span style={{
-                  fontFamily: fd, fontSize: 14, fontWeight: 600,
-                  color: checked[step.id] ? 'var(--star-gold)' : 'var(--moonlight)',
-                  textDecoration: checked[step.id] ? 'line-through' : 'none',
-                  transition: 'color 0.15s',
-                }}>
-                  {step.label}
+                <span
+                  style={{
+                    width: 20, height: 20, borderRadius: 4, flexShrink: 0, marginTop: 1,
+                    border: checked[step.id] ? '2px solid var(--star-gold)' : '2px solid var(--constellation)',
+                    background: checked[step.id] ? 'var(--star-gold)' : 'transparent',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    transition: 'all 0.15s',
+                  }}
+                >
+                  {checked[step.id] && (
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 6l3 3 5-5" stroke="var(--forest-floor)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
                 </span>
-                <p style={{ fontFamily: fd, fontSize: 13, color: 'var(--constellation)', marginTop: 2 }}>
-                  {step.description}
-                </p>
-              </div>
-            </label>
-          ))}
+                <div>
+                  <span style={{
+                    fontFamily: fd, fontSize: 14, fontWeight: 600,
+                    color: checked[step.id] ? 'var(--star-gold)' : 'var(--moonlight)',
+                    textDecoration: checked[step.id] ? 'line-through' : 'none',
+                    transition: 'color 0.15s',
+                  }}>
+                    {step.label}
+                  </span>
+                  <p style={{ fontFamily: fd, fontSize: 13, color: 'var(--constellation)', marginTop: 2 }}>
+                    {step.description}
+                  </p>
+                </div>
+              </label>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -195,11 +226,11 @@ function Section({ num, title, children }: { num: number; title: string; childre
         <span style={{
           width: 24, height: 24, borderRadius: '50%', background: 'var(--stardust)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontFamily: fj, fontSize: 12, color: 'var(--dusk)', flexShrink: 0,
+          fontFamily: 'var(--font-jetbrains), monospace', fontSize: 12, color: 'var(--dusk)', flexShrink: 0,
         }}>
           {num}
         </span>
-        <h3 style={{ fontFamily: fd, fontSize: 16, fontWeight: 600, color: 'var(--moonlight)' }}>
+        <h3 style={{ fontFamily: 'var(--font-dm-sans), sans-serif', fontSize: 16, fontWeight: 600, color: 'var(--moonlight)' }}>
           {title}
         </h3>
       </div>
