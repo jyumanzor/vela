@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+:root {
+  /* Cinque Photography — Burgundy Minimalist */
+  --burgundy: #6B1B1B;
+  --burgundy-deep: #4A1212;
+  --burgundy-light: #8B3A3A;
+  --cream: #FAF7F2;
+  --warm-white: #FEFCF9;
+  --warm-gray: #E8E3DC;
+  --warm-gray-dark: #C4BDB3;
+  --charcoal: #2C2C2C;
+  --soft-black: #1A1A1A;
+  --text-primary: #2C2C2C;
+  --text-secondary: #6B6560;
+  --text-muted: #9B948C;
+  --border: #E8E3DC;
+  --border-light: #F0ECE6;
+
+  --font-cormorant: var(--font-cormorant-garamond);
+  --font-outfit: var(--font-outfit-sans);
+}
+
+@theme inline {
+  --color-burgundy: var(--burgundy);
+  --color-burgundy-deep: var(--burgundy-deep);
+  --color-burgundy-light: var(--burgundy-light);
+  --color-cream: var(--cream);
+  --color-warm-white: var(--warm-white);
+  --color-warm-gray: var(--warm-gray);
+  --color-warm-gray-dark: var(--warm-gray-dark);
+  --color-charcoal: var(--charcoal);
+  --color-soft-black: var(--soft-black);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-border: var(--border);
+  --color-border-light: var(--border-light);
+  --font-display: var(--font-cormorant);
+  --font-body: var(--font-outfit);
+}
+
+body {
+  background: var(--cream);
+  color: var(--text-primary);
+  font-family: var(--font-outfit), sans-serif;
+}
+
+::selection {
+  background: rgba(107, 27, 27, 0.15);
+  color: var(--soft-black);
+}
+
+/* Smooth image transitions */
+img {
+  transition: opacity 0.3s ease;
+}
