@@ -11,14 +11,14 @@ const fi = 'var(--font-instrument), serif';
 const fd = 'var(--font-dm-sans), sans-serif';
 const fj = 'var(--font-jetbrains), monospace';
 
-const navItems = [
+const navItems: { path: string; label: string; icon: string; comingSoon?: boolean }[] = [
   { path: '', label: 'Dashboard', icon: '\u2237' },
   { path: '/setup', label: 'Setup', icon: '\u2605' },
   { path: '/skills', label: 'Skills', icon: '\u25C6' },
   { path: '/explainers', label: 'Explainers', icon: '\u25C7' },
   { path: '/downloads', label: 'Downloads', icon: '\u2193' },
-  { path: '/agents', label: 'Agents', icon: '\u26A1', comingSoon: true },
-  { path: '/tasks', label: 'Tasks', icon: '\u2713', comingSoon: true },
+  { path: '/agents', label: 'Agents', icon: '\u26A1' },
+  { path: '/tasks', label: 'Tasks', icon: '\u2713' },
 ];
 
 export default function DashboardLayout({
