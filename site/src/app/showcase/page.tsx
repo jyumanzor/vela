@@ -40,10 +40,10 @@ const projects = [
 ];
 
 const caps = [
-  { icon: "\u26A1", title: "Full-stack applications", body: "Next.js, React, TypeScript, Tailwind" },
-  { icon: "\uD83C\uDFA8", title: "Design systems", body: "Palette, typography, spacing, component libraries" },
-  { icon: "\uD83E\uDD16", title: "AI infrastructure", body: "Claude Code, Codex, agent platforms, methodology" },
-  { icon: "\uD83D\uDCCA", title: "Data visualization", body: "SVG charts, interactive explorers, research tools" },
+  { title: "Full-stack applications", body: "Next.js, React, TypeScript, Tailwind" },
+  { title: "Design systems", body: "Palette, typography, spacing, component libraries" },
+  { title: "AI infrastructure", body: "Claude Code, Codex, agent platforms, methodology" },
+  { title: "Data visualization", body: "SVG charts, interactive explorers, research tools" },
 ];
 
 function Pill({ label, color, outlined }: { label: string; color?: string; outlined?: boolean }) {
@@ -137,7 +137,7 @@ export default function ShowcasePage() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
           {caps.map((c) => (
             <div key={c.title} style={{ background: "var(--understory)", border: "1px solid var(--stardust)", borderRadius: 10, padding: 20, textAlign: "center" }}>
-              <div style={{ fontSize: 24, marginBottom: 8 }}>{c.icon}</div>
+              <div style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--star-gold)", boxShadow: "0 0 8px var(--star-gold)", margin: "0 auto 12px" }} />
               <h3 style={{ fontFamily: fd, fontSize: 14, fontWeight: 600, color: "var(--moonlight)", marginBottom: 4 }}>{c.title}</h3>
               <p style={{ fontFamily: fd, fontSize: 12, color: "var(--dusk)", lineHeight: 1.5 }}>{c.body}</p>
             </div>

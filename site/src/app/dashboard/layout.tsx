@@ -17,7 +17,7 @@ const navItems: { path: string; label: string; icon: string; comingSoon?: boolea
   { path: '/skills', label: 'Skills', icon: '\u25C6' },
   { path: '/explainers', label: 'Explainers', icon: '\u25C7' },
   { path: '/downloads', label: 'Downloads', icon: '\u2193' },
-  { path: '/agents', label: 'Agents', icon: '\u26A1' },
+  { path: '/agents', label: 'Agents', icon: '\u25CA' },
   { path: '/tasks', label: 'Tasks', icon: '\u2713' },
 ];
 
