@@ -10,6 +10,7 @@ const links = [
   { href: '/rules', label: 'Rules' },
   { href: '/tools', label: 'Tools' },
   { href: '/explainers', label: 'Explainers' },
+  { href: '/blog', label: 'Blog' },
 ];
 
 export function Nav() {
