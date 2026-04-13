@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 
 const links = [
   { href: "/about", label: "About" },
+  { href: "/services", label: "Services" },
   { href: "/shop", label: "Shop" },
   { href: "/contact", label: "Contact" },
 ];
@@ -34,7 +35,7 @@ export default function Nav() {
       }`}
       style={{
         backgroundColor: scrolled
-          ? "rgba(28, 24, 22, 0.8)"
+          ? "rgba(43, 15, 17, 0.8)"
           : "transparent",
       }}
     >
@@ -48,7 +49,7 @@ export default function Nav() {
           <span className="font-display text-lg tracking-[0.25em] font-medium uppercase text-parchment transition-colors duration-300">
             Cinque
           </span>
-          <span className="font-script text-sm text-dust">35mm</span>
+          <span className="font-display text-xs text-dust tracking-[0.2em] italic">Photography</span>
         </Link>
 
         {/* Desktop links */}
@@ -99,7 +100,7 @@ export default function Nav() {
           menuOpen ? "max-h-48" : "max-h-0"
         }`}
         style={{
-          backgroundColor: menuOpen ? "rgba(28, 24, 22, 0.95)" : "transparent",
+          backgroundColor: menuOpen ? "rgba(43, 15, 17, 0.95)" : "transparent",
         }}
       >
         <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-4">

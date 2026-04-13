@@ -76,8 +76,8 @@ export default function Home() {
         <h1 className="font-display text-parchment text-6xl sm:text-7xl md:text-8xl font-light tracking-[0.15em] leading-none">
           CINQUE
         </h1>
-        <p className="font-script text-dust text-lg sm:text-xl mt-3">
-          35mm
+        <p className="font-display text-dust text-sm sm:text-base mt-3 tracking-[0.3em] uppercase font-light italic">
+          Photography
         </p>
       </section>
 
@@ -85,7 +85,7 @@ export default function Home() {
       <div
         ref={pillBarRef}
         className="sticky top-16 z-40 py-4 px-6 flex items-center justify-center gap-3 flex-wrap"
-        style={{ backgroundColor: "rgba(28, 24, 22, 0.92)", backdropFilter: "blur(12px)" }}
+        style={{ backgroundColor: "rgba(43, 15, 17, 0.92)", backdropFilter: "blur(12px)" }}
       >
         {sections.map((section) => (
           <button

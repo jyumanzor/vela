@@ -39,15 +39,13 @@ export default function AboutPage() {
 
           <div className="font-body text-sm text-dust leading-relaxed space-y-5">
             <p>
-              Born and raised in Chicago. Drawn to travel, architecture, and the
-              quiet details that make a place feel real rather than staged.
+              Born and raised in Chicago.
             </p>
             <p>
-              The work is analog -- unhurried, deliberate, shaped by available
-              light and the limits of a single roll of film.
+              Film photography across six countries. Travel, architecture, and the details that make a place feel lived in.
             </p>
             <p className="font-display text-lg text-parchment font-light tracking-wide">
-              Shot on a Nikon FM -- a 1970s film camera.
+              Nikon FM. 35mm film.
             </p>
           </div>
 

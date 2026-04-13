@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  /* Cinque — Patent Leather */
-  --patent: #1C1816;
-  --patent-soft: #2A2420;
-  --suede: #3D352E;
+  /* Cinque — Burgundy Patent */
+  --patent: #2B0F11;
+  --patent-soft: #3A1A1C;
+  --suede: #4D2628;
   --clasp-gold: #C9A96E;
   --clasp-rose: #B8847C;
   --parchment: #F5F0E8;
