@@ -32,10 +32,9 @@ export default function PortfolioPage() {
       {/* ── Gallery Grid ── */}
       <section className="bg-warm-white py-16 sm:py-24">
         <div className="max-w-5xl mx-auto px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {galleries.map((gallery) => {
               const coverPhoto = getGalleryCoverPhoto(gallery);
-              if (!coverPhoto) return null;
 
               return (
               <Link
@@ -43,15 +42,24 @@ export default function PortfolioPage() {
                 href={`/portfolio/${gallery.slug}`}
                 className="group block relative overflow-hidden rounded-sm border border-transparent hover:border-burgundy/30 transition-all duration-500"
               >
-                <PhotoFrame
-                  photo={{
-                    ...coverPhoto,
-                    gradient: gallery.coverGradient,
-                  }}
-                  className="transition-transform duration-700 group-hover:scale-[1.02]"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(26,26,26,0.7)] via-[rgba(26,26,26,0.16)] to-transparent" />
-                </PhotoFrame>
+                {coverPhoto ? (
+                  <PhotoFrame
+                    photo={{
+                      ...coverPhoto,
+                      gradient: gallery.coverGradient,
+                    }}
+                    className="transition-transform duration-700 group-hover:scale-[1.02]"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-t from-[rgba(26,26,26,0.7)] via-[rgba(26,26,26,0.16)] to-transparent" />
+                  </PhotoFrame>
+                ) : (
+                  <div
+                    className="relative transition-transform duration-700 group-hover:scale-[1.02]"
+                    style={{ aspectRatio: "3/2", background: gallery.coverGradient }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-t from-[rgba(26,26,26,0.7)] via-[rgba(26,26,26,0.16)] to-transparent" />
+                  </div>
+                )}
 
                 {/* Overlay label */}
                 <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-[rgba(26,26,26,0.6)] to-transparent">
@@ -59,7 +67,9 @@ export default function PortfolioPage() {
                     {gallery.title}
                   </h2>
                   <p className="font-body text-xs text-cream/50 tracking-[0.2em] uppercase mt-1.5">
-                    {getGalleryCountLabel(gallery)}
+                    {gallery.photoCount > 0
+                      ? getGalleryCountLabel(gallery)
+                      : "Coming soon"}
                   </p>
                 </div>
               </Link>

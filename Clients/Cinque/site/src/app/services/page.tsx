@@ -63,7 +63,7 @@ export default function ServicesPage() {
                 {service.detail}
               </p>
               <Link
-                href="/contact"
+                href={service.href ?? "/contact"}
                 style={{ fontFamily: fo }}
                 className="inline-block text-sm text-burgundy tracking-wide mt-6 border-b border-burgundy/30 pb-0.5 hover:border-burgundy transition-colors duration-200 self-start"
               >

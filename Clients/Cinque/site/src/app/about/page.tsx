@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { galleries } from "@/data/galleries";
-import { siteProfile } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn more about Cinque's growing photography practice and the kinds of stories the portfolio is built to tell.",
+    "Learn more about Cinque — a Chicago-born photographer shooting analog film on a 1970s Nikon FM.",
 };
 
 export default function AboutPage() {
@@ -34,99 +32,41 @@ export default function AboutPage() {
             >
               Photographer
             </p>
-            <p
-              style={{ fontFamily: fo }}
-              className="text-xs tracking-wide text-text-muted mt-1"
-            >
-              {siteProfile.about.locationLabel}
-            </p>
           </div>
         </div>
       </section>
 
       {/* -- Bio -- */}
-      <section className="bg-cream py-20 sm:py-24">
-        <div className="max-w-[640px] mx-auto px-6">
+      <section className="bg-cream py-16 sm:py-20">
+        <div className="max-w-[540px] mx-auto px-6">
           <p
             style={{ fontFamily: fo }}
             className="text-xs tracking-[0.3em] text-text-muted uppercase mb-4"
           >
             About
           </p>
-          <h2
-            style={{ fontFamily: fc }}
-            className="text-3xl sm:text-4xl text-charcoal font-light leading-snug mb-8"
-          >
-            {siteProfile.about.title}
-          </h2>
 
           <div
             style={{ fontFamily: fo }}
             className="text-sm text-text-secondary leading-relaxed space-y-5"
           >
-            {siteProfile.about.paragraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
+            <p>
+              Born and raised in Chicago. Drawn to travel, architecture, and the
+              quiet details that make a place feel real rather than staged.
+            </p>
+            <p>
+              The work is analog — unhurried, deliberate, shaped by available
+              light and the limits of a single roll of film.
+            </p>
+            <p
+              style={{ fontFamily: fc }}
+              className="text-lg text-charcoal font-light tracking-wide"
+            >
+              Shot on a Nikon FM — a 1970s film camera.
+            </p>
           </div>
-        </div>
-      </section>
 
-      {/* -- Focus Areas -- */}
-      <section className="bg-warm-white py-16 sm:py-20">
-        <div className="max-w-[640px] mx-auto px-6">
-          <h2
-            style={{ fontFamily: fc }}
-            className="text-2xl text-charcoal font-light mb-8"
-          >
-            Current focus
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {siteProfile.about.focusAreas.map((focus) => (
-              <div
-                key={focus.title}
-                className="rounded-sm border border-border bg-cream px-5 py-6"
-              >
-                <p
-                  style={{ fontFamily: fo }}
-                  className="text-xs tracking-[0.2em] text-text-muted uppercase mb-3"
-                >
-                  {focus.title}
-                </p>
-                <p
-                  style={{ fontFamily: fo }}
-                  className="text-sm text-text-secondary leading-relaxed"
-                >
-                  {focus.body}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* -- Availability -- */}
-      <section className="bg-cream py-16 sm:py-20">
-        <div className="max-w-[640px] mx-auto px-6 text-center">
-          <h2
-            style={{ fontFamily: fc }}
-            className="text-2xl text-charcoal font-light mb-8"
-          >
-            Working now
-          </h2>
-          <p
-            style={{ fontFamily: fo }}
-            className="text-sm text-text-secondary leading-relaxed max-w-xl mx-auto"
-          >
-            {siteProfile.about.availability}
-          </p>
-          <p
-            style={{ fontFamily: fo }}
-            className="text-xs text-text-muted tracking-wide mt-6"
-          >
-            Current collections: {galleries.map((gallery) => gallery.title).join(", ")}
-          </p>
-          <div className="flex flex-col items-center justify-center gap-3 mt-8 sm:flex-row">
+          <div className="flex flex-col items-start gap-3 mt-10 sm:flex-row">
             <Link
               href="/portfolio"
               className="inline-block font-body text-sm tracking-wide text-cream bg-burgundy hover:bg-burgundy-deep px-8 py-3 rounded-sm transition-colors duration-300"
@@ -134,10 +74,10 @@ export default function AboutPage() {
               View Portfolio
             </Link>
             <Link
-              href="/services"
+              href="/contact"
               className="inline-block font-body text-sm tracking-wide text-burgundy border-b border-burgundy/30 pb-0.5 hover:border-burgundy transition-colors duration-200"
             >
-              See Services
+              Get in Touch
             </Link>
           </div>
         </div>

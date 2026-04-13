@@ -59,10 +59,9 @@ export default function Home() {
             Collections
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {galleries.map((gallery) => {
               const coverPhoto = getGalleryCoverPhoto(gallery);
-              if (!coverPhoto) return null;
 
               return (
               <Link
@@ -70,12 +69,21 @@ export default function Home() {
                 href={`/portfolio/${gallery.slug}`}
                 className="group block relative overflow-hidden rounded-sm border border-transparent hover:border-burgundy/30 transition-all duration-500"
               >
-                <PhotoFrame
-                  photo={coverPhoto}
-                  className="transition-transform duration-700 group-hover:scale-[1.02]"
-                >
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(26,26,26,0.08)_0%,rgba(26,26,26,0.7)_100%)]" />
-                </PhotoFrame>
+                {coverPhoto ? (
+                  <PhotoFrame
+                    photo={coverPhoto}
+                    className="transition-transform duration-700 group-hover:scale-[1.02]"
+                  >
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(26,26,26,0.08)_0%,rgba(26,26,26,0.7)_100%)]" />
+                  </PhotoFrame>
+                ) : (
+                  <div
+                    className="relative transition-transform duration-700 group-hover:scale-[1.02]"
+                    style={{ aspectRatio: "3/2", background: gallery.coverGradient }}
+                  >
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(26,26,26,0.08)_0%,rgba(26,26,26,0.7)_100%)]" />
+                  </div>
+                )}
 
                 {/* Label overlay */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -83,7 +91,9 @@ export default function Home() {
                     {gallery.title}
                   </h3>
                   <p className="font-body text-xs text-white/50 tracking-[0.2em] uppercase mt-2">
-                    {getGalleryCountLabel(gallery)}
+                    {gallery.photoCount > 0
+                      ? getGalleryCountLabel(gallery)
+                      : "Coming soon"}
                   </p>
                 </div>
               </Link>

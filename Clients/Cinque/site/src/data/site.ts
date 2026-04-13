@@ -15,13 +15,14 @@ export interface ServiceOffering {
   description: string;
   detail: string;
   ctaLabel: string;
+  href?: string;
 }
 
 export const siteProfile = {
   name: "Cinque",
   title: "Cinque Photography",
   description:
-    "A growing photography portfolio focused on travel, architecture, and quiet observations across France, the United Kingdom, Italy, and the United States.",
+    "A growing photography portfolio focused on travel, architecture, and quiet observations across France, the United Kingdom, Italy, the United States, Indonesia, and Portugal.",
   hero: {
     eyebrow: "Travel, architecture, and quiet light",
     intro:
@@ -34,7 +35,7 @@ export const siteProfile = {
   about: {
     title: "A practice built by paying attention",
     locationLabel:
-      "Portfolio spanning France, the United Kingdom, Italy, and the United States",
+      "Portfolio spanning France, the United Kingdom, Italy, the United States, Indonesia, and Portugal",
     paragraphs: [
       "Cinque approaches photography as a way of studying how a place feels before she decides what it means. The work is less about spectacle and more about atmosphere: the quality of late light on a wall, the geometry of a staircase, the quiet pause before a street fills again.",
       "The current portfolio moves between travel, architecture, and everyday observation. Some images hold on to broad landscapes or city structure; others stay close to texture, shadow, and the details that make a destination feel inhabited instead of staged.",
@@ -87,12 +88,13 @@ export const siteProfile = {
       ctaLabel: "Talk through a project",
     },
     {
-      title: "Prints and licensing",
+      title: "Fine Art Prints",
       description:
-        "Selected images can be prepared for personal display, editorial use, or reference pulls.",
+        "Limited edition prints from the collection, shot on 35mm film with a 1970s Nikon FM.",
       detail:
-        "Useful when you want a specific image, need options from an existing collection, or want to discuss future licensing.",
-      ctaLabel: "Ask about prints or usage",
+        "Available in 8x10, 11x14, and 16x20. Custom sizes and framing available on request.",
+      ctaLabel: "Browse prints",
+      href: "/shop",
     },
   ] satisfies ServiceOffering[],
 };

@@ -119,17 +119,10 @@ export default function Lightbox({
           showFallbackDetails={!photo.src.trim()}
         />
 
-        {/* Caption */}
+        {/* Caption — Location, Year */}
         {photo.caption && (
-          <p className="font-body text-sm text-cream/80 mt-4 text-center">
+          <p className="font-display text-lg sm:text-xl text-cream/90 mt-6 text-center font-light tracking-wide">
             {photo.caption}
-          </p>
-        )}
-
-        {/* Location and date */}
-        {(photo.location || photo.date) && (
-          <p className="font-body text-xs text-cream/40 mt-1.5 text-center tracking-wide">
-            {[photo.location, photo.date].filter(Boolean).join(" — ")}
           </p>
         )}
 
