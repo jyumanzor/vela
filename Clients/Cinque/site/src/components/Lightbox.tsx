@@ -113,11 +113,21 @@ export default function Lightbox({
         className="flex flex-col items-center max-w-4xl w-full px-16 sm:px-20"
         onClick={(e) => e.stopPropagation()}
       >
-        <PhotoFrame
-          photo={photo}
-          className="w-full rounded-sm"
-          showFallbackDetails={!photo.src.trim()}
-        />
+        {photo.src.trim() ? (
+          <img
+            src={photo.src}
+            alt={photo.alt}
+            className="w-full rounded-sm"
+            style={{ maxHeight: "80vh", objectFit: "contain" }}
+            draggable={false}
+          />
+        ) : (
+          <PhotoFrame
+            photo={photo}
+            className="w-full rounded-sm"
+            showFallbackDetails
+          />
+        )}
 
         {/* Caption — Location, Year */}
         {photo.caption && (

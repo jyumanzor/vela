@@ -10,37 +10,37 @@ export const metadata: Metadata = {
 const prints = [
   {
     title: "Provence",
-    gradient: "linear-gradient(135deg, #C9A96E 0%, #9B7DB8 50%, #D4B896 100%)",
+    photo: "/photos/france/000084680002.jpg",
     sizes: ["8x10", "11x14", "16x20"],
     startingPrice: 45,
   },
   {
     title: "Paris",
-    gradient: "linear-gradient(135deg, #B8A080 0%, #8B78A8 50%, #C9B898 100%)",
+    photo: "/photos/france/R1-06255-005A.JPG",
     sizes: ["8x10", "11x14", "16x20"],
     startingPrice: 45,
   },
   {
     title: "Yorkshire",
-    gradient: "linear-gradient(135deg, #8A9B8A 0%, #A0A8B0 50%, #7B8C7B 100%)",
+    photo: "/photos/uk/000377010001.jpg",
     sizes: ["8x10", "11x14", "16x20"],
     startingPrice: 45,
   },
   {
     title: "Florence",
-    gradient: "linear-gradient(135deg, #B88860 0%, #8A9868 50%, #C49870 100%)",
+    photo: "/photos/italy/000377080011.jpg",
     sizes: ["8x10", "11x14", "16x20"],
     startingPrice: 45,
   },
   {
     title: "Utah",
-    gradient: "linear-gradient(135deg, #C8A060 0%, #7090B0 50%, #D4AA70 100%)",
+    photo: "/photos/us/R1-07714-0021.JPG",
     sizes: ["8x10", "11x14", "16x20"],
     startingPrice: 45,
   },
   {
-    title: "Scottish Highlands",
-    gradient: "linear-gradient(135deg, #A0B2A0 0%, #B8C0C8 50%, #92A492 100%)",
+    title: "Selected Work",
+    photo: "/photos/featured/R1-06254-0004.JPG",
     sizes: ["8x10", "11x14", "16x20"],
     startingPrice: 45,
   },
@@ -85,14 +85,15 @@ export default function ShopPage() {
               key={print.title}
               className="group border border-warm-gray rounded-sm bg-cream flex flex-col transition-all duration-300 hover:border-t-[3px] hover:border-t-burgundy overflow-hidden"
             >
-              {/* Gradient image placeholder */}
-              <div
-                className="w-full"
-                style={{
-                  aspectRatio: "4/3",
-                  background: print.gradient,
-                }}
-              />
+              {/* Print photo */}
+              <div className="w-full overflow-hidden" style={{ aspectRatio: "4/3" }}>
+                <img
+                  src={print.photo}
+                  alt={print.title}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
 
               {/* Card content */}
               <div className="p-5 sm:p-6 flex flex-col flex-1">
