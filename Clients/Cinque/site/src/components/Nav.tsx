@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const links = [
   { href: "/portfolio", label: "Portfolio" },
+  { href: "/services", label: "Services" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
@@ -14,6 +15,7 @@ export default function Nav() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const transparentNav = pathname === "/" && !scrolled;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -21,24 +23,39 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close mobile menu on route change
-  useEffect(() => {
+  const wordmarkClass = transparentNav ? "text-cream" : "text-burgundy";
+  const buttonLineClass = transparentNav ? "bg-cream" : "bg-charcoal";
+
+  function getLinkClass(active: boolean) {
+    if (transparentNav) {
+      return active ? "text-cream" : "text-cream/70 hover:text-cream";
+    }
+
+    return active
+      ? "text-burgundy"
+      : "text-text-secondary hover:text-text-primary";
+  }
+
+  function closeMenu() {
     setMenuOpen(false);
-  }, [pathname]);
+  }
 
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
+        transparentNav
+          ? "bg-transparent"
+          : scrolled
           ? "bg-cream/95 backdrop-blur-sm border-b border-border"
-          : "bg-transparent"
+          : "bg-cream/90 backdrop-blur-sm border-b border-border/70"
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Wordmark */}
         <Link
           href="/"
-          className="font-display text-xl tracking-[0.25em] font-medium text-burgundy uppercase"
+          onClick={closeMenu}
+          className={`font-display text-xl tracking-[0.25em] font-medium uppercase transition-colors duration-300 ${wordmarkClass}`}
         >
           Cinque
         </Link>
@@ -51,11 +68,8 @@ export default function Nav() {
               <Link
                 key={href}
                 href={href}
-                className={`font-body text-sm tracking-wide transition-colors duration-200 ${
-                  active
-                    ? "text-burgundy"
-                    : "text-text-secondary hover:text-text-primary"
-                }`}
+                onClick={closeMenu}
+                className={`font-body text-sm tracking-wide transition-colors duration-200 ${getLinkClass(active)}`}
               >
                 {label}
               </Link>
@@ -65,17 +79,19 @@ export default function Nav() {
 
         {/* Mobile hamburger */}
         <button
+          type="button"
           onClick={() => setMenuOpen(!menuOpen)}
           className="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.5"
           aria-label="Toggle menu"
+          aria-expanded={menuOpen}
         >
           <span
-            className={`block w-5 h-px bg-charcoal transition-all duration-300 ${
+            className={`block w-5 h-px transition-all duration-300 ${buttonLineClass} ${
               menuOpen ? "rotate-45 translate-y-[3.5px]" : ""
             }`}
           />
           <span
-            className={`block w-5 h-px bg-charcoal transition-all duration-300 ${
+            className={`block w-5 h-px transition-all duration-300 ${buttonLineClass} ${
               menuOpen ? "-rotate-45 -translate-y-[3.5px]" : ""
             }`}
           />
@@ -95,11 +111,8 @@ export default function Nav() {
               <Link
                 key={href}
                 href={href}
-                className={`font-body text-sm tracking-wide transition-colors duration-200 ${
-                  active
-                    ? "text-burgundy"
-                    : "text-text-secondary hover:text-text-primary"
-                }`}
+                onClick={closeMenu}
+                className={`font-body text-sm tracking-wide transition-colors duration-200 ${getLinkClass(active)}`}
               >
                 {label}
               </Link>

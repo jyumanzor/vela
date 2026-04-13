@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/client';
 import { clients } from '@/data/clients';
 import type { Client } from '@/data/clients';
 import { ConstellationDivider } from '@/components/ConstellationDivider';
+import { ProjectCard } from '@/components/ProjectCard';
 
 const fi = 'var(--font-instrument), serif';
 const fd = 'var(--font-dm-sans), sans-serif';
@@ -45,6 +46,7 @@ export default function DashboardPage() {
         .single();
 
       if (clientRecord) {
+        const match = clients.find((c) => c.slug === clientRecord.slug);
         setClient({
           slug: clientRecord.slug,
           name: clientRecord.name,
@@ -54,6 +56,7 @@ export default function DashboardPage() {
           loadedSkillIds: clientRecord.loaded_skill_ids || [],
           setupSteps: [],
           agents: clientRecord.agent_ids || [],
+          projects: match?.projects,
         });
         setUserName(clientRecord.name);
       } else {
@@ -96,6 +99,9 @@ export default function DashboardPage() {
         {[
           { value: client.loadedSkillIds.length, label: 'Skills Loaded' },
           { value: client.agents.length, label: 'Agents Available' },
+          ...(client.projects && client.projects.length > 0
+            ? [{ value: client.projects.length, label: 'Projects' }]
+            : []),
           ...(client.setupSteps.length > 0
             ? [{ value: `${completedSteps} of ${client.setupSteps.length}`, label: 'Setup Steps' }]
             : []),
@@ -151,6 +157,27 @@ export default function DashboardPage() {
           ))}
         </div>
       </div>
+
+      {/* Projects */}
+      {client.projects && client.projects.length > 0 && (
+        <>
+          <ConstellationDivider brightIndices={[0, 4]} />
+          <div style={{ marginBottom: 8 }}>
+            <p style={{ fontFamily: fj, fontSize: 11, letterSpacing: '0.15em', color: 'var(--constellation)', textTransform: 'uppercase', marginBottom: 16 }}>
+              Your Projects
+            </p>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: client.projects.length > 1 ? 'repeat(auto-fit, minmax(280px, 1fr))' : '1fr',
+              gap: 14,
+            }}>
+              {client.projects.map((project) => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
+          </div>
+        </>
+      )}
 
       <ConstellationDivider brightIndices={[0, 2, 4]} />
 

@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { galleries } from "@/data/galleries";
+import PhotoFrame from "@/components/PhotoFrame";
+import {
+  galleries,
+  getGalleryCoverPhoto,
+  getGalleryCountLabel,
+} from "@/data/galleries";
+import { siteProfile } from "@/data/site";
 
 export default function PortfolioPage() {
   return (
@@ -14,9 +20,11 @@ export default function PortfolioPage() {
             Collections
           </h1>
           <p className="font-body text-sm sm:text-base text-text-secondary leading-relaxed mt-6 max-w-xl mx-auto">
-            Organized by geography — each collection represents a place, a
-            palette, and the particular quality of light that makes it unlike
-            anywhere else.
+            Organized by geography, with each collection showing the current
+            preview selects for a larger body of work.
+          </p>
+          <p className="font-body text-xs sm:text-sm text-text-muted leading-relaxed mt-4 max-w-xl mx-auto">
+            {siteProfile.previewNotice}
           </p>
         </div>
       </section>
@@ -25,17 +33,25 @@ export default function PortfolioPage() {
       <section className="bg-warm-white py-16 sm:py-24">
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-            {galleries.map((gallery) => (
+            {galleries.map((gallery) => {
+              const coverPhoto = getGalleryCoverPhoto(gallery);
+              if (!coverPhoto) return null;
+
+              return (
               <Link
                 key={gallery.slug}
                 href={`/portfolio/${gallery.slug}`}
                 className="group block relative overflow-hidden rounded-sm border border-transparent hover:border-burgundy/30 transition-all duration-500"
               >
-                {/* Cover gradient */}
-                <div
-                  className="aspect-[3/2] transition-transform duration-700 group-hover:scale-[1.02]"
-                  style={{ background: gallery.coverGradient }}
-                />
+                <PhotoFrame
+                  photo={{
+                    ...coverPhoto,
+                    gradient: gallery.coverGradient,
+                  }}
+                  className="transition-transform duration-700 group-hover:scale-[1.02]"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(26,26,26,0.7)] via-[rgba(26,26,26,0.16)] to-transparent" />
+                </PhotoFrame>
 
                 {/* Overlay label */}
                 <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-[rgba(26,26,26,0.6)] to-transparent">
@@ -43,11 +59,12 @@ export default function PortfolioPage() {
                     {gallery.title}
                   </h2>
                   <p className="font-body text-xs text-cream/50 tracking-[0.2em] uppercase mt-1.5">
-                    {gallery.photoCount} photographs
+                    {getGalleryCountLabel(gallery)}
                   </p>
                 </div>
               </Link>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

@@ -13,6 +13,7 @@ const fj = 'var(--font-jetbrains), monospace';
 
 const navItems: { path: string; label: string; icon: string; comingSoon?: boolean }[] = [
   { path: '', label: 'Dashboard', icon: '\u2237' },
+  { path: '/projects', label: 'Projects', icon: '\u25A0' },
   { path: '/setup', label: 'Setup', icon: '\u2605' },
   { path: '/skills', label: 'Skills', icon: '\u25C6' },
   { path: '/explainers', label: 'Explainers', icon: '\u25C7' },

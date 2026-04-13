@@ -254,6 +254,26 @@ export const galleries: Gallery[] = [
   },
 ];
 
+export function hasPhotoAsset(photo: Photo): boolean {
+  return photo.src.trim().length > 0;
+}
+
 export function getGallery(slug: string): Gallery | undefined {
   return galleries.find((g) => g.slug === slug);
+}
+
+export function getGalleryCoverPhoto(gallery: Gallery): Photo | undefined {
+  return gallery.photos.find(hasPhotoAsset) ?? gallery.photos[0];
+}
+
+export function isGalleryPreviewOnly(gallery: Gallery): boolean {
+  return gallery.photos.length > 0 && gallery.photos.every((photo) => !hasPhotoAsset(photo));
+}
+
+export function getGalleryCountLabel(gallery: Gallery): string {
+  if (gallery.photoCount > gallery.photos.length) {
+    return `Previewing ${gallery.photos.length} of ${gallery.photoCount} photographs`;
+  }
+
+  return `${gallery.photoCount} photographs`;
 }

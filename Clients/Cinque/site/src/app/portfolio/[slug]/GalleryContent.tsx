@@ -2,8 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import type { Gallery } from "@/data/galleries";
+import PhotoFrame from "@/components/PhotoFrame";
 import Lightbox from "@/components/Lightbox";
+import {
+  type Gallery,
+  getGalleryCountLabel,
+  isGalleryPreviewOnly,
+} from "@/data/galleries";
+import { siteProfile } from "@/data/site";
 
 interface Props {
   gallery: Gallery;
@@ -11,6 +17,7 @@ interface Props {
 
 export default function GalleryContent({ gallery }: Props) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const previewOnly = isGalleryPreviewOnly(gallery);
 
   return (
     <>
@@ -33,7 +40,7 @@ export default function GalleryContent({ gallery }: Props) {
           </p>
 
           <p className="font-body text-xs text-text-muted tracking-[0.2em] uppercase mt-4">
-            {gallery.photoCount} photographs
+            {getGalleryCountLabel(gallery)}
           </p>
         </div>
       </section>
@@ -45,25 +52,33 @@ export default function GalleryContent({ gallery }: Props) {
             {gallery.photos.map((photo, i) => (
               <button
                 key={photo.id}
+                type="button"
                 onClick={() => setLightboxIndex(i)}
+                aria-label={`Open preview for ${photo.alt}`}
                 className="block w-full overflow-hidden rounded-sm border border-transparent hover:border-burgundy/20 transition-all duration-300 group break-inside-avoid"
               >
-                <div
+                <PhotoFrame
+                  photo={photo}
                   className="w-full transition-transform duration-500 group-hover:scale-[1.02]"
-                  style={{
-                    aspectRatio: photo.aspect || "3/2",
-                    background: photo.gradient,
-                  }}
+                  showFallbackDetails
                 />
               </button>
             ))}
           </div>
 
-          {gallery.photos.length < gallery.photoCount && (
-            <p className="font-body text-xs text-text-muted text-center mt-12 tracking-wide">
-              Showing {gallery.photos.length} of {gallery.photoCount}{" "}
-              photographs. Full collection coming soon.
-            </p>
+          {(previewOnly || gallery.photos.length < gallery.photoCount) && (
+            <div className="max-w-2xl mx-auto mt-12 text-center">
+              <p className="font-body text-xs text-text-muted tracking-wide">
+                {gallery.photos.length < gallery.photoCount
+                  ? `Showing ${gallery.photos.length} preview selects from a ${gallery.photoCount}-photograph collection.`
+                  : "Preview cards are standing in for final image files while the collection is still being assembled."}
+              </p>
+              {previewOnly && (
+                <p className="font-body text-xs text-text-muted tracking-wide mt-3">
+                  {siteProfile.previewNotice}
+                </p>
+              )}
+            </div>
           )}
         </div>
       </section>

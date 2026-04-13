@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { agents } from '@/data/agents';
 
@@ -39,6 +39,19 @@ function getSeverityTextColor(severity: string): string {
   const s = severity.toUpperCase();
   if (s === 'MINOR' || s === 'ADMISSIBLE' || s === 'LOW') return 'var(--deep-canopy)';
   return 'var(--forest-floor)';
+}
+
+function loadTasks(): AgentTaskResult[] {
+  if (typeof window === 'undefined') {
+    return [];
+  }
+
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
 }
 
 function formatTimestamp(ts: string): string {
@@ -226,27 +239,16 @@ function FindingsRenderer({ findings }: { findings: unknown }) {
 }
 
 export default function TasksPage() {
-  const [tasks, setTasks] = useState<AgentTaskResult[]>([]);
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setTasks(loadTasks());
-    setMounted(true);
-  }, []);
-
-  function loadTasks(): AgentTaskResult[] {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : [];
-    } catch {
-      return [];
-    }
-  }
+  const mounted = useSyncExternalStore(
+    () => () => undefined,
+    () => true,
+    () => false
+  );
+  const tasks = mounted ? loadTasks() : [];
 
   function clearHistory() {
     localStorage.removeItem(STORAGE_KEY);
-    setTasks([]);
     setExpandedId(null);
   }
 

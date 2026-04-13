@@ -1,28 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { siteProfile } from "@/data/site";
 
-const services = [
-  {
-    title: "Fine Art Prints",
-    description:
-      "Museum-quality prints of select photographs. Available in multiple sizes and framing options.",
-    price: "Starting at $250",
-    cta: "Inquire",
-  },
-  {
-    title: "Commissions",
-    description:
-      "Custom photography for events, portraits, editorial, or commercial projects.",
-    price: null,
-    cta: "Discuss your project",
-  },
-  {
-    title: "Licensing",
-    description:
-      "License photographs for editorial, commercial, or personal use.",
-    price: null,
-    cta: "Request licensing",
-  },
-];
+export const metadata: Metadata = {
+  title: "Services",
+  description:
+    "Learn what kinds of portrait, travel, editorial, print, and licensing inquiries Cinque is currently open to.",
+};
 
 export default function ServicesPage() {
   const fc = "var(--font-cormorant), serif";
@@ -43,43 +27,47 @@ export default function ServicesPage() {
             style={{ fontFamily: fo }}
             className="text-sm text-text-secondary leading-relaxed mt-4"
           >
-            Available for prints, commissions, and events.
+            A small set of focused offerings built around the current portfolio.
+          </p>
+          <p
+            style={{ fontFamily: fo }}
+            className="text-xs text-text-muted tracking-wide mt-4 max-w-xl mx-auto"
+          >
+            {siteProfile.previewNotice}
           </p>
         </div>
 
         {/* -- Cards -- */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {services.map((s) => (
+          {siteProfile.services.map((service) => (
             <div
-              key={s.title}
+              key={service.title}
               className="group border border-warm-gray rounded-sm bg-cream p-6 sm:p-8 flex flex-col transition-all duration-300 hover:border-t-[3px] hover:border-t-burgundy"
             >
               <h2
                 style={{ fontFamily: fc }}
                 className="text-2xl text-charcoal font-light mb-3"
               >
-                {s.title}
+                {service.title}
               </h2>
               <p
                 style={{ fontFamily: fo }}
                 className="text-sm text-text-secondary leading-relaxed flex-1"
               >
-                {s.description}
+                {service.description}
               </p>
-              {s.price && (
-                <p
-                  style={{ fontFamily: fo }}
-                  className="text-xs text-text-muted mt-4"
-                >
-                  {s.price}
-                </p>
-              )}
+              <p
+                style={{ fontFamily: fo }}
+                className="text-xs text-text-muted mt-4 leading-relaxed"
+              >
+                {service.detail}
+              </p>
               <Link
                 href="/contact"
                 style={{ fontFamily: fo }}
                 className="inline-block text-sm text-burgundy tracking-wide mt-6 border-b border-burgundy/30 pb-0.5 hover:border-burgundy transition-colors duration-200 self-start"
               >
-                {s.cta}
+                {service.ctaLabel}
               </Link>
             </div>
           ))}

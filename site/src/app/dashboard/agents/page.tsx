@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { agents } from '@/data/agents';
 import type { AgentDefinition } from '@/data/agents';
 

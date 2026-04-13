@@ -1,3 +1,14 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { galleries } from "@/data/galleries";
+import { siteProfile } from "@/data/site";
+
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "Learn more about Cinque's growing photography practice and the kinds of stories the portfolio is built to tell.",
+};
+
 export default function AboutPage() {
   const fc = "var(--font-cormorant), serif";
   const fo = "var(--font-outfit), sans-serif";
@@ -27,7 +38,7 @@ export default function AboutPage() {
               style={{ fontFamily: fo }}
               className="text-xs tracking-wide text-text-muted mt-1"
             >
-              Chicago, IL
+              {siteProfile.about.locationLabel}
             </p>
           </div>
         </div>
@@ -46,113 +57,88 @@ export default function AboutPage() {
             style={{ fontFamily: fc }}
             className="text-3xl sm:text-4xl text-charcoal font-light leading-snug mb-8"
           >
-            The story so far
+            {siteProfile.about.title}
           </h2>
 
           <div
             style={{ fontFamily: fo }}
             className="text-sm text-text-secondary leading-relaxed space-y-5"
           >
-            <p>
-              Photography found Cinque during a semester abroad in Lyon. What
-              started as snapshots for a journal turned into something more
-              deliberate: a way of paying attention. She bought a secondhand
-              Nikon from a flea market in Croix-Rousse and spent the rest of
-              that year learning to see light the way the city offered it
-              &mdash; through tall windows, off the Saone at dusk, in the
-              narrow gaps between limestone buildings.
-            </p>
-            <p>
-              Since then, her work has spanned travel, architecture, and
-              street photography across France, the United Kingdom, Italy, and
-              the United States. She is drawn to the interplay of structure
-              and atmosphere: the geometry of a staircase, the warmth of a
-              caf&eacute; at golden hour, the tension between old stonework
-              and modern glass.
-            </p>
-            <p>
-              Her approach is patient and observational. She rarely directs a
-              scene, preferring to wait for the moment when a place reveals
-              something honest about itself. The result is work that feels
-              lived-in rather than staged &mdash; photographs that invite
-              the viewer to spend time inside them.
-            </p>
-            <p>
-              Cinque is based in Chicago and travels regularly for personal
-              and commissioned projects. When not behind the lens, she is
-              likely reading about architectural history, planning her next
-              trip, or developing prints in a small darkroom she keeps in
-              her apartment.
-            </p>
+            {siteProfile.about.paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* -- Equipment -- */}
+      {/* -- Focus Areas -- */}
       <section className="bg-warm-white py-16 sm:py-20">
         <div className="max-w-[640px] mx-auto px-6">
           <h2
             style={{ fontFamily: fc }}
             className="text-2xl text-charcoal font-light mb-8"
           >
-            Equipment
+            Current focus
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-            <div>
-              <p
-                style={{ fontFamily: fo }}
-                className="text-xs tracking-[0.2em] text-text-muted uppercase mb-3"
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {siteProfile.about.focusAreas.map((focus) => (
+              <div
+                key={focus.title}
+                className="rounded-sm border border-border bg-cream px-5 py-6"
               >
-                Camera Bodies
-              </p>
-              <ul
-                style={{ fontFamily: fo }}
-                className="text-sm text-text-secondary leading-loose"
-              >
-                <li>Nikon Z8</li>
-                <li>Nikon Z6 III</li>
-                <li>Leica Q3</li>
-              </ul>
-            </div>
-            <div>
-              <p
-                style={{ fontFamily: fo }}
-                className="text-xs tracking-[0.2em] text-text-muted uppercase mb-3"
-              >
-                Lenses
-              </p>
-              <ul
-                style={{ fontFamily: fo }}
-                className="text-sm text-text-secondary leading-loose"
-              >
-                <li>Nikkor Z 24-70mm f/2.8 S</li>
-                <li>Nikkor Z 50mm f/1.2 S</li>
-                <li>Nikkor Z 14-24mm f/2.8 S</li>
-                <li>Nikkor Z 85mm f/1.2 S</li>
-              </ul>
-            </div>
+                <p
+                  style={{ fontFamily: fo }}
+                  className="text-xs tracking-[0.2em] text-text-muted uppercase mb-3"
+                >
+                  {focus.title}
+                </p>
+                <p
+                  style={{ fontFamily: fo }}
+                  className="text-sm text-text-secondary leading-relaxed"
+                >
+                  {focus.body}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* -- Featured In -- */}
+      {/* -- Availability -- */}
       <section className="bg-cream py-16 sm:py-20">
         <div className="max-w-[640px] mx-auto px-6 text-center">
           <h2
             style={{ fontFamily: fc }}
             className="text-2xl text-charcoal font-light mb-8"
           >
-            Featured In
+            Working now
           </h2>
-          <div
+          <p
             style={{ fontFamily: fo }}
-            className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm text-text-muted tracking-wide"
+            className="text-sm text-text-secondary leading-relaxed max-w-xl mx-auto"
           >
-            <span>Dwell</span>
-            <span>Condé Nast Traveler</span>
-            <span>Kinfolk</span>
-            <span>Cereal Magazine</span>
+            {siteProfile.about.availability}
+          </p>
+          <p
+            style={{ fontFamily: fo }}
+            className="text-xs text-text-muted tracking-wide mt-6"
+          >
+            Current collections: {galleries.map((gallery) => gallery.title).join(", ")}
+          </p>
+          <div className="flex flex-col items-center justify-center gap-3 mt-8 sm:flex-row">
+            <Link
+              href="/portfolio"
+              className="inline-block font-body text-sm tracking-wide text-cream bg-burgundy hover:bg-burgundy-deep px-8 py-3 rounded-sm transition-colors duration-300"
+            >
+              View Portfolio
+            </Link>
+            <Link
+              href="/services"
+              className="inline-block font-body text-sm tracking-wide text-burgundy border-b border-burgundy/30 pb-0.5 hover:border-burgundy transition-colors duration-200"
+            >
+              See Services
+            </Link>
           </div>
         </div>
       </section>

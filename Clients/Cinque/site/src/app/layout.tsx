@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Outfit } from "next/font/google";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { siteProfile } from "@/data/site";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -19,9 +20,11 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Cinque Photography",
-  description:
-    "Photography by Cinque — France, United Kingdom, United States, Italy",
+  title: {
+    default: siteProfile.title,
+    template: `%s | ${siteProfile.title}`,
+  },
+  description: siteProfile.description,
 };
 
 export default function RootLayout({

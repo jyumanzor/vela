@@ -1,31 +1,11 @@
 import Link from "next/link";
-
-const collections = [
-  {
-    name: "France",
-    slug: "france",
-    count: 31,
-    gradient: "from-[#8B6B5A] to-[#6B4A3A]",
-  },
-  {
-    name: "United Kingdom",
-    slug: "united-kingdom",
-    count: 28,
-    gradient: "from-[#7A8B6B] to-[#5A6B4A]",
-  },
-  {
-    name: "Italy",
-    slug: "italy",
-    count: 2,
-    gradient: "from-[#9B8B6B] to-[#7B6B4A]",
-  },
-  {
-    name: "United States",
-    slug: "united-states",
-    count: 12,
-    gradient: "from-[#6B7A8B] to-[#4A5A6B]",
-  },
-];
+import PhotoFrame from "@/components/PhotoFrame";
+import {
+  galleries,
+  getGalleryCoverPhoto,
+  getGalleryCountLabel,
+} from "@/data/galleries";
+import { siteProfile } from "@/data/site";
 
 export default function Home() {
   return (
@@ -41,7 +21,7 @@ export default function Home() {
             CINQUE
           </h1>
           <p className="font-body text-cream/70 text-xs sm:text-sm tracking-[0.35em] uppercase mt-4">
-            Photography
+            {siteProfile.hero.eyebrow}
           </p>
         </div>
 
@@ -58,14 +38,16 @@ export default function Home() {
       <section className="bg-cream py-24 sm:py-32">
         <div className="max-w-xl mx-auto px-6 text-center">
           <h2 className="font-display text-3xl sm:text-4xl text-charcoal font-light leading-snug">
-            Capturing light across continents
+            A growing archive shaped by place and patience
           </h2>
           <p className="font-body text-sm sm:text-base text-text-secondary leading-relaxed mt-6">
-            From the lavender fields of southern France to the cobblestone
-            streets of London, Cinque&apos;s lens finds beauty in the quiet
-            moments between destinations. Each photograph is an invitation to
-            pause, to look closer, to see the world as it reveals itself to
-            those who are patient.
+            {siteProfile.hero.intro}
+          </p>
+          <p className="font-body text-sm sm:text-base text-text-secondary leading-relaxed mt-4">
+            {siteProfile.introduction}
+          </p>
+          <p className="font-body text-xs sm:text-sm text-text-muted leading-relaxed mt-6">
+            {siteProfile.previewNotice}
           </p>
         </div>
       </section>
@@ -78,28 +60,35 @@ export default function Home() {
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {collections.map((c) => (
+            {galleries.map((gallery) => {
+              const coverPhoto = getGalleryCoverPhoto(gallery);
+              if (!coverPhoto) return null;
+
+              return (
               <Link
-                key={c.name}
-                href={`/portfolio/${c.slug}`}
+                key={gallery.slug}
+                href={`/portfolio/${gallery.slug}`}
                 className="group block relative overflow-hidden rounded-sm border border-transparent hover:border-burgundy/30 transition-all duration-500"
               >
-                {/* Placeholder gradient */}
-                <div
-                  className={`aspect-[4/3] bg-gradient-to-br ${c.gradient} transition-transform duration-700 group-hover:scale-[1.02]`}
-                />
+                <PhotoFrame
+                  photo={coverPhoto}
+                  className="transition-transform duration-700 group-hover:scale-[1.02]"
+                >
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(26,26,26,0.08)_0%,rgba(26,26,26,0.7)_100%)]" />
+                </PhotoFrame>
 
                 {/* Label overlay */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <h3 className="font-display text-2xl sm:text-3xl text-white/90 font-light tracking-wide">
-                    {c.name}
+                    {gallery.title}
                   </h3>
                   <p className="font-body text-xs text-white/50 tracking-[0.2em] uppercase mt-2">
-                    {c.count} photographs
+                    {getGalleryCountLabel(gallery)}
                   </p>
                 </div>
               </Link>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -118,15 +107,10 @@ export default function Home() {
               About the photographer
             </h2>
             <p className="font-body text-sm text-text-secondary leading-relaxed mt-6">
-              Cinque is a documentary and travel photographer whose work
-              spans four countries and a lifetime of curiosity. With an eye
-              for natural light and an instinct for composition, she captures
-              the textures and rhythms of the places she calls home.
+              {siteProfile.about.paragraphs[0]}
             </p>
             <p className="font-body text-sm text-text-secondary leading-relaxed mt-4">
-              Based between France and the United States, her portfolio
-              reflects both the grandeur of European landscapes and the
-              intimate details of everyday life.
+              {siteProfile.about.availability}
             </p>
             <Link
               href="/about"
@@ -142,19 +126,26 @@ export default function Home() {
       <section className="bg-cream py-24 sm:py-32">
         <div className="max-w-xl mx-auto px-6 text-center">
           <h2 className="font-display text-3xl sm:text-4xl text-charcoal font-light leading-snug">
-            Let&apos;s work together
+            Open to portraits, travel stories, and selected print inquiries
           </h2>
           <p className="font-body text-sm text-text-secondary leading-relaxed mt-6">
-            Whether you have a project in mind, would like to commission a
-            series, or simply want to say hello — I would love to hear from
-            you.
+            Browse the available services, then use the contact page to see
+            what details will make the first conversation most useful.
           </p>
-          <Link
-            href="/contact"
-            className="inline-block font-body text-sm tracking-wide text-cream bg-burgundy hover:bg-burgundy-deep px-8 py-3 mt-8 rounded-sm transition-colors duration-300"
-          >
-            Get in Touch
-          </Link>
+          <div className="flex flex-col items-center justify-center gap-3 mt-8 sm:flex-row">
+            <Link
+              href="/services"
+              className="inline-block font-body text-sm tracking-wide text-cream bg-burgundy hover:bg-burgundy-deep px-8 py-3 rounded-sm transition-colors duration-300"
+            >
+              Explore Services
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-block font-body text-sm tracking-wide text-burgundy border-b border-burgundy/30 pb-0.5 hover:border-burgundy transition-colors duration-200"
+            >
+              View Contact Notes
+            </Link>
+          </div>
         </div>
       </section>
     </>

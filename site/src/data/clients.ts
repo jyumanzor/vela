@@ -5,6 +5,16 @@ export interface SetupStep {
   completed: boolean;
 }
 
+export interface ClientProject {
+  id: string;
+  name: string;
+  description: string;
+  status: 'not-started' | 'in-progress' | 'complete';
+  pages: string[];
+  pagesComplete: number;
+  accentColor: string;
+}
+
 export interface Client {
   slug: string;
   name: string;
@@ -14,6 +24,7 @@ export interface Client {
   loadedSkillIds: string[];
   setupSteps: SetupStep[];
   agents: string[];
+  projects?: ClientProject[];
 }
 
 export const clients: Client[] = [
@@ -58,6 +69,15 @@ export const clients: Client[] = [
       'holistic-reviewer',
       'argument-reviewer',
     ],
+    projects: [{
+      id: 'white-papers',
+      name: 'White Papers for HBR',
+      description: 'Write and submit white papers using AI methodology',
+      status: 'not-started',
+      pages: ['Reference organization', 'First draft', 'Cross-model review', 'Revision cycle', 'Final submission'],
+      pagesComplete: 0,
+      accentColor: 'var(--star-gold)',
+    }],
   },
   {
     slug: 'matt',
@@ -100,6 +120,26 @@ export const clients: Client[] = [
       'devils-advocate',
       'citation-checker',
       'daubert-verification',
+    ],
+    projects: [
+      {
+        id: 'music-site',
+        name: 'Music Site',
+        description: 'Organize recordings, sessions, and collaborations',
+        status: 'not-started',
+        pages: ['Home', 'Recordings list', 'Recording detail', 'Sessions timeline', 'Collaborators'],
+        pagesComplete: 0,
+        accentColor: 'var(--ember-copper)',
+      },
+      {
+        id: 'health-dashboard',
+        name: 'Health Dashboard',
+        description: 'Track nutrition, blood work, PT/rehab, and mobility',
+        status: 'not-started',
+        pages: ['Overview dashboard', 'Nutrition', 'Blood work', 'PT/Rehab', 'Mobility'],
+        pagesComplete: 0,
+        accentColor: 'var(--lime)',
+      },
     ],
   },
 ];

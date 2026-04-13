@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface Star {
   id: number;
@@ -13,26 +13,28 @@ interface Star {
   hasGlow: boolean;
 }
 
-export function StarfieldBg() {
-  const [stars, setStars] = useState<Star[]>([]);
+function generateStars(): Star[] {
+  const generated: Star[] = [];
 
-  useEffect(() => {
-    const generated: Star[] = [];
-    for (let i = 0; i < 80; i++) {
-      const isLarge = Math.random() < 0.15;
-      generated.push({
-        id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: isLarge ? 3 : 2,
-        duration: 3 + Math.random() * 5,
-        delay: Math.random() * 8,
-        peakOpacity: 0.2 + Math.random() * 0.5,
-        hasGlow: isLarge,
-      });
-    }
-    setStars(generated);
-  }, []);
+  for (let i = 0; i < 80; i++) {
+    const isLarge = Math.random() < 0.15;
+    generated.push({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: isLarge ? 3 : 2,
+      duration: 3 + Math.random() * 5,
+      delay: Math.random() * 8,
+      peakOpacity: 0.2 + Math.random() * 0.5,
+      hasGlow: isLarge,
+    });
+  }
+
+  return generated;
+}
+
+export function StarfieldBg() {
+  const [stars] = useState<Star[]>(generateStars);
 
   return (
     <>
