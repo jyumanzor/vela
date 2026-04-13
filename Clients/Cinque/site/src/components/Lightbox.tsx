@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import PhotoFrame from "@/components/PhotoFrame";
 import type { Photo } from "@/data/galleries";
 
 interface LightboxProps {
@@ -64,7 +63,7 @@ export default function Lightbox({
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center transition-opacity duration-200"
       style={{
-        backgroundColor: "rgba(26, 26, 26, 0.95)",
+        backgroundColor: "rgba(28, 24, 22, 0.97)",
         opacity: visible ? 1 : 0,
       }}
       onClick={(e) => {
@@ -74,7 +73,8 @@ export default function Lightbox({
       {/* Close button */}
       <button
         onClick={close}
-        className="absolute top-6 right-6 font-body text-2xl text-cream/70 hover:text-burgundy-light transition-colors duration-200 w-10 h-10 flex items-center justify-center z-10"
+        className="absolute top-6 right-6 text-2xl text-parchment/70 hover:text-clasp-gold transition-colors duration-200 w-10 h-10 flex items-center justify-center z-10"
+        style={{ fontFamily: "var(--font-outfit), sans-serif" }}
         aria-label="Close lightbox"
       >
         {"\u00D7"}
@@ -87,10 +87,11 @@ export default function Lightbox({
             e.stopPropagation();
             goPrev();
           }}
-          className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 font-body text-3xl text-cream/50 hover:text-cream transition-colors duration-200 w-12 h-12 flex items-center justify-center z-10"
+          className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 text-2xl text-parchment/40 hover:text-parchment transition-colors duration-200 w-12 h-12 flex items-center justify-center z-10"
+          style={{ fontFamily: "var(--font-cormorant), serif", fontWeight: 300 }}
           aria-label="Previous photo"
         >
-          {"<"}
+          {"\u2039"}
         </button>
       )}
 
@@ -101,10 +102,11 @@ export default function Lightbox({
             e.stopPropagation();
             goNext();
           }}
-          className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 font-body text-3xl text-cream/50 hover:text-cream transition-colors duration-200 w-12 h-12 flex items-center justify-center z-10"
+          className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 text-2xl text-parchment/40 hover:text-parchment transition-colors duration-200 w-12 h-12 flex items-center justify-center z-10"
+          style={{ fontFamily: "var(--font-cormorant), serif", fontWeight: 300 }}
           aria-label="Next photo"
         >
-          {">"}
+          {"\u203A"}
         </button>
       )}
 
@@ -113,31 +115,29 @@ export default function Lightbox({
         className="flex flex-col items-center max-w-4xl w-full px-16 sm:px-20"
         onClick={(e) => e.stopPropagation()}
       >
-        {photo.src.trim() ? (
-          <img
-            src={photo.src}
-            alt={photo.alt}
-            className="w-full rounded-sm"
-            style={{ maxHeight: "80vh", objectFit: "contain" }}
-            draggable={false}
-          />
-        ) : (
-          <PhotoFrame
-            photo={photo}
-            className="w-full rounded-sm"
-            showFallbackDetails
-          />
-        )}
+        <img
+          src={photo.src}
+          alt={photo.alt}
+          className="w-full"
+          style={{ maxHeight: "80vh", objectFit: "contain" }}
+          draggable={false}
+        />
 
-        {/* Caption — Location, Year */}
+        {/* Caption in Caveat script */}
         {photo.caption && (
-          <p className="font-display text-lg sm:text-xl text-cream/90 mt-6 text-center font-light tracking-wide">
-            {photo.caption}
-          </p>
+          <div className="flex items-center gap-2 mt-5">
+            <span
+              className="inline-block w-1 h-1 rounded-full flex-shrink-0"
+              style={{ backgroundColor: "var(--clasp-gold)" }}
+            />
+            <p className="font-script text-base sm:text-lg text-center" style={{ color: "var(--clasp-gold)" }}>
+              {photo.caption}
+            </p>
+          </div>
         )}
 
         {/* Counter */}
-        <p className="font-body text-[10px] text-cream/25 mt-4 tracking-[0.2em] uppercase">
+        <p className="font-body text-[10px] text-whisper mt-4 tracking-[0.2em] uppercase">
           {index + 1} / {photos.length}
         </p>
       </div>

@@ -1,163 +1,183 @@
-import Link from "next/link";
-import PhotoFrame from "@/components/PhotoFrame";
-import {
-  galleries,
-  getGalleryCoverPhoto,
-  getGalleryCountLabel,
-} from "@/data/galleries";
-import { siteProfile } from "@/data/site";
+"use client";
+
+import { useState, useEffect, useRef, useCallback } from "react";
+import { galleries, type Photo } from "@/data/galleries";
+import Lightbox from "@/components/Lightbox";
+
+interface GallerySection {
+  id: string;
+  label: string;
+  photos: Photo[];
+}
+
+const sections: GallerySection[] = [
+  { id: "france", label: "France", photos: galleries.find((g) => g.slug === "france")!.photos },
+  { id: "united-kingdom", label: "United Kingdom", photos: galleries.find((g) => g.slug === "united-kingdom")!.photos },
+  { id: "united-states", label: "United States", photos: galleries.find((g) => g.slug === "united-states")!.photos },
+  { id: "italy", label: "Italy", photos: galleries.find((g) => g.slug === "italy")!.photos },
+  { id: "selected", label: "Selected Work", photos: galleries.find((g) => g.slug === "featured")!.photos },
+];
+
+const allPhotos = sections.flatMap((s) => s.photos);
 
 export default function Home() {
+  const [activeSection, setActiveSection] = useState(sections[0].id);
+  const [activeCaption, setActiveCaption] = useState<string | null>(null);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+  const pillBarRef = useRef<HTMLDivElement>(null);
+
+  // IntersectionObserver for country tracking
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        }
+      },
+      { rootMargin: "-30% 0px -60% 0px", threshold: 0 }
+    );
+
+    for (const section of sections) {
+      const el = sectionRefs.current[section.id];
+      if (el) observer.observe(el);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollToSection = useCallback((id: string) => {
+    const el = sectionRefs.current[id];
+    if (el) {
+      const offset = (pillBarRef.current?.offsetHeight ?? 0) + 64 + 16;
+      const top = el.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  }, []);
+
+  const handlePhotoClick = useCallback((photo: Photo) => {
+    if (activeCaption === photo.id) {
+      // Second click: open lightbox
+      const idx = allPhotos.findIndex((p) => p.id === photo.id);
+      setLightboxIndex(idx >= 0 ? idx : 0);
+      setActiveCaption(null);
+    } else {
+      // First click: show caption
+      setActiveCaption(photo.id);
+    }
+  }, [activeCaption]);
+
   return (
     <>
-      {/* ── Section 1: Hero ── */}
-      <section className="relative h-screen flex flex-col items-center justify-center overflow-hidden">
-        {/* Gradient placeholder for hero image */}
-        <div className="absolute inset-0 bg-gradient-to-br from-burgundy-deep via-burgundy to-burgundy-light" />
-        <div className="absolute inset-0 bg-soft-black/20" />
-
-        <div className="relative z-10 text-center">
-          <h1 className="font-display text-cream text-7xl sm:text-8xl md:text-9xl font-light tracking-[0.15em] leading-none">
-            CINQUE
-          </h1>
-          <p className="font-body text-cream/70 text-xs sm:text-sm tracking-[0.35em] uppercase mt-4">
-            {siteProfile.hero.eyebrow}
-          </p>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3">
-          <span className="font-body text-cream/40 text-[10px] tracking-[0.3em] uppercase">
-            Scroll
-          </span>
-          <div className="w-px h-8 bg-cream/20" />
-        </div>
+      {/* Hero area */}
+      <section className="pt-28 pb-8 px-6 text-center">
+        <h1 className="font-display text-parchment text-6xl sm:text-7xl md:text-8xl font-light tracking-[0.15em] leading-none">
+          CINQUE
+        </h1>
+        <p className="font-script text-dust text-lg sm:text-xl mt-3">
+          35mm
+        </p>
       </section>
 
-      {/* ── Section 2: Introduction ── */}
-      <section className="bg-cream py-24 sm:py-32">
-        <div className="max-w-xl mx-auto px-6 text-center">
-          <h2 className="font-display text-3xl sm:text-4xl text-charcoal font-light leading-snug">
-            A growing archive shaped by place and patience
-          </h2>
-          <p className="font-body text-sm sm:text-base text-text-secondary leading-relaxed mt-6">
-            {siteProfile.hero.intro}
-          </p>
-          <p className="font-body text-sm sm:text-base text-text-secondary leading-relaxed mt-4">
-            {siteProfile.introduction}
-          </p>
-          <p className="font-body text-xs sm:text-sm text-text-muted leading-relaxed mt-6">
-            {siteProfile.previewNotice}
-          </p>
-        </div>
-      </section>
+      {/* Country jump pills — sticky */}
+      <div
+        ref={pillBarRef}
+        className="sticky top-16 z-40 py-4 px-6 flex items-center justify-center gap-3 flex-wrap"
+        style={{ backgroundColor: "rgba(28, 24, 22, 0.92)", backdropFilter: "blur(12px)" }}
+      >
+        {sections.map((section) => (
+          <button
+            key={section.id}
+            type="button"
+            onClick={() => scrollToSection(section.id)}
+            className={`pill-btn ${activeSection === section.id ? "active" : ""}`}
+          >
+            {section.label}
+          </button>
+        ))}
+      </div>
 
-      {/* ── Section 3: Featured Collections ── */}
-      <section className="bg-warm-white py-24 sm:py-32">
-        <div className="max-w-5xl mx-auto px-6">
-          <p className="font-body text-xs tracking-[0.3em] text-text-muted uppercase text-center mb-12">
-            Collections
-          </p>
+      {/* Endless scroll gallery */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-24">
+        {sections.map((section) => (
+          <section
+            key={section.id}
+            id={section.id}
+            ref={(el) => { sectionRefs.current[section.id] = el; }}
+          >
+            {/* Country marker */}
+            <div className="country-marker">
+              <span className="font-display text-sm italic text-clasp-gold tracking-wide">
+                {section.label}
+              </span>
+              <span className="font-body text-xs text-whisper">
+                {section.photos.length}
+              </span>
+            </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {galleries.map((gallery) => {
-              const coverPhoto = getGalleryCoverPhoto(gallery);
+            {/* Masonry grid */}
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-2 sm:gap-3">
+              {section.photos.map((photo) => (
+                <div
+                  key={photo.id}
+                  className="photo-item relative break-inside-avoid mb-2 sm:mb-3 cursor-gallery"
+                  onClick={() => handlePhotoClick(photo)}
+                >
+                  <img
+                    src={photo.src}
+                    alt={photo.alt}
+                    className="w-full block transition-transform duration-300"
+                    style={{ willChange: "transform" }}
+                    loading="lazy"
+                    draggable={false}
+                  />
 
-              return (
-              <Link
-                key={gallery.slug}
-                href={`/portfolio/${gallery.slug}`}
-                className="group block relative overflow-hidden rounded-sm border border-transparent hover:border-burgundy/30 transition-all duration-500"
-              >
-                {coverPhoto ? (
-                  <PhotoFrame
-                    photo={coverPhoto}
-                    className="transition-transform duration-700 group-hover:scale-[1.02]"
-                  >
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(26,26,26,0.08)_0%,rgba(26,26,26,0.7)_100%)]" />
-                  </PhotoFrame>
-                ) : (
-                  <div
-                    className="relative transition-transform duration-700 group-hover:scale-[1.02]"
-                    style={{ aspectRatio: "3/2", background: gallery.coverGradient }}
-                  >
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(26,26,26,0.08)_0%,rgba(26,26,26,0.7)_100%)]" />
+                  {/* Desktop hover caption */}
+                  <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-200 pointer-events-none hidden sm:flex items-end">
+                    <div className="w-full px-3 pb-3">
+                      <div className="flex items-center gap-1.5">
+                        <span
+                          className="inline-block w-1 h-1 rounded-full flex-shrink-0"
+                          style={{ backgroundColor: "var(--clasp-gold)" }}
+                        />
+                        <span className="font-script text-sm" style={{ color: "var(--clasp-gold)" }}>
+                          {photo.caption}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                )}
 
-                {/* Label overlay */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <h3 className="font-display text-2xl sm:text-3xl text-white/90 font-light tracking-wide">
-                    {gallery.title}
-                  </h3>
-                  <p className="font-body text-xs text-white/50 tracking-[0.2em] uppercase mt-2">
-                    {gallery.photoCount > 0
-                      ? getGalleryCountLabel(gallery)
-                      : "Coming soon"}
-                  </p>
+                  {/* Mobile art card caption (tap to show) */}
+                  <div
+                    className={`sm:hidden art-card-caption ${activeCaption === photo.id ? "visible" : ""}`}
+                  >
+                    <div className="flex items-center gap-1.5 pt-2 pb-1 px-1">
+                      <span
+                        className="inline-block w-1 h-1 rounded-full flex-shrink-0"
+                        style={{ backgroundColor: "var(--clasp-gold)" }}
+                      />
+                      <span className="font-script text-sm" style={{ color: "var(--clasp-gold)" }}>
+                        {photo.caption}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </Link>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
 
-      {/* ── Section 4: About Teaser ── */}
-      <section className="bg-warm-gray/40 py-24 sm:py-32">
-        <div className="max-w-5xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          {/* Placeholder image area */}
-          <div className="aspect-[3/4] bg-gradient-to-b from-warm-gray to-warm-gray-dark rounded-sm" />
-
-          <div>
-            <p className="font-body text-xs tracking-[0.3em] text-text-muted uppercase mb-4">
-              About
-            </p>
-            <h2 className="font-display text-3xl sm:text-4xl text-charcoal font-light leading-snug">
-              About the photographer
-            </h2>
-            <p className="font-body text-sm text-text-secondary leading-relaxed mt-6">
-              {siteProfile.about.paragraphs[0]}
-            </p>
-            <p className="font-body text-sm text-text-secondary leading-relaxed mt-4">
-              {siteProfile.about.availability}
-            </p>
-            <Link
-              href="/about"
-              className="inline-block font-body text-sm text-burgundy tracking-wide mt-8 border-b border-burgundy/30 pb-0.5 hover:border-burgundy transition-colors duration-200"
-            >
-              Learn more
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Section 5: Contact CTA ── */}
-      <section className="bg-cream py-24 sm:py-32">
-        <div className="max-w-xl mx-auto px-6 text-center">
-          <h2 className="font-display text-3xl sm:text-4xl text-charcoal font-light leading-snug">
-            Open to portraits, travel stories, and selected print inquiries
-          </h2>
-          <p className="font-body text-sm text-text-secondary leading-relaxed mt-6">
-            Browse the available services, then use the contact page to see
-            what details will make the first conversation most useful.
-          </p>
-          <div className="flex flex-col items-center justify-center gap-3 mt-8 sm:flex-row">
-            <Link
-              href="/services"
-              className="inline-block font-body text-sm tracking-wide text-cream bg-burgundy hover:bg-burgundy-deep px-8 py-3 rounded-sm transition-colors duration-300"
-            >
-              Explore Services
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-block font-body text-sm tracking-wide text-burgundy border-b border-burgundy/30 pb-0.5 hover:border-burgundy transition-colors duration-200"
-            >
-              View Contact Notes
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* Lightbox */}
+      {lightboxIndex !== null && (
+        <Lightbox
+          photos={allPhotos}
+          initialIndex={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+        />
+      )}
     </>
   );
 }

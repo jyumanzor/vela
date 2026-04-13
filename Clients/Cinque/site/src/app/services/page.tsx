@@ -9,63 +9,39 @@ export const metadata: Metadata = {
 };
 
 export default function ServicesPage() {
-  const fc = "var(--font-cormorant), serif";
-  const fo = "var(--font-outfit), sans-serif";
-
   return (
-    <section className="pt-16 bg-cream min-h-screen">
+    <section className="pt-16 min-h-screen">
       <div className="max-w-4xl mx-auto px-6 py-20 sm:py-28">
-        {/* -- Header -- */}
+        {/* Header */}
         <div className="text-center mb-16">
-          <h1
-            style={{ fontFamily: fc }}
-            className="text-4xl sm:text-5xl text-charcoal font-light leading-tight"
-          >
+          <h1 className="font-display text-4xl sm:text-5xl text-parchment font-light leading-tight">
             Services
           </h1>
-          <p
-            style={{ fontFamily: fo }}
-            className="text-sm text-text-secondary leading-relaxed mt-4"
-          >
+          <p className="font-body text-sm text-dust leading-relaxed mt-4">
             A small set of focused offerings built around the current portfolio.
-          </p>
-          <p
-            style={{ fontFamily: fo }}
-            className="text-xs text-text-muted tracking-wide mt-4 max-w-xl mx-auto"
-          >
-            {siteProfile.previewNotice}
           </p>
         </div>
 
-        {/* -- Cards -- */}
+        {/* Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {siteProfile.services.map((service) => (
             <div
               key={service.title}
-              className="group border border-warm-gray rounded-sm bg-cream p-6 sm:p-8 flex flex-col transition-all duration-300 hover:border-t-[3px] hover:border-t-burgundy"
+              className="group border border-suede rounded-sm p-6 sm:p-8 flex flex-col transition-all duration-300 hover:border-clasp-gold/40"
+              style={{ backgroundColor: "var(--patent-soft)" }}
             >
-              <h2
-                style={{ fontFamily: fc }}
-                className="text-2xl text-charcoal font-light mb-3"
-              >
+              <h2 className="font-display text-2xl text-parchment font-light mb-3">
                 {service.title}
               </h2>
-              <p
-                style={{ fontFamily: fo }}
-                className="text-sm text-text-secondary leading-relaxed flex-1"
-              >
+              <p className="font-body text-sm text-dust leading-relaxed flex-1">
                 {service.description}
               </p>
-              <p
-                style={{ fontFamily: fo }}
-                className="text-xs text-text-muted mt-4 leading-relaxed"
-              >
+              <p className="font-body text-xs text-whisper mt-4 leading-relaxed">
                 {service.detail}
               </p>
               <Link
                 href={service.href ?? "/contact"}
-                style={{ fontFamily: fo }}
-                className="inline-block text-sm text-burgundy tracking-wide mt-6 border-b border-burgundy/30 pb-0.5 hover:border-burgundy transition-colors duration-200 self-start"
+                className="inline-block font-body text-sm text-clasp-gold tracking-wide mt-6 border-b border-clasp-gold/30 pb-0.5 hover:border-clasp-gold transition-colors duration-200 self-start"
               >
                 {service.ctaLabel}
               </Link>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Outfit } from "next/font/google";
+import { Cormorant_Garamond, Outfit, Caveat } from "next/font/google";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { siteProfile } from "@/data/site";
@@ -19,6 +19,13 @@ const outfit = Outfit({
   display: "swap",
 });
 
+const caveat = Caveat({
+  variable: "--font-caveat-script",
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
     default: siteProfile.title,
@@ -35,7 +42,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${outfit.variable} h-full antialiased`}
+      className={`${cormorant.variable} ${outfit.variable} ${caveat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <Nav />

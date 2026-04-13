@@ -5,10 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const links = [
-  { href: "/portfolio", label: "Portfolio" },
-  { href: "/shop", label: "Shop" },
-  { href: "/services", label: "Services" },
   { href: "/about", label: "About" },
+  { href: "/shop", label: "Shop" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -16,26 +14,12 @@ export default function Nav() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const transparentNav = pathname === "/" && !scrolled;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  const wordmarkClass = transparentNav ? "text-cream" : "text-burgundy";
-  const buttonLineClass = transparentNav ? "bg-cream" : "bg-charcoal";
-
-  function getLinkClass(active: boolean) {
-    if (transparentNav) {
-      return active ? "text-cream" : "text-cream/70 hover:text-cream";
-    }
-
-    return active
-      ? "text-burgundy"
-      : "text-text-secondary hover:text-text-primary";
-  }
 
   function closeMenu() {
     setMenuOpen(false);
@@ -44,21 +28,27 @@ export default function Nav() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        transparentNav
-          ? "bg-transparent"
-          : scrolled
-          ? "bg-cream/95 backdrop-blur-sm border-b border-border"
-          : "bg-cream/90 backdrop-blur-sm border-b border-border/70"
+        scrolled
+          ? "backdrop-blur-md"
+          : ""
       }`}
+      style={{
+        backgroundColor: scrolled
+          ? "rgba(28, 24, 22, 0.8)"
+          : "transparent",
+      }}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Wordmark */}
+        {/* Wordmark + script tag */}
         <Link
           href="/"
           onClick={closeMenu}
-          className={`font-display text-xl tracking-[0.25em] font-medium uppercase transition-colors duration-300 ${wordmarkClass}`}
+          className="flex items-baseline gap-2"
         >
-          Cinque
+          <span className="font-display text-lg tracking-[0.25em] font-medium uppercase text-parchment transition-colors duration-300">
+            Cinque
+          </span>
+          <span className="font-script text-sm text-dust">35mm</span>
         </Link>
 
         {/* Desktop links */}
@@ -70,7 +60,11 @@ export default function Nav() {
                 key={href}
                 href={href}
                 onClick={closeMenu}
-                className={`font-body text-sm tracking-wide transition-colors duration-200 ${getLinkClass(active)}`}
+                className={`font-body text-sm tracking-wide transition-colors duration-200 ${
+                  active
+                    ? "text-parchment"
+                    : "text-dust hover:text-clasp-gold"
+                }`}
               >
                 {label}
               </Link>
@@ -87,12 +81,12 @@ export default function Nav() {
           aria-expanded={menuOpen}
         >
           <span
-            className={`block w-5 h-px transition-all duration-300 ${buttonLineClass} ${
+            className={`block w-5 h-px bg-parchment transition-all duration-300 ${
               menuOpen ? "rotate-45 translate-y-[3.5px]" : ""
             }`}
           />
           <span
-            className={`block w-5 h-px transition-all duration-300 ${buttonLineClass} ${
+            className={`block w-5 h-px bg-parchment transition-all duration-300 ${
               menuOpen ? "-rotate-45 -translate-y-[3.5px]" : ""
             }`}
           />
@@ -101,9 +95,12 @@ export default function Nav() {
 
       {/* Mobile menu */}
       <div
-        className={`md:hidden overflow-hidden transition-all duration-300 bg-cream/95 backdrop-blur-sm ${
-          menuOpen ? "max-h-48 border-b border-border" : "max-h-0"
+        className={`md:hidden overflow-hidden transition-all duration-300 backdrop-blur-md ${
+          menuOpen ? "max-h-48" : "max-h-0"
         }`}
+        style={{
+          backgroundColor: menuOpen ? "rgba(28, 24, 22, 0.95)" : "transparent",
+        }}
       >
         <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-4">
           {links.map(({ href, label }) => {
@@ -113,7 +110,11 @@ export default function Nav() {
                 key={href}
                 href={href}
                 onClick={closeMenu}
-                className={`font-body text-sm tracking-wide transition-colors duration-200 ${getLinkClass(active)}`}
+                className={`font-body text-sm tracking-wide transition-colors duration-200 ${
+                  active
+                    ? "text-parchment"
+                    : "text-dust hover:text-clasp-gold"
+                }`}
               >
                 {label}
               </Link>

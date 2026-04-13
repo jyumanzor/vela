@@ -1,57 +1,130 @@
 @import "tailwindcss";
 
 :root {
-  /* Cinque Photography — Burgundy Minimalist */
-  --burgundy: #6B1B1B;
-  --burgundy-deep: #4A1212;
-  --burgundy-light: #8B3A3A;
-  --cream: #FAF7F2;
-  --warm-white: #FEFCF9;
-  --warm-gray: #E8E3DC;
-  --warm-gray-dark: #C4BDB3;
-  --charcoal: #2C2C2C;
-  --soft-black: #1A1A1A;
-  --text-primary: #2C2C2C;
-  --text-secondary: #6B6560;
-  --text-muted: #9B948C;
-  --border: #E8E3DC;
-  --border-light: #F0ECE6;
+  /* Cinque — Patent Leather */
+  --patent: #1C1816;
+  --patent-soft: #2A2420;
+  --suede: #3D352E;
+  --clasp-gold: #C9A96E;
+  --clasp-rose: #B8847C;
+  --parchment: #F5F0E8;
+  --dust: #A69B8D;
+  --whisper: #7A7068;
+  --silk: #E8E0D4;
+  --blush: #D4A59A;
 
   --font-cormorant: var(--font-cormorant-garamond);
   --font-outfit: var(--font-outfit-sans);
+  --font-caveat: var(--font-caveat-script);
 }
 
 @theme inline {
-  --color-burgundy: var(--burgundy);
-  --color-burgundy-deep: var(--burgundy-deep);
-  --color-burgundy-light: var(--burgundy-light);
-  --color-cream: var(--cream);
-  --color-warm-white: var(--warm-white);
-  --color-warm-gray: var(--warm-gray);
-  --color-warm-gray-dark: var(--warm-gray-dark);
-  --color-charcoal: var(--charcoal);
-  --color-soft-black: var(--soft-black);
-  --color-text-primary: var(--text-primary);
-  --color-text-secondary: var(--text-secondary);
-  --color-text-muted: var(--text-muted);
-  --color-border: var(--border);
-  --color-border-light: var(--border-light);
+  --color-patent: var(--patent);
+  --color-patent-soft: var(--patent-soft);
+  --color-suede: var(--suede);
+  --color-clasp-gold: var(--clasp-gold);
+  --color-clasp-rose: var(--clasp-rose);
+  --color-parchment: var(--parchment);
+  --color-dust: var(--dust);
+  --color-whisper: var(--whisper);
+  --color-silk: var(--silk);
+  --color-blush: var(--blush);
   --font-display: var(--font-cormorant);
   --font-body: var(--font-outfit);
+  --font-script: var(--font-caveat);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--cream);
-  color: var(--text-primary);
+  background: var(--patent);
+  color: var(--parchment);
   font-family: var(--font-outfit), sans-serif;
 }
 
 ::selection {
-  background: rgba(107, 27, 27, 0.15);
-  color: var(--soft-black);
+  background: rgba(201, 169, 110, 0.25);
+  color: var(--parchment);
 }
 
 /* Smooth image transitions */
 img {
   transition: opacity 0.3s ease;
+}
+
+/* Crosshair cursor on interactive gallery elements */
+.cursor-gallery {
+  cursor: crosshair;
+}
+
+/* Art card caption animation */
+.art-card-caption {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 200ms ease, max-height 200ms ease;
+}
+
+.art-card-caption.visible {
+  opacity: 1;
+  max-height: 60px;
+}
+
+/* Photo hover glow */
+.photo-item:hover img {
+  transform: translateY(-2px);
+}
+
+.photo-item:hover::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 2px;
+  box-shadow: 0 0 20px rgba(201, 169, 110, 0.08);
+  pointer-events: none;
+}
+
+/* Country section marker */
+.country-marker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 0 16px;
+}
+
+.country-marker::before {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: var(--clasp-gold);
+  flex-shrink: 0;
+}
+
+/* Pill button base */
+.pill-btn {
+  border-radius: 100px;
+  border: 1px solid var(--silk);
+  color: var(--dust);
+  padding: 6px 16px;
+  font-family: var(--font-cormorant), serif;
+  font-style: italic;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  transition: all 200ms ease;
+  cursor: crosshair;
+  background: transparent;
+  white-space: nowrap;
+}
+
+.pill-btn:hover {
+  background: var(--clasp-gold);
+  color: var(--patent);
+  border-color: var(--clasp-gold);
+}
+
+.pill-btn.active {
+  border-color: var(--clasp-gold);
+  color: var(--parchment);
 }

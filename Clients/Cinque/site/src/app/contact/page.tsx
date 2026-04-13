@@ -9,52 +9,41 @@ export const metadata: Metadata = {
 };
 
 export default function ContactPage() {
-  const fc = "var(--font-cormorant), serif";
-  const fo = "var(--font-outfit), sans-serif";
   const hasMethods = siteProfile.contact.methods.length > 0;
 
   return (
-    <section className="pt-16 bg-cream min-h-screen">
+    <section className="pt-16 min-h-screen">
       <div className="max-w-5xl mx-auto px-6 py-20 sm:py-28">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-          {/* -- Left: Info -- */}
+          {/* Left: Info */}
           <div>
-            <h1
-              style={{ fontFamily: fc }}
-              className="text-4xl sm:text-5xl text-charcoal font-light leading-tight"
-            >
+            <h1 className="font-display text-4xl sm:text-5xl text-parchment font-light leading-tight">
               Get in Touch
             </h1>
-            <p
-              style={{ fontFamily: fo }}
-              className="text-sm text-text-secondary leading-relaxed mt-6 max-w-sm"
-            >
+            <p className="font-body text-sm text-dust leading-relaxed mt-6 max-w-sm">
               {siteProfile.contact.intro}
             </p>
 
-            <div
-              style={{ fontFamily: fo }}
-              className="mt-10 space-y-4 text-sm text-text-secondary"
-            >
+            <div className="mt-10 space-y-4 font-body text-sm text-dust">
               {hasMethods ? (
                 siteProfile.contact.methods.map((method) => (
                   <div key={method.label}>
-                    <p className="text-xs tracking-[0.2em] text-text-muted uppercase mb-1">
+                    <p className="text-xs tracking-[0.2em] text-whisper uppercase mb-1">
                       {method.label}
                     </p>
                     <a
                       href={method.href}
                       target={method.external ? "_blank" : undefined}
                       rel={method.external ? "noopener noreferrer" : undefined}
-                      className="hover:text-burgundy transition-colors duration-200"
+                      className="hover:text-clasp-gold transition-colors duration-200"
                     >
                       {method.value}
                     </a>
                   </div>
                 ))
               ) : (
-                <div className="rounded-sm border border-border bg-warm-white px-5 py-5">
-                  <p className="text-xs tracking-[0.2em] text-text-muted uppercase mb-2">
+                <div className="rounded-sm border border-suede px-5 py-5" style={{ backgroundColor: "var(--patent-soft)" }}>
+                  <p className="text-xs tracking-[0.2em] text-whisper uppercase mb-2">
                     Preview note
                   </p>
                   <p className="leading-relaxed">{siteProfile.contact.note}</p>
@@ -62,26 +51,17 @@ export default function ContactPage() {
               )}
             </div>
 
-            <div className="mt-10 rounded-sm border border-border bg-warm-white px-5 py-5">
-              <p
-                style={{ fontFamily: fo }}
-                className="text-xs tracking-[0.2em] text-text-muted uppercase mb-3"
-              >
+            <div className="mt-10 rounded-sm border border-suede px-5 py-5" style={{ backgroundColor: "var(--patent-soft)" }}>
+              <p className="font-body text-xs tracking-[0.2em] text-whisper uppercase mb-3">
                 Available for
               </p>
               <div className="space-y-4">
                 {siteProfile.services.map((service) => (
                   <div key={service.title}>
-                    <p
-                      style={{ fontFamily: fc }}
-                      className="text-xl text-charcoal font-light"
-                    >
+                    <p className="font-display text-xl text-parchment font-light">
                       {service.title}
                     </p>
-                    <p
-                      style={{ fontFamily: fo }}
-                      className="text-sm text-text-secondary leading-relaxed mt-1"
-                    >
+                    <p className="font-body text-sm text-dust leading-relaxed mt-1">
                       {service.description}
                     </p>
                   </div>
@@ -90,21 +70,17 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* -- Right: Guidance -- */}
+          {/* Right: Guidance */}
           <div className="space-y-6">
-            <div className="rounded-sm border border-border bg-warm-white px-6 py-6">
-              <p
-                style={{ fontFamily: fo }}
-                className="text-xs tracking-[0.2em] text-text-muted uppercase mb-3"
-              >
+            <div className="rounded-sm border border-suede px-6 py-6" style={{ backgroundColor: "var(--patent-soft)" }}>
+              <p className="font-body text-xs tracking-[0.2em] text-whisper uppercase mb-3">
                 Helpful details
               </p>
               <ul className="space-y-3">
                 {siteProfile.contact.checklist.map((item) => (
                   <li
                     key={item}
-                    style={{ fontFamily: fo }}
-                    className="text-sm text-text-secondary leading-relaxed"
+                    className="font-body text-sm text-dust leading-relaxed"
                   >
                     {item}
                   </li>
@@ -112,31 +88,25 @@ export default function ContactPage() {
               </ul>
             </div>
 
-            <div className="rounded-sm border border-border bg-cream px-6 py-6">
-              <p
-                style={{ fontFamily: fo }}
-                className="text-xs tracking-[0.2em] text-text-muted uppercase mb-3"
-              >
+            <div className="rounded-sm border border-suede px-6 py-6">
+              <p className="font-body text-xs tracking-[0.2em] text-whisper uppercase mb-3">
                 Best next step
               </p>
-              <p
-                style={{ fontFamily: fo }}
-                className="text-sm text-text-secondary leading-relaxed"
-              >
+              <p className="font-body text-sm text-dust leading-relaxed">
                 Start by looking through the portfolio and services pages so
                 the first note can reference the kind of images or coverage
                 you have in mind.
               </p>
               <div className="flex flex-col items-start gap-3 mt-6 sm:flex-row sm:items-center">
                 <Link
-                  href="/portfolio"
-                  className="inline-block font-body text-sm tracking-wide text-cream bg-burgundy hover:bg-burgundy-deep px-6 py-3 rounded-sm transition-colors duration-300"
+                  href="/"
+                  className="pill-btn"
                 >
                   View Portfolio
                 </Link>
                 <Link
                   href="/services"
-                  className="inline-block font-body text-sm tracking-wide text-burgundy border-b border-burgundy/30 pb-0.5 hover:border-burgundy transition-colors duration-200"
+                  className="font-body text-sm tracking-wide text-clasp-gold border-b border-clasp-gold/30 pb-0.5 hover:border-clasp-gold transition-colors duration-200"
                 >
                   Review Services
                 </Link>
