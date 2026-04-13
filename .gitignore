@@ -21,3 +21,5 @@ site/out/
 # Misc
 *.tsbuildinfo
 next-env.d.ts
+Clients/Cinque/assets/
+_local_archive/

@@ -33,3 +33,11 @@
 
 **Next step**:
 - Confirm the new Cinque pricing/contact framing before any broader public share, since the April 13 commit moved the site from generic services language into explicit hobby-level pricing.
+
+## 2026-04-13 | codex | Documented the actual Vercel mapping for Vela, Cinque, and Doldol
+**Task**: Correct the repo continuity docs after deploy-link confusion by recording which local app roots map to which live Vercel projects and aliases.
+**Built**: `_WORKSPACE.md`; `_BUILD_LOG.md`
+**Fixed**: The workspace docs described the canonical app roots but not the live deploy map. They now explicitly record that `site/` and `Clients/Cinque/site/` both point to Vercel project `site`, that `cinque-photos.vercel.app` is an alias on that project, and that `Clients/Doldol POC/doldol-tattoo/` points to Vercel project `doldol.studio`.
+**Canonical outputs**: `_WORKSPACE.md`; `site/.vercel/project.json`; `Clients/Cinque/site/.vercel/project.json`; `Clients/Doldol POC/doldol-tattoo/.vercel/project.json`
+**Learned**: For multi-surface repos, continuity docs need a deploy map, not just a folder map. Otherwise old folder names and branded domains make it too easy to misread which project is actually live.
+**Next step**: If Vela keeps growing client surfaces, add one small deployment table per active app root whenever a new Vercel project or alias is introduced.
