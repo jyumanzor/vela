@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  /* Cinque — Burgundy Patent */
-  --patent: #2B0F11;
-  --patent-soft: #3A1A1C;
-  --suede: #4D2628;
-  --clasp-gold: #C9A96E;
-  --clasp-rose: #B8847C;
+  /* Cinque — Bordeaux */
+  --patent: #2A1215;
+  --patent-soft: #382022;
+  --suede: #4A2E30;
+  --clasp-gold: #BFA77A;
+  --clasp-rose: #C4918A;
   --parchment: #F5F0E8;
   --cream: #FAF7F2;
   --warm-white: #FEFCF9;
@@ -18,7 +18,7 @@
   --text-mid: #6B6560;
   --border-light: #E8E3DC;
 
-  --maroon: #800000;
+  --maroon: #7A3344;
 
   --font-cormorant: var(--font-cormorant-garamond);
   --font-outfit: var(--font-outfit-sans);
