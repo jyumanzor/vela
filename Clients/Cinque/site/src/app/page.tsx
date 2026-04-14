@@ -27,7 +27,6 @@ export default function Home() {
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
   const pillBarRef = useRef<HTMLDivElement>(null);
 
-  // IntersectionObserver for country tracking
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -59,118 +58,140 @@ export default function Home() {
 
   const handlePhotoClick = useCallback((photo: Photo) => {
     if (activeCaption === photo.id) {
-      // Second click: open lightbox
       const idx = allPhotos.findIndex((p) => p.id === photo.id);
       setLightboxIndex(idx >= 0 ? idx : 0);
       setActiveCaption(null);
     } else {
-      // First click: show caption
       setActiveCaption(photo.id);
     }
   }, [activeCaption]);
 
   return (
     <>
-      {/* Hero area */}
-      <section className="pt-28 pb-8 px-6 text-center">
-        <h1 className="font-display text-parchment text-6xl sm:text-7xl md:text-8xl font-light tracking-[0.15em] leading-none">
+      {/* ═══ DARK HERO ═══ */}
+      <section
+        className="min-h-screen flex flex-col items-center justify-center text-center px-6"
+        style={{ background: "var(--patent)" }}
+      >
+        <h1 className="font-display text-parchment text-7xl sm:text-8xl md:text-9xl font-light tracking-[0.15em] leading-none">
           CINQUE
         </h1>
-        <p className="font-display text-dust text-sm sm:text-base mt-3 tracking-[0.3em] uppercase font-light italic">
+        <p className="font-display text-dust text-sm sm:text-base mt-4 tracking-[0.3em] uppercase font-light italic">
           Photography
         </p>
+
+        {/* Scroll hint */}
+        <div className="mt-16 flex flex-col items-center gap-2 opacity-40">
+          <div className="w-px h-12" style={{ background: "var(--dust)" }} />
+          <span className="font-body text-dust text-[10px] tracking-[0.25em] uppercase">Scroll</span>
+        </div>
       </section>
 
-      {/* Country jump pills — sticky */}
+      {/* ═══ TRANSITION GRADIENT ═══ */}
       <div
-        ref={pillBarRef}
-        className="sticky top-16 z-40 py-4 px-6 flex items-center justify-center gap-3 flex-wrap"
-        style={{ backgroundColor: "rgba(43, 15, 17, 0.92)", backdropFilter: "blur(12px)" }}
-      >
-        {sections.map((section) => (
-          <button
-            key={section.id}
-            type="button"
-            onClick={() => scrollToSection(section.id)}
-            className={`pill-btn ${activeSection === section.id ? "active" : ""}`}
-          >
-            {section.label}
-          </button>
-        ))}
-      </div>
+        className="h-24"
+        style={{ background: "linear-gradient(to bottom, var(--patent), var(--cream))" }}
+      />
 
-      {/* Endless scroll gallery */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-24">
-        {sections.map((section) => (
-          <section
-            key={section.id}
-            id={section.id}
-            ref={(el) => { sectionRefs.current[section.id] = el; }}
-          >
-            {/* Country marker */}
-            <div className="country-marker">
-              <span className="font-display text-sm italic text-clasp-gold tracking-wide">
-                {section.label}
-              </span>
-              <span className="font-body text-xs text-whisper">
-                {section.photos.length}
-              </span>
-            </div>
+      {/* ═══ CREAM GALLERY ═══ */}
+      <div style={{ background: "var(--cream)" }}>
 
-            {/* Masonry grid */}
-            <div className="columns-1 sm:columns-2 lg:columns-3 gap-2 sm:gap-3">
-              {section.photos.map((photo) => (
-                <div
-                  key={photo.id}
-                  className="photo-item relative break-inside-avoid mb-2 sm:mb-3 cursor-gallery"
-                  onClick={() => handlePhotoClick(photo)}
-                >
-                  <img
-                    src={photo.src}
-                    alt={photo.alt}
-                    className="w-full block transition-transform duration-300"
-                    style={{ willChange: "transform" }}
-                    loading="lazy"
-                    draggable={false}
-                  />
+        {/* Country jump pills — sticky */}
+        <div
+          ref={pillBarRef}
+          className="sticky top-16 z-40 py-4 px-6 flex items-center justify-center gap-3 flex-wrap"
+          style={{ backgroundColor: "rgba(250, 247, 242, 0.95)", backdropFilter: "blur(12px)" }}
+        >
+          {sections.map((section) => (
+            <button
+              key={section.id}
+              type="button"
+              onClick={() => scrollToSection(section.id)}
+              className={`pill-btn ${activeSection === section.id ? "active" : ""}`}
+            >
+              {section.label}
+            </button>
+          ))}
+        </div>
 
-                  {/* Desktop hover caption */}
-                  <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-200 pointer-events-none hidden sm:flex items-end">
-                    <div className="w-full px-3 pb-3">
-                      <div className="flex items-center gap-1.5">
+        {/* Gallery sections */}
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-24">
+          {sections.map((section) => (
+            <section
+              key={section.id}
+              id={section.id}
+              ref={(el) => { sectionRefs.current[section.id] = el; }}
+            >
+              {/* Country marker */}
+              <div className="country-marker-light">
+                <span className="font-display text-sm italic tracking-wide" style={{ color: "var(--text-dark)" }}>
+                  {section.label}
+                </span>
+                <span className="font-body text-xs" style={{ color: "var(--text-mid)" }}>
+                  {section.photos.length}
+                </span>
+              </div>
+
+              {/* Masonry grid */}
+              <div className="columns-1 sm:columns-2 lg:columns-3 gap-3">
+                {section.photos.map((photo) => (
+                  <div
+                    key={photo.id}
+                    className="photo-item-light"
+                    onClick={() => handlePhotoClick(photo)}
+                  >
+                    <img
+                      src={photo.src}
+                      alt={photo.alt}
+                      className="w-full block rounded-sm transition-all duration-300"
+                      loading="lazy"
+                      draggable={false}
+                    />
+
+                    {/* Desktop hover caption — dainty text below */}
+                    <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-200 pointer-events-none hidden sm:flex items-end">
+                      <div className="w-full px-2 pb-2">
+                        <div className="flex items-center gap-1.5">
+                          <span
+                            className="inline-block w-1 h-1 rounded-full flex-shrink-0"
+                            style={{ backgroundColor: "var(--patent)" }}
+                          />
+                          <span className="font-script text-sm" style={{ color: "var(--text-dark)" }}>
+                            {photo.caption}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Mobile art card caption */}
+                    <div
+                      className={`sm:hidden art-card-caption ${activeCaption === photo.id ? "visible" : ""}`}
+                    >
+                      <div className="flex items-center gap-1.5 pt-2 pb-1 px-1">
                         <span
                           className="inline-block w-1 h-1 rounded-full flex-shrink-0"
-                          style={{ backgroundColor: "var(--clasp-gold)" }}
+                          style={{ backgroundColor: "var(--patent)" }}
                         />
-                        <span className="font-script text-sm" style={{ color: "var(--clasp-gold)" }}>
+                        <span className="font-script text-sm" style={{ color: "var(--text-dark)" }}>
                           {photo.caption}
                         </span>
                       </div>
                     </div>
                   </div>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
 
-                  {/* Mobile art card caption (tap to show) */}
-                  <div
-                    className={`sm:hidden art-card-caption ${activeCaption === photo.id ? "visible" : ""}`}
-                  >
-                    <div className="flex items-center gap-1.5 pt-2 pb-1 px-1">
-                      <span
-                        className="inline-block w-1 h-1 rounded-full flex-shrink-0"
-                        style={{ backgroundColor: "var(--clasp-gold)" }}
-                      />
-                      <span className="font-script text-sm" style={{ color: "var(--clasp-gold)" }}>
-                        {photo.caption}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        ))}
+        {/* Bottom fade back to dark */}
+        <div
+          className="h-16"
+          style={{ background: "linear-gradient(to bottom, var(--cream), var(--patent))" }}
+        />
       </div>
 
-      {/* Lightbox */}
+      {/* Lightbox (stays dark) */}
       {lightboxIndex !== null && (
         <Lightbox
           photos={allPhotos}
