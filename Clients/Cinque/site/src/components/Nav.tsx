@@ -46,10 +46,12 @@ export default function Nav() {
           onClick={closeMenu}
           className="flex items-baseline gap-2"
         >
-          <span className="font-display text-lg tracking-[0.25em] font-medium uppercase text-parchment transition-colors duration-300">
-            Cinque
+          <span
+            className="text-xl transition-colors duration-300"
+            style={{ fontFamily: "var(--font-logo), serif", color: "var(--maroon)", letterSpacing: "-0.02em" }}
+          >
+            CINQUE
           </span>
-          <span className="font-display text-xs text-dust tracking-[0.2em] italic">Photography</span>
         </Link>
 
         {/* Desktop links */}

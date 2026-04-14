@@ -73,7 +73,10 @@ export default function Home() {
         className="min-h-screen flex flex-col items-center justify-center text-center px-6"
         style={{ background: "var(--patent)" }}
       >
-        <h1 className="font-display text-parchment text-7xl sm:text-8xl md:text-9xl font-light tracking-[0.15em] leading-none">
+        <h1
+          className="text-7xl sm:text-8xl md:text-9xl leading-none"
+          style={{ fontFamily: "var(--font-logo), serif", color: "var(--maroon)", letterSpacing: "-0.04em" }}
+        >
           CINQUE
         </h1>
         <p className="font-display text-dust text-sm sm:text-base mt-4 tracking-[0.3em] uppercase font-light italic">

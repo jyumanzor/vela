@@ -20,7 +20,10 @@ export default function AboutPage() {
           />
 
           <div>
-            <h1 className="font-display text-6xl sm:text-7xl font-light tracking-[0.1em] text-parchment leading-none">
+            <h1
+              className="text-6xl sm:text-7xl leading-none"
+              style={{ fontFamily: "var(--font-logo), serif", color: "var(--maroon)", letterSpacing: "-0.04em" }}
+            >
               CINQUE
             </h1>
             <p className="font-body text-xs tracking-[0.35em] uppercase text-dust mt-3">

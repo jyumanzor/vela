@@ -18,9 +18,12 @@
   --text-mid: #6B6560;
   --border-light: #E8E3DC;
 
+  --maroon: #800000;
+
   --font-cormorant: var(--font-cormorant-garamond);
   --font-outfit: var(--font-outfit-sans);
   --font-caveat: var(--font-caveat-script);
+  --font-logo: var(--font-chonburi);
 }
 
 @theme inline {
@@ -34,6 +37,7 @@
   --color-whisper: var(--whisper);
   --color-silk: var(--silk);
   --color-blush: var(--blush);
+  --color-maroon: var(--maroon);
   --color-cream: var(--cream);
   --color-warm-white: var(--warm-white);
   --color-text-dark: var(--text-dark);
