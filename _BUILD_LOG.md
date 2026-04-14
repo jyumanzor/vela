@@ -41,3 +41,27 @@
 **Canonical outputs**: `_WORKSPACE.md`; `site/.vercel/project.json`; `Clients/Cinque/site/.vercel/project.json`; `Clients/Doldol POC/doldol-tattoo/.vercel/project.json`
 **Learned**: For multi-surface repos, continuity docs need a deploy map, not just a folder map. Otherwise old folder names and branded domains make it too easy to misread which project is actually live.
 **Next step**: If Vela keeps growing client surfaces, add one small deployment table per active app root whenever a new Vercel project or alias is introduced.
+
+## 2026-04-13 | codex | Traced the broken Vela onboarding path across Vercel and Supabase setup assumptions
+**Task**: Validate the current launch checklist for `vela-io` by checking the local app link target, live Vercel projects, Production env state, and the Supabase seed flow before running any onboarding steps.
+**Built**: `_WORKSPACE.md`; `_BUILD_LOG.md`
+**Fixed**: Replaced an unsafe assumption chain with concrete deployment facts. `site/` is still linked locally to Vercel project `site`, not `vela-io`, so `vercel env add` from that folder would write to the wrong project. Separate Vercel projects `vela` and `vela-io` do exist, but as of 2026-04-13 both branded aliases returned 404 shell deployments. A temp-linked CLI check also showed `vela-io` currently has no Vercel environment variables, while `site` has the Supabase public vars only.
+**Canonical outputs**: `_WORKSPACE.md`; `docs/supabase-seed.sql`; `site/src/app/dashboard/layout.tsx`
+**Learned**: In Vercel, branded project names and branded domains are not enough to prove an app is actually deployed there. The operational truth is the combination of local `.vercel/project.json`, `vercel inspect <domain>`, and project-level env state. Also, the current dashboard fallback shows Cameron's hardcoded client data when an authenticated user has no seeded `clients` row, so "sign up first, seed later" is not a neutral sequence.
+**Next step**: Link and deploy the Vela platform app to the intended `vela-io` project, add `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and the real `ANTHROPIC_API_KEY` there, set Supabase Auth Site URL to `https://vela-io.vercel.app`, then create user accounts and run `docs/supabase-seed.sql` with real UUIDs or replace the UUID placeholders with an email-driven lookup flow.
+
+## 2026-04-13 | codex | Made the pre-seed dashboard state honest for new Vela users
+**Task**: Remove the misleading hardcoded-client fallback from the dashboard shell so a signed-up but unseeded user no longer sees Cameron's data.
+**Built**: `site/src/app/dashboard/layout.tsx`; `_BUILD_LOG.md`
+**Fixed**: When `clients.user_id` had no Supabase match, the dashboard layout used `clients[0]` and rendered Cameron's hardcoded identity. The layout now keeps `client` null and shows the existing "Your sandbox is being set up" state instead.
+**Canonical outputs**: `site/src/app/dashboard/layout.tsx`
+**Learned**: Prototype fallbacks that impersonate a real seeded account become launch blockers the moment onboarding depends on sign-up-before-seed. Pre-seed states need to be visibly incomplete, not plausibly wrong.
+**Next step**: Apply the same honest-empty-state pattern to the remaining dashboard pages if they ever load outside the layout guard, then replace the UUID-placeholder seed flow with an email-based lookup to reduce onboarding friction.
+
+## 2026-04-13 | codex | Seeded the missing public Supabase envs onto the `vela-io` Vercel project
+**Task**: Use a temp-linked Vercel working directory to target the actual `vela-io` project and add the Production Supabase public env vars without disturbing the repo's existing `site/` link.
+**Built**: `_BUILD_LOG.md`
+**Fixed**: `vela-io` previously had no environment variables at all. It now has `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` in Production, matching the values already used in `site/.env.local`.
+**Canonical outputs**: `site/.env.local`; Vercel project `vela-io` Production env state
+**Learned**: For multi-project Vercel teams, the safest way to write env vars to a non-linked target is a temp directory plus `vercel link --project <name>`; this avoids accidentally retargeting the repo's checked-in `.vercel/project.json`.
+**Next step**: Add the real `ANTHROPIC_API_KEY` to `vela-io`, deploy the platform app there, then set Supabase Auth Site URL and run the user-signup/seed sequence against the actual live login route.

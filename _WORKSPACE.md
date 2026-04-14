@@ -26,6 +26,8 @@
 - `Clients/Cinque/site/` is also linked to Vercel project `site` (`prj_CmLa7fWz2BRXzvIwKkIkY5ZT8yQr`)
 - `https://cinque-photos.vercel.app/` currently resolves as an alias on the live `site` production deployment, not as a separate Vercel project
 - `Clients/Doldol POC/doldol-tattoo/` is linked to Vercel project `doldol.studio` (`prj_q1iK6b16OqCYzMlXlZrxxkNFhdjl`)
+- Separate Vercel projects `vela` and `vela-io` also exist under the same team, but no local app root in this repo is currently linked to either one
+- As of 2026-04-13, `https://vela-chi-self.vercel.app/` and `https://vela-io.vercel.app/` both resolve to 404-producing shell deployments, so treat them as undeployed targets until `site/` is explicitly linked and shipped there
 
 ## Naming And Cleanup
 
@@ -39,3 +41,4 @@
 - `Clients/Cinque/` is currently an untracked client surface inside the Vela repo; treat it as active work, not disposable scratch output
 - When updating Cinque, preserve the current visual direction and use `src/data/site.ts` for trust-sensitive content rather than scattering hardcoded claims across pages
 - Do not infer separate Vercel projects from branded domains alone. Check `.vercel/project.json` and `vercel inspect <domain>` first, since client domains may be aliases on another project
+- Do not run `vercel env add` from `site/` expecting it to target `vela-io`; that folder is linked to project `site`, so env writes follow the local link unless you relink a different working directory first

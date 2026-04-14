@@ -4,7 +4,6 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
-import { clients } from '@/data/clients';
 import type { Client } from '@/data/clients';
 
 const fi = 'var(--font-instrument), serif';
@@ -62,13 +61,8 @@ export default function DashboardLayout({
           agents: clientRecord.agent_ids || [],
         });
       } else {
-        // Fall back to Cameron's hardcoded data for now
-        const fallback = clients[0];
-        if (fallback) {
-          setClient(fallback);
-        } else {
-          setSetupMessage(true);
-        }
+        setClient(null);
+        setSetupMessage(true);
       }
 
       setLoading(false);
