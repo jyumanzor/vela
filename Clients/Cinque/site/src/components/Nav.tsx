@@ -48,7 +48,7 @@ export default function Nav() {
         >
           <span
             className="text-xl transition-colors duration-300"
-            style={{ fontFamily: "var(--font-logo), serif", color: "var(--maroon)", letterSpacing: "-0.02em" }}
+            style={{ fontFamily: "var(--font-logo), serif", color: "var(--cream)", letterSpacing: "-0.02em" }}
           >
             CINQUE
           </span>

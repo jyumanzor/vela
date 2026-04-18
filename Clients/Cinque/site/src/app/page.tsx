@@ -1,8 +1,14 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import dynamic from "next/dynamic";
 import { galleries, type Photo } from "@/data/galleries";
 import Lightbox from "@/components/Lightbox";
+
+const MapView = dynamic(() => import("@/components/MapView"), {
+  ssr: false,
+  loading: () => <div style={{ height: 400, background: "var(--cream)" }} />,
+});
 
 interface GallerySection {
   id: string;
@@ -66,6 +72,14 @@ export default function Home() {
     }
   }, [activeCaption]);
 
+  // Map marker click → open Lightbox at first photo of that country
+  const handleMapCountryClick = useCallback((id: string) => {
+    const firstPhoto = sections.find((s) => s.id === id)?.photos[0];
+    if (!firstPhoto) return;
+    const idx = allPhotos.findIndex((p) => p.id === firstPhoto.id);
+    if (idx >= 0) setLightboxIndex(idx);
+  }, []);
+
   return (
     <>
       {/* ═══ DARK HERO ═══ */}
@@ -75,7 +89,7 @@ export default function Home() {
       >
         <h1
           className="text-7xl sm:text-8xl md:text-9xl leading-none"
-          style={{ fontFamily: "var(--font-logo), serif", color: "var(--maroon)", letterSpacing: "-0.04em" }}
+          style={{ fontFamily: "var(--font-logo), serif", color: "var(--cream)", letterSpacing: "-0.04em" }}
         >
           CINQUE
         </h1>
@@ -95,6 +109,16 @@ export default function Home() {
         className="h-24"
         style={{ background: "linear-gradient(to bottom, var(--patent), var(--cream))" }}
       />
+
+      {/* ═══ MAP SECTION ═══ */}
+      <div style={{ background: "var(--cream)" }}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-12 pb-8 text-center">
+          <p className="font-display text-sm italic tracking-wide" style={{ color: "var(--text-mid)" }}>
+            Explore by location
+          </p>
+        </div>
+        <MapView onCountryClick={handleMapCountryClick} />
+      </div>
 
       {/* ═══ CREAM GALLERY ═══ */}
       <div style={{ background: "var(--cream)" }}>

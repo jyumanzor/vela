@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6 py-12 flex flex-col items-center gap-3 text-center">
         <p
           className="text-lg"
-          style={{ fontFamily: "var(--font-logo), serif", color: "var(--maroon)", letterSpacing: "-0.02em" }}
+          style={{ fontFamily: "var(--font-logo), serif", color: "var(--cream)", letterSpacing: "-0.02em" }}
         >
           CINQUE
         </p>

@@ -22,7 +22,7 @@ export default function AboutPage() {
           <div>
             <h1
               className="text-6xl sm:text-7xl leading-none"
-              style={{ fontFamily: "var(--font-logo), serif", color: "var(--maroon)", letterSpacing: "-0.04em" }}
+              style={{ fontFamily: "var(--font-logo), serif", color: "var(--cream)", letterSpacing: "-0.04em" }}
             >
               CINQUE
             </h1>
