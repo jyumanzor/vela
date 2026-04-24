@@ -65,3 +65,12 @@
 **Canonical outputs**: `site/.env.local`; Vercel project `vela-io` Production env state
 **Learned**: For multi-project Vercel teams, the safest way to write env vars to a non-linked target is a temp directory plus `vercel link --project <name>`; this avoids accidentally retargeting the repo's checked-in `.vercel/project.json`.
 **Next step**: Add the real `ANTHROPIC_API_KEY` to `vela-io`, deploy the platform app there, then set Supabase Auth Site URL and run the user-signup/seed sequence against the actual live login route.
+
+## 2026-04-24 | codex | Restored public access for the archived Doldol tattoo site
+**Task**: Make the Doldol site accessible again without spending extra time polishing the archived Vela client surfaces.
+**Built**: `_WORKSPACE.md`; `_BUILD_LOG.md`; `Clients/Doldol POC/doldol-tattoo/src/app/layout.tsx`; `Clients/Doldol POC/doldol-tattoo/public/robots.txt`; `Clients/Doldol POC/doldol-tattoo/public/sitemap.xml`; `Clients/Doldol POC/RESUME_HERE.md`; `Clients/Doldol POC/doldol-tattoo/docs/STATUS.md`; `Clients/Doldol POC/doldol-tattoo/docs/SITEMAP.md`
+**Fixed**: Deployed the Doldol app to Vercel production and made the stable public URL `https://doldolstudio.vercel.app/`. Updated metadata, robots, sitemap, and local status docs to point at the accessible URL instead of the currently unresolved `https://doldol.studio/` domain.
+**Canonical outputs**: `https://doldolstudio.vercel.app/`; Vercel deployment `dpl_3Dc4YHow2TZVLniQnVV6V5uNZ6js`; Doldol local docs under `Clients/Doldol POC/`
+**Verified**: `npm run build` passes locally. Vercel production deploy completed successfully. `curl -I -L https://doldolstudio.vercel.app/` returns HTTP 200. `/robots.txt` and `/sitemap.xml` serve the new `doldolstudio.vercel.app` URLs. Smoke checks passed for `/`, `/flash`, `/studio`, `/book`, `/aftercare`, `/faqs`, `/process`, `/touch-up`, `/quiz`, and `/work`. `curl https://doldol.studio/` still fails DNS resolution.
+**Learned**: Vercel can show `doldol.studio` as an alias even while the public domain remains unusable; the real accessibility proof is DNS plus a public HTTP check. `Clients/Doldol POC/` is ignored by this repo, so the live Vercel deployment and local Doldol docs are the practical continuity record unless the POC gets tracked separately.
+**Next step**: Connect the registrar/DNS for `doldol.studio` to Vercel or transfer/domain-verify it under the current Vercel team, then re-check `https://doldol.studio/` from public DNS.
