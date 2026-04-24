@@ -11,6 +11,8 @@
 
 - Main Vela platform: `site/`
 - Bri access surface: `site/src/app/access/bri/page.tsx`
+- Matt access surface: `site/src/app/access/matt/page.tsx`
+- Matt music seed: `Clients/Matt/music-site/site/`
 - Active photography client surface: `Clients/Cinque/site/`
 - Active tattoo studio client surface: `Clients/Doldol POC/doldol-tattoo/`
 - Cameron onboarding/reference surface: `Clients/Cameron/`
@@ -19,6 +21,7 @@
 
 - Cinque site-wide positioning, contact-state, and service copy live in `Clients/Cinque/site/src/data/site.ts`
 - Cinque collection structure and preview-photo metadata live in `Clients/Cinque/site/src/data/galleries.ts`
+- Matt music seed sample recordings and sessions live in `Clients/Matt/music-site/site/src/data/recordings.ts`; do not add real audio or health data until Matt's privacy boundary is explicit
 - Vela platform route source remains the `site/src/` tree
 
 ## Deployment Map
@@ -42,5 +45,6 @@
 - `Clients/Cinque/` is currently an untracked client surface inside the Vela repo; treat it as active work, not disposable scratch output
 - `Clients/Doldol POC/` is currently ignored by git; treat the live Vercel deployment and local Doldol docs as the canonical accessibility record unless the project gets its own tracked repo
 - When updating Cinque, preserve the current visual direction and use `src/data/site.ts` for trust-sensitive content rather than scattering hardcoded claims across pages
+- Matt's music site is now the first pinned Matt project with a real local app seed. Keep the health dashboard sample-only until the local-first privacy model is agreed.
 - Do not infer separate Vercel projects from branded domains alone. Check `.vercel/project.json` and `vercel inspect <domain>` first, since client domains may be aliases on another project
 - Before any Vercel deploy or env write, inspect the local `.vercel/project.json`; this workspace has had multiple similarly named projects (`site`, `vela`, `vela-io`, `cinque-photos`) and the local link is the operational truth

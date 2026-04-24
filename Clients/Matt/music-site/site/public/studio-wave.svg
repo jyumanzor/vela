@@ -1,0 +1,26 @@
+<svg width="960" height="420" viewBox="0 0 960 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Studio waveform visual</title>
+  <desc id="desc">Layered waveform lines and track markers for Matt's private music archive.</desc>
+  <rect width="960" height="420" rx="18" fill="#101417"/>
+  <rect x="48" y="48" width="864" height="324" rx="10" fill="#182126" stroke="#314249"/>
+  <path d="M82 146H878" stroke="#314249" stroke-width="2"/>
+  <path d="M82 210H878" stroke="#314249" stroke-width="2"/>
+  <path d="M82 274H878" stroke="#314249" stroke-width="2"/>
+  <path d="M94 210C132 210 128 130 166 130C204 130 200 290 238 290C276 290 272 160 310 160C348 160 344 248 382 248C420 248 416 116 454 116C492 116 488 304 526 304C564 304 560 176 598 176C636 176 632 238 670 238C708 238 704 150 742 150C780 150 776 270 814 270C852 270 840 210 878 210" stroke="#D7B45A" stroke-width="5" stroke-linecap="round"/>
+  <path d="M94 214C132 214 128 172 166 172C204 172 200 246 238 246C276 246 272 196 310 196C348 196 344 226 382 226C420 226 416 154 454 154C492 154 488 266 526 266C564 266 560 202 598 202C636 202 632 224 670 224C708 224 704 176 742 176C780 176 776 238 814 238C852 238 840 214 878 214" stroke="#58B8AA" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+  <g fill="#F1F5ED">
+    <rect x="94" y="324" width="116" height="8" rx="4" opacity="0.92"/>
+    <rect x="230" y="324" width="76" height="8" rx="4" opacity="0.45"/>
+    <rect x="326" y="324" width="148" height="8" rx="4" opacity="0.72"/>
+    <rect x="494" y="324" width="88" height="8" rx="4" opacity="0.38"/>
+    <rect x="602" y="324" width="190" height="8" rx="4" opacity="0.66"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" letter-spacing="1.2">
+    <text x="94" y="94" fill="#F1F5ED">MATT / PRIVATE ARCHIVE</text>
+    <text x="94" y="360" fill="#A4B7BA">IDEA</text>
+    <text x="236" y="360" fill="#A4B7BA">IN PROGRESS</text>
+    <text x="384" y="360" fill="#58B8AA">MIXED</text>
+    <text x="510" y="360" fill="#B18EE8">MASTERED</text>
+    <text x="664" y="360" fill="#DF7C98">RELEASED</text>
+  </g>
+</svg>
