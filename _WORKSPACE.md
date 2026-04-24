@@ -10,6 +10,7 @@
 ## Current Canonical Surfaces
 
 - Main Vela platform: `site/`
+- Bri access surface: `site/src/app/access/bri/page.tsx`
 - Active photography client surface: `Clients/Cinque/site/`
 - Active tattoo studio client surface: `Clients/Doldol POC/doldol-tattoo/`
 - Cameron onboarding/reference surface: `Clients/Cameron/`
@@ -22,13 +23,12 @@
 
 ## Deployment Map
 
-- `site/` is linked to Vercel project `site` (`prj_CmLa7fWz2BRXzvIwKkIkY5ZT8yQr`)
-- `Clients/Cinque/site/` is also linked to Vercel project `site` (`prj_CmLa7fWz2BRXzvIwKkIkY5ZT8yQr`)
-- `https://cinque-photos.vercel.app/` currently resolves as an alias on the live `site` production deployment, not as a separate Vercel project
+- `site/` is linked to Vercel project `vela-io` (`prj_N5rbi0jLvTnwueb8S3P6WG8etrF4`) and deploys to `https://vela-io.vercel.app/`
+- `Clients/Cinque/site/` is linked to Vercel project `cinque-photos` (`prj_JfKgyI6KoZ2QTL244rR35G9G4gOl`) and deploys to `https://cinque-photos.vercel.app/`
+- Vercel project `site` (`prj_CmLa7fWz2BRXzvIwKkIkY5ZT8yQr`) is historical/ambiguous in this workspace; do not use it as the Vela platform target without re-checking
 - `Clients/Doldol POC/doldol-tattoo/` is linked to Vercel project `doldol.studio` (`prj_q1iK6b16OqCYzMlXlZrxxkNFhdjl`)
 - As of 2026-04-24, Doldol is publicly accessible at `https://doldolstudio.vercel.app/`; `https://doldol.studio/` is aliased in Vercel but does not resolve in public DNS yet
-- Separate Vercel projects `vela` and `vela-io` also exist under the same team, but no local app root in this repo is currently linked to either one
-- As of 2026-04-13, `https://vela-chi-self.vercel.app/` and `https://vela-io.vercel.app/` both resolve to 404-producing shell deployments, so treat them as undeployed targets until `site/` is explicitly linked and shipped there
+- Separate Vercel project `vela` also exists under the same team, but no local app root in this repo is currently linked to it
 
 ## Naming And Cleanup
 
@@ -43,4 +43,4 @@
 - `Clients/Doldol POC/` is currently ignored by git; treat the live Vercel deployment and local Doldol docs as the canonical accessibility record unless the project gets its own tracked repo
 - When updating Cinque, preserve the current visual direction and use `src/data/site.ts` for trust-sensitive content rather than scattering hardcoded claims across pages
 - Do not infer separate Vercel projects from branded domains alone. Check `.vercel/project.json` and `vercel inspect <domain>` first, since client domains may be aliases on another project
-- Do not run `vercel env add` from `site/` expecting it to target `vela-io`; that folder is linked to project `site`, so env writes follow the local link unless you relink a different working directory first
+- Before any Vercel deploy or env write, inspect the local `.vercel/project.json`; this workspace has had multiple similarly named projects (`site`, `vela`, `vela-io`, `cinque-photos`) and the local link is the operational truth

@@ -10,6 +10,7 @@
 --   - Jenn (your admin account)
 --   - Cameron
 --   - Matt
+--   - Bri
 --   Then copy each user's UUID from Supabase Auth > Users
 
 -- Step 2: Run this SQL with real UUIDs
@@ -82,6 +83,37 @@ INSERT INTO setup_steps (client_id, step_id, label, description) VALUES
   ((SELECT id FROM clients WHERE slug = 'matt'), 'scaffold-music', 'Scaffold music site', 'Create the Next.js project for your music catalog'),
   ((SELECT id FROM clients WHERE slug = 'matt'), 'scaffold-health', 'Scaffold health dashboard', 'Create the Next.js project for health tracking'),
   ((SELECT id FROM clients WHERE slug = 'matt'), 'first-session', 'Run first session', 'Start Claude Code and build your first page');
+
+-- ============================================================
+-- BRI — Portfolio Access + Starter Workspace
+-- ============================================================
+INSERT INTO clients (user_id, slug, name, domain, domain_label, domain_kit, loaded_skill_ids, agent_ids)
+VALUES (
+  '00000000-0000-0000-0000-000000000003',  -- REPLACE with Bri's real user_id
+  'bri',
+  'Bri',
+  'portfolio-access',
+  'Portfolio Access + Starter Workspace',
+  'frontend',
+  ARRAY[
+    'operating-loop', 'build-log-protocol', 'workspace-hygiene',
+    'holistic-review', 'testing-ai-output', 'cross-model-review',
+    'frontend-system', 'design-craft', 'color-and-layout',
+    'spacing-enforcement', 'text-breathing-room', 'claude-handoff-notes',
+    'operational-inheritance'
+  ],
+  ARRAY[
+    'holistic-reviewer', 'argument-reviewer', 'devils-advocate'
+  ]
+);
+
+-- Bri's setup steps
+INSERT INTO setup_steps (client_id, step_id, label, description) VALUES
+  ((SELECT id FROM clients WHERE slug = 'bri'), 'open-access-link', 'Open access link', 'Use the Bri-specific Vela access page'),
+  ((SELECT id FROM clients WHERE slug = 'bri'), 'create-account', 'Create Vela account', 'Sign up with the email Jenn should connect to Bri'),
+  ((SELECT id FROM clients WHERE slug = 'bri'), 'link-client-record', 'Link account to Bri', 'Jenn seeds the Bri client record after signup'),
+  ((SELECT id FROM clients WHERE slug = 'bri'), 'choose-first-surface', 'Choose first surface', 'Decide whether the first build is a portfolio, site, or tool'),
+  ((SELECT id FROM clients WHERE slug = 'bri'), 'first-session', 'Run first session', 'Start from the starter workspace and build one page cleanly');
 
 -- ============================================================
 -- Verify

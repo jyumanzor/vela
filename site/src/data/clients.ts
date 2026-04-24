@@ -142,6 +142,51 @@ export const clients: Client[] = [
       },
     ],
   },
+  {
+    slug: 'bri',
+    name: 'Bri',
+    domain: 'portfolio-access',
+    domainLabel: 'Portfolio Access + Starter Workspace',
+    domainKit: 'frontend',
+    loadedSkillIds: [
+      'operating-loop',
+      'build-log-protocol',
+      'workspace-hygiene',
+      'holistic-review',
+      'testing-ai-output',
+      'cross-model-review',
+      'frontend-system',
+      'design-craft',
+      'color-and-layout',
+      'spacing-enforcement',
+      'text-breathing-room',
+      'claude-handoff-notes',
+      'operational-inheritance',
+    ],
+    setupSteps: [
+      { id: 'open-access-link', label: 'Open access link', description: 'Use the Bri-specific Vela access page', completed: true },
+      { id: 'create-account', label: 'Create Vela account', description: 'Sign up with the email Jenn should connect to Bri', completed: false },
+      { id: 'link-client-record', label: 'Link account to Bri', description: 'Jenn seeds the Bri client record after signup', completed: false },
+      { id: 'choose-first-surface', label: 'Choose first surface', description: 'Decide whether the first build is a portfolio, site, or tool', completed: false },
+      { id: 'first-session', label: 'Run first session', description: 'Start from the starter workspace and build one page cleanly', completed: false },
+    ],
+    agents: [
+      'holistic-reviewer',
+      'argument-reviewer',
+      'devils-advocate',
+    ],
+    projects: [
+      {
+        id: 'bri-access',
+        name: 'Bri Access',
+        description: 'Public Vela entry point plus account-linking path',
+        status: 'in-progress',
+        pages: ['Access page', 'Account link', 'Starter workspace', 'First build plan'],
+        pagesComplete: 1,
+        accentColor: 'var(--star-gold)',
+      },
+    ],
+  },
 ];
 
 export function getClient(slug: string): Client | undefined {
