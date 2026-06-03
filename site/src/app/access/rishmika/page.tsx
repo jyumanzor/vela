@@ -97,7 +97,7 @@ export default function RishmikaAccessPage() {
           <Card>
             <p style={{ fontFamily: fd, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--constellation)", margin: "0 0 13px" }}>Hooks</p>
             <p style={{ fontFamily: fd, fontSize: 14.5, lineHeight: 1.6, color: "var(--moonlight)", margin: 0 }}>
-              Turn your design rules into checks that always run — no banned fonts, no off-palette colors — even when you're moving fast.
+              Turn your design rules into checks that always run — no banned fonts, no off-palette colors — even when you’re moving fast.
             </p>
             <div style={{ marginTop: 18 }}>
               <GhostCTA href="https://code.claude.com/docs/en/hooks-guide" accent={ACCENT}>How hooks work ↗</GhostCTA>
@@ -148,7 +148,7 @@ export default function RishmikaAccessPage() {
           <Card>
             <p style={{ fontFamily: fd, fontSize: 15.5, fontWeight: 500, color: "var(--moonlight)", margin: 0 }}>Project intake</p>
             <p style={{ fontFamily: fd, fontSize: 14, lineHeight: 1.6, color: "var(--dusk)", margin: "10px 0 0" }}>
-              A short intake captures what you want to build, who it's for, and the look you're after — so your first session starts with direction.
+              A short intake captures what you want to build, who it’s for, and the look you’re after — so your first session starts with direction.
             </p>
           </Card>
           <Card>

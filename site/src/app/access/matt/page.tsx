@@ -99,13 +99,13 @@ export default function MattAccessPage() {
           <Card>
             <Tags label="Background reviewers" items={agents} />
             <p style={{ fontFamily: fd, fontSize: 14, lineHeight: 1.6, color: "var(--dusk)", margin: "18px 0 0" }}>
-              Point them at a dashboard or dataset and they check the way a careful analyst would — sources, sorting, and numbers that don't add up.
+              Point them at a dashboard or dataset and they check the way a careful analyst would — sources, sorting, and numbers that don’t add up.
             </p>
           </Card>
           <Card>
             <p style={{ fontFamily: fd, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--constellation)", margin: "0 0 13px" }}>Hooks</p>
             <p style={{ fontFamily: fd, fontSize: 14.5, lineHeight: 1.6, color: "var(--moonlight)", margin: 0 }}>
-              Turn your data rules into checks that always run — no number ships without a provenance tag — even when you're moving fast.
+              Turn your data rules into checks that always run — no number ships without a provenance tag — even when you’re moving fast.
             </p>
             <div style={{ marginTop: 18 }}>
               <GhostCTA href="https://code.claude.com/docs/en/hooks-guide" accent={ACCENT}>How hooks work ↗</GhostCTA>

@@ -99,7 +99,7 @@ export default function CameronAccessPage() {
           <Card>
             <p style={{ fontFamily: fd, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--constellation)", margin: "0 0 13px" }}>Hooks</p>
             <p style={{ fontFamily: fd, fontSize: 14.5, lineHeight: 1.6, color: "var(--moonlight)", margin: 0 }}>
-              Turn your non-negotiables into checks that always run — provenance tags present, citations complete — even when you're moving fast.
+              Turn your non-negotiables into checks that always run — provenance tags present, citations complete — even when you’re moving fast.
             </p>
             <div style={{ marginTop: 18 }}>
               <GhostCTA href="https://code.claude.com/docs/en/hooks-guide" accent={ACCENT}>How hooks work ↗</GhostCTA>
