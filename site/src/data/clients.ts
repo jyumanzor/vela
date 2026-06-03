@@ -187,6 +187,51 @@ export const clients: Client[] = [
       },
     ],
   },
+  {
+    slug: 'rishmika',
+    name: 'Rishmika',
+    domain: 'first-site',
+    domainLabel: 'First Site + Starter Workspace',
+    domainKit: 'frontend',
+    loadedSkillIds: [
+      'operating-loop',
+      'build-log-protocol',
+      'workspace-hygiene',
+      'frontend-system',
+      'design-craft',
+      'color-and-layout',
+      'spacing-enforcement',
+      'text-breathing-room',
+      'holistic-review',
+      'testing-ai-output',
+      'cross-model-review',
+      'claude-handoff-notes',
+      'operational-inheritance',
+    ],
+    setupSteps: [
+      { id: 'open-access-link', label: 'Open access link', description: 'Use the Rishmika-specific Vela access page', completed: true },
+      { id: 'create-account', label: 'Create Vela account', description: 'Sign up with the email Jenn should connect to Rishmika', completed: false },
+      { id: 'link-client-record', label: 'Link account to Rishmika', description: 'Jenn seeds the Rishmika client record after signup', completed: false },
+      { id: 'choose-first-surface', label: 'Choose first surface', description: 'Decide whether the first build is a portfolio, site, or tool', completed: false },
+      { id: 'first-session', label: 'Run first session', description: 'Start from the starter workspace and build one page cleanly', completed: false },
+    ],
+    agents: [
+      'holistic-reviewer',
+      'argument-reviewer',
+      'devils-advocate',
+    ],
+    projects: [
+      {
+        id: 'first-surface',
+        name: 'First Surface',
+        description: 'Pick and ship the first site, portfolio, or tool',
+        status: 'not-started',
+        pages: ['Access page', 'Account link', 'Surface chosen', 'First page shipped'],
+        pagesComplete: 1,
+        accentColor: 'var(--ember-copper)',
+      },
+    ],
+  },
 ];
 
 export function getClient(slug: string): Client | undefined {

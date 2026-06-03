@@ -33,3 +33,90 @@ body {
 .vela-quick-link:hover {
   border-color: var(--constellation) !important;
 }
+
+/* ── Client access surfaces: sleek system (Apple/Oura register) ──
+   Additive only. Scoped to /access pages via the access/* primitives,
+   so the marketing site keeps its existing look. */
+:root {
+  --hairline: rgba(240, 237, 230, 0.07);
+  --hairline-strong: rgba(240, 237, 230, 0.14);
+  --radius-card: 18px;
+  --radius-pill: 999px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.access-card {
+  transition: transform 0.45s var(--ease-out), border-color 0.45s var(--ease-out),
+    background 0.45s var(--ease-out);
+}
+.access-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--hairline-strong);
+  background: var(--understory);
+}
+
+.access-cta {
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+.access-cta:hover {
+  filter: brightness(1.08);
+}
+.access-cta:active {
+  transform: translateY(1px);
+}
+
+.access-quiet-arrow {
+  display: inline-block;
+  transition: transform 0.2s var(--ease-out);
+}
+.access-quiet:hover .access-quiet-arrow {
+  transform: translateX(4px);
+}
+
+.access-anchor {
+  transition: color 0.2s ease;
+}
+.access-anchor:hover {
+  color: var(--moonlight);
+}
+
+.access-row {
+  border-radius: 12px;
+  transition: background 0.2s ease;
+}
+.access-row:hover {
+  background: var(--deep-canopy);
+}
+.access-row-arrow {
+  transition: transform 0.2s var(--ease-out);
+}
+.access-row:hover .access-row-arrow {
+  transform: translateX(3px);
+}
+
+.access-faq-summary {
+  list-style: none;
+}
+.access-faq-summary::-webkit-details-marker {
+  display: none;
+}
+.access-faq-mark {
+  transition: transform 0.25s var(--ease-out);
+}
+.access-faq[open] .access-faq-mark {
+  transform: rotate(45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .access-card,
+  .access-cta,
+  .access-quiet-arrow,
+  .access-row,
+  .access-row-arrow,
+  .access-faq-mark {
+    transition: none !important;
+  }
+  .access-card:hover {
+    transform: none;
+  }
+}
