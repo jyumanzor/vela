@@ -1,243 +1,166 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-
-const fi = "var(--font-instrument), serif";
-const fd = "var(--font-dm-sans), sans-serif";
-const fj = "var(--font-jetbrains), monospace";
+import {
+  AccessShell, Hero, AnchorNav, Section, Card, CardGrid, StepList,
+  Tags, StatStrip, LinkList, FAQ, GhostCTA, Bullets, ClosingCTA, fd,
+} from "@/components/access/primitives";
+import {
+  claudeCodeStartHere, canonicalDocs, examplesToInspect,
+  faqGeneral, harnessCompare, harnessSynthesis,
+} from "@/data/access-content";
 
 export const metadata: Metadata = {
   title: "Bri Access | Vela",
-  description: "Bri's Vela access page for account setup and first workspace handoff.",
+  description: "Bri's Vela hub: a front-end kit for the first build, with setup, resources, and a knowledge base.",
 };
 
-const statusItems = [
-  { label: "Access page", value: "Live", tone: "var(--lime)" },
-  { label: "Account", value: "Signup first", tone: "var(--star-gold)" },
-  { label: "Workspace", value: "Seed after signup", tone: "var(--ember-copper)" },
+const ACCENT = "var(--lime)";
+
+const status = [
+  { label: "Access page", value: "Live", tone: ACCENT },
+  { label: "Account", value: "Sign up first", tone: "var(--ember-copper)" },
+  { label: "First surface", value: "Open" },
+];
+
+const skills = [
+  "Operating Loop", "Build-Log Protocol", "Workspace Hygiene", "Frontend System",
+  "Design Craft", "Color & Layout", "Spacing Enforcement", "Text Breathing Room",
+  "Holistic Review", "Testing AI Output", "Cross-Model Review",
+];
+
+const agents = ["Holistic Reviewer", "Argument Reviewer", "Devil's Advocate"];
+
+const frontendTips = [
+  "Build one page, review it, then build the next. The review agents catch layout and hierarchy issues early.",
+  "Keep your design tokens in one place. Consistency is what reads as 'designed,' not 'generated.'",
+  "Run the holistic-review agent before you call a page done — it reads the page the way a visitor would.",
+  "Whitespace is structure. When a section feels cramped, add room before you add elements.",
+];
+
+const frontendHelpers = [
+  { label: "Custom skills for your design system", href: "https://code.claude.com/docs/en/skills", note: "Encode your color, spacing, and layout rules once; load them every build." },
+  { label: "Subagents for design review", href: "https://code.claude.com/docs/en/sub-agents", note: "A second agent reviews hierarchy, contrast, and copy before you ship." },
+  { label: "Hooks for guardrails", href: "https://code.claude.com/docs/en/hooks-guide", note: "Block the patterns you never want — banned fonts, off-palette colors — automatically." },
+  { label: "MCP for live data and tools", href: "https://code.claude.com/docs/en/mcp", note: "Pull real content, APIs, or design sources into the build." },
 ];
 
 const steps = [
-  {
-    title: "Create the account",
-    body: "Use the Vela login page and sign up with the email Jenn should connect to Bri.",
-  },
-  {
-    title: "Link Bri's profile",
-    body: "After signup, Jenn links that account to the Bri client record so the dashboard loads the right kit.",
-  },
-  {
-    title: "Pick the first surface",
-    body: "The first real build should be a portfolio, a site, or a focused tool. The access layer is ready; the project direction is still open.",
-  },
+  { title: "Open this access link", body: "You're here — this is your front door into Vela.", done: true },
+  { title: "Create your Vela account", body: "Sign up with the email you want connected to your workspace." },
+  { title: "Jenn links your client record", body: "After signup, Jenn connects the account so the dashboard loads your kit." },
+  { title: "Choose your first surface", body: "A portfolio, a small site, or one focused tool — kept intentionally scoped." },
+  { title: "Run your first session", body: "Start from the starter workspace and build one page cleanly." },
 ];
 
-const workspaceItems = [
-  "Frontend review rules",
-  "Build log habit",
-  "Workspace structure",
-  "First-session checklist",
-  "Review-before-ship loop",
+const anchors = [
+  { label: "Start here", href: "#start" },
+  { label: "Your kit", href: "#kit" },
+  { label: "For your work", href: "#work" },
+  { label: "Setup", href: "#setup" },
+  { label: "FAQ", href: "#faq" },
+  { label: "How it compares", href: "#compare" },
 ];
-
-function Label({ children }: { children: string }) {
-  return (
-    <p
-      style={{
-        fontFamily: fj,
-        fontSize: 11,
-        letterSpacing: "0.18em",
-        textTransform: "uppercase",
-        color: "var(--constellation)",
-        marginBottom: 10,
-      }}
-    >
-      {children}
-    </p>
-  );
-}
 
 export default function BriAccessPage() {
   return (
-    <div className="bri-access-page" style={{ maxWidth: 1080, margin: "0 auto", padding: "136px 24px 40px" }}>
-      <section
-        className="bri-hero-grid"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "minmax(0, 1.2fr) minmax(280px, 0.8fr)",
-          gap: 28,
-          alignItems: "end",
-          paddingBottom: 44,
-        }}
-      >
-        <div>
-          <Label>Client access</Label>
-          <h1
-            style={{
-              fontFamily: fi,
-              fontSize: "clamp(48px, 8vw, 88px)",
-              lineHeight: 0.96,
-              color: "var(--moonlight)",
-              maxWidth: 720,
-              marginBottom: 20,
-            }}
-          >
-            Bri&apos;s Vela workspace
-          </h1>
-          <p
-            style={{
-              fontFamily: fd,
-              fontSize: 17,
-              lineHeight: 1.65,
-              color: "var(--dusk)",
-              maxWidth: 620,
-            }}
-          >
-            A clean entry point for signup, account linking, and the first build. The access layer is ready; the first public project can stay intentionally scoped.
-          </p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 30 }}>
-            <Link
-              href="/login?redirectTo=/dashboard"
-              style={{
-                fontFamily: fd,
-                fontSize: 15,
-                fontWeight: 700,
-                color: "var(--forest-floor)",
-                background: "var(--star-gold)",
-                border: "1px solid var(--star-gold)",
-                borderRadius: 8,
-                padding: "12px 18px",
-                textDecoration: "none",
-              }}
-            >
-              Open Vela login
-            </Link>
-            <Link
-              href="/tools"
-              style={{
-                fontFamily: fd,
-                fontSize: 15,
-                fontWeight: 700,
-                color: "var(--moonlight)",
-                border: "1px solid var(--stardust)",
-                borderRadius: 8,
-                padding: "12px 18px",
-                textDecoration: "none",
-                background: "rgba(30, 42, 34, 0.72)",
-              }}
-            >
-              View the toolkit
-            </Link>
-          </div>
-        </div>
+    <AccessShell>
+      <Hero
+        eyebrow="Vela · Client Access"
+        accent={ACCENT}
+        title="Bri's Vela workspace"
+        lede="A clean entry point for signup, account linking, and the first build. The access layer is ready; the first public project can stay intentionally scoped."
+        primary={{ href: "/login?redirectTo=/dashboard", label: "Create your account" }}
+        secondary={{ href: "#start", label: "Start here" }}
+      />
+      <AnchorNav items={anchors} />
 
-        <div
-          style={{
-            background: "var(--deep-canopy)",
-            border: "1px solid var(--stardust)",
-            borderRadius: 12,
-            padding: 24,
-          }}
-        >
-          <Label>Status</Label>
-          <div style={{ display: "grid", gap: 14 }}>
-            {statusItems.map((item) => (
-              <div
-                key={item.label}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  gap: 16,
-                  borderBottom: "1px solid var(--stardust)",
-                  paddingBottom: 12,
-                }}
-              >
-                <span style={{ fontFamily: fd, fontSize: 14, color: "var(--dusk)" }}>{item.label}</span>
-                <span style={{ fontFamily: fj, fontSize: 12, color: item.tone, textAlign: "right" }}>{item.value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Section divider>
+        <StatStrip items={status} />
+      </Section>
 
-      <section
-        className="bri-body-grid"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "minmax(0, 1fr) minmax(280px, 360px)",
-          gap: 24,
-          borderTop: "1px solid var(--stardust)",
-          paddingTop: 40,
-        }}
-      >
-        <div>
-          <Label>Next steps</Label>
-          <div style={{ display: "grid", gap: 22 }}>
-            {steps.map((step, index) => (
-              <div key={step.title} style={{ display: "grid", gridTemplateColumns: "34px minmax(0, 1fr)", gap: 18 }}>
-                <span
-                  style={{
-                    width: 28,
-                    height: 28,
-                    borderRadius: "50%",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontFamily: fj,
-                    fontSize: 12,
-                    color: "var(--forest-floor)",
-                    background: index === 0 ? "var(--star-gold)" : "var(--understory)",
-                    border: index === 0 ? "1px solid var(--star-gold)" : "1px solid var(--stardust)",
-                  }}
-                >
-                  {index + 1}
-                </span>
-                <div>
-                  <h2 style={{ fontFamily: fi, fontSize: 25, lineHeight: 1.15, color: "var(--moonlight)", marginBottom: 7 }}>
-                    {step.title}
-                  </h2>
-                  <p style={{ fontFamily: fd, fontSize: 15, lineHeight: 1.65, color: "var(--dusk)", maxWidth: 620 }}>
-                    {step.body}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+      <Section id="start" eyebrow="When you're starting" title="Read these first." accent={ACCENT}
+        intro="The shortest path from zero to a working first session. Five pages, in order.">
+        <LinkList items={claudeCodeStartHere} />
+      </Section>
 
-        <aside
-          style={{
-            background: "var(--understory)",
-            border: "1px solid var(--stardust)",
-            borderRadius: 12,
-            padding: 24,
-            alignSelf: "start",
-          }}
-        >
-          <Label>Starter kit</Label>
-          <h2 style={{ fontFamily: fi, fontSize: 28, color: "var(--moonlight)", lineHeight: 1.15, marginBottom: 14 }}>
-            Loaded for a frontend-first build
-          </h2>
-          <div style={{ display: "grid", gap: 10 }}>
-            {workspaceItems.map((item) => (
-              <div key={item} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--star-gold)", flexShrink: 0 }} />
-                <span style={{ fontFamily: fd, fontSize: 14, color: "var(--dusk)" }}>{item}</span>
-              </div>
-            ))}
-          </div>
-        </aside>
-      </section>
-      <style>{`
-        @media (max-width: 760px) {
-          .bri-access-page {
-            padding-top: 112px !important;
-          }
-          .bri-hero-grid,
-          .bri-body-grid {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
-    </div>
+      <Section id="kit" eyebrow="What's loaded" title="A frontend kit, ready to go." accent={ACCENT}
+        intro="The rules behind clean, deliberate interfaces — loaded into every session so your first build doesn't look like a first build.">
+        <CardGrid min={250}>
+          <Card accent={ACCENT}>
+            <Tags label="Skills" items={skills} />
+          </Card>
+          <Card>
+            <Tags label="Background reviewers" items={agents} />
+            <p style={{ fontFamily: fd, fontSize: 14, lineHeight: 1.6, color: "var(--dusk)", margin: "18px 0 0" }}>
+              Point them at a page and they review it the way a careful second set of eyes would — layout, hierarchy, and whether the copy actually reads.
+            </p>
+          </Card>
+          <Card>
+            <p style={{ fontFamily: fd, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--constellation)", margin: "0 0 13px" }}>Hooks</p>
+            <p style={{ fontFamily: fd, fontSize: 14.5, lineHeight: 1.6, color: "var(--moonlight)", margin: 0 }}>
+              Turn your design rules into checks that always run — no banned fonts, no off-palette colors — even when you're moving fast.
+            </p>
+            <div style={{ marginTop: 18 }}>
+              <GhostCTA href="https://code.claude.com/docs/en/hooks-guide" accent={ACCENT}>How hooks work ↗</GhostCTA>
+            </div>
+          </Card>
+        </CardGrid>
+        <div style={{ marginTop: 28 }}>
+          <LinkList items={canonicalDocs} />
+        </div>
+      </Section>
+
+      <Section id="work" eyebrow="For your work" title="Built for shipping interfaces." accent={ACCENT}
+        intro="The pieces of the kit that matter most when the deliverable is a page someone will actually use.">
+        <CardGrid min={280}>
+          <Card accent={ACCENT}>
+            <p style={{ fontFamily: fd, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--constellation)", margin: "0 0 16px" }}>Claude tips</p>
+            <Bullets items={frontendTips} accent={ACCENT} />
+          </Card>
+          <Card>
+            <p style={{ fontFamily: fd, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--constellation)", margin: "0 0 6px" }}>Frontend helpers</p>
+            <LinkList items={frontendHelpers} />
+          </Card>
+        </CardGrid>
+        <div style={{ marginTop: 28 }}>
+          <p style={{ fontFamily: fd, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--constellation)", margin: "0 0 6px" }}>Templates &amp; examples to inspect</p>
+          <LinkList items={examplesToInspect} />
+        </div>
+      </Section>
+
+      <Section id="setup" eyebrow="Get running" title="Five steps to your first page." accent={ACCENT}>
+        <StepList steps={steps} accent={ACCENT} />
+      </Section>
+
+      <Section id="faq" eyebrow="Knowledge base" title="Questions, answered." accent={ACCENT}>
+        <FAQ items={faqGeneral} />
+      </Section>
+
+      <Section id="compare" eyebrow="Best in class" title="How this approach compares." accent={ACCENT}
+        intro="Honest framing against the leading agent frameworks — where Vela's skills-plus-hooks layer is strongest, and where the others are.">
+        <LinkList items={harnessCompare} />
+        <Card style={{ marginTop: 24 }}>
+          <p style={{ fontFamily: fd, fontSize: 14.5, lineHeight: 1.7, color: "var(--dusk)", margin: 0 }}>{harnessSynthesis}</p>
+        </Card>
+      </Section>
+
+      <Section eyebrow="Working together" title="Intake and scheduling." accent={ACCENT}>
+        <CardGrid min={280}>
+          <Card>
+            <p style={{ fontFamily: fd, fontSize: 15.5, fontWeight: 500, color: "var(--moonlight)", margin: 0 }}>Project intake</p>
+            <p style={{ fontFamily: fd, fontSize: 14, lineHeight: 1.6, color: "var(--dusk)", margin: "10px 0 0" }}>
+              A short intake captures what you want to build, who it's for, and the look you're after — so your first session starts with direction.
+            </p>
+          </Card>
+          <Card>
+            <p style={{ fontFamily: fd, fontSize: 15.5, fontWeight: 500, color: "var(--moonlight)", margin: 0 }}>Scheduling</p>
+            <p style={{ fontFamily: fd, fontSize: 14, lineHeight: 1.6, color: "var(--dusk)", margin: "10px 0 0" }}>
+              Build sessions and reviews are booked with Jenn directly. Pick the rhythm that fits — a push to launch, or a steady weekly cadence.
+            </p>
+          </Card>
+        </CardGrid>
+      </Section>
+
+      <ClosingCTA line="Charted, not guessed." href="/login?redirectTo=/dashboard" label="Create your account" accent={ACCENT} />
+    </AccessShell>
   );
 }
