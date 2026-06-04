@@ -46,13 +46,35 @@ body {
 }
 
 .access-card {
+  position: relative;
+  background: linear-gradient(180deg, var(--understory), var(--deep-canopy));
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-card);
   transition: transform 0.45s var(--ease-out), border-color 0.45s var(--ease-out),
-    background 0.45s var(--ease-out);
+    box-shadow 0.45s var(--ease-out);
 }
 .access-card:hover {
   transform: translateY(-3px);
   border-color: var(--hairline-strong);
-  background: var(--understory);
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.36);
+}
+.access-card-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.access-hero-constellation {
+  animation: accessConstellationFloat 14s ease-in-out infinite;
+}
+@keyframes accessConstellationFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@media (max-width: 900px) {
+  .access-hero-constellation {
+    display: none;
+  }
 }
 
 .access-cta {
@@ -118,5 +140,8 @@ body {
   }
   .access-card:hover {
     transform: none;
+  }
+  .access-hero-constellation {
+    animation: none;
   }
 }

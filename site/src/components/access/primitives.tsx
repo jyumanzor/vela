@@ -81,7 +81,35 @@ export function QuietLink({ href, children }: { href: string; children: ReactNod
   );
 }
 
-/* Hero — single column, large serif statement, one primary + one quiet link. */
+/* Faint Vela constellation — fills the hero's open side, ties to the brand. Hidden on mobile. */
+function HeroConstellation({ accent = GOLD }: { accent?: string }) {
+  const pts: [number, number][] = [
+    [24, 54], [80, 24], [150, 48], [214, 28], [196, 112], [120, 152], [56, 116],
+  ];
+  const lines: [number, number][] = [
+    [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 0], [2, 4], [1, 6],
+  ];
+  const bright = new Set([1, 3, 4]);
+  return (
+    <svg
+      className="access-hero-constellation"
+      width="300"
+      height="225"
+      viewBox="0 0 240 180"
+      aria-hidden
+      style={{ position: "absolute", top: -8, right: -12, opacity: 0.5, zIndex: 0, pointerEvents: "none" }}
+    >
+      {lines.map(([a, b], i) => (
+        <line key={i} x1={pts[a][0]} y1={pts[a][1]} x2={pts[b][0]} y2={pts[b][1]} stroke="var(--constellation)" strokeWidth={1} opacity={0.5} />
+      ))}
+      {pts.map(([x, y], i) => (
+        <circle key={i} cx={x} cy={y} r={bright.has(i) ? 2.6 : 1.5} fill={bright.has(i) ? accent : "var(--dusk)"} />
+      ))}
+    </svg>
+  );
+}
+
+/* Hero — single-column statement over an accent halo and a faint constellation. */
 export function Hero({
   eyebrow,
   title,
@@ -98,39 +126,55 @@ export function Hero({
   secondary?: { href: string; label: string };
 }) {
   return (
-    <header>
-      <Eyebrow accent={accent}>{eyebrow}</Eyebrow>
-      <h1
-        style={{
-          fontFamily: fi,
-          fontSize: "clamp(46px, 7.5vw, 86px)",
-          lineHeight: 1.0,
-          letterSpacing: "-0.015em",
-          color: "var(--moonlight)",
-          margin: "22px 0 0",
-          maxWidth: 760,
-        }}
-      >
-        {title}
-      </h1>
-      <p style={{ fontFamily: fd, fontSize: "clamp(17px, 2.2vw, 19px)", lineHeight: 1.6, color: "var(--dusk)", maxWidth: 560, margin: "26px 0 0" }}>
-        {lede}
-      </p>
-      {(primary || secondary) && (
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 24, marginTop: 38 }}>
-          {primary && (
-            <PrimaryCTA href={primary.href} accent={accent}>
-              {primary.label}
-            </PrimaryCTA>
-          )}
-          {secondary && <QuietLink href={secondary.href}>{secondary.label}</QuietLink>}
-        </div>
-      )}
+    <header style={{ position: "relative" }}>
+      <div
+        aria-hidden
+        style={{ position: "absolute", top: -150, left: -90, width: 600, height: 460, pointerEvents: "none", zIndex: 0, background: `radial-gradient(closest-side, color-mix(in oklab, ${accent} 13%, transparent), transparent)` }}
+      />
+      <HeroConstellation accent={accent} />
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <Eyebrow accent={accent}>{eyebrow}</Eyebrow>
+        <h1
+          style={{
+            fontFamily: fi,
+            fontSize: "clamp(46px, 7.5vw, 86px)",
+            lineHeight: 1.0,
+            letterSpacing: "-0.015em",
+            color: "var(--moonlight)",
+            margin: "22px 0 0",
+            maxWidth: 760,
+          }}
+        >
+          {title}
+        </h1>
+        <p style={{ fontFamily: fd, fontSize: "clamp(17px, 2.2vw, 19px)", lineHeight: 1.6, color: "var(--dusk)", maxWidth: 560, margin: "26px 0 0" }}>
+          {lede}
+        </p>
+        {(primary || secondary) && (
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 24, marginTop: 38 }}>
+            {primary && (
+              <PrimaryCTA href={primary.href} accent={accent}>
+                {primary.label}
+              </PrimaryCTA>
+            )}
+            {secondary && <QuietLink href={secondary.href}>{secondary.label}</QuietLink>}
+          </div>
+        )}
+      </div>
     </header>
   );
 }
 
-/* Section — vertical rhythm + optional hairline divider. No heavy boxes. */
+/* Celestial section rule — a fading hairline anchored by one glowing accent star. */
+function SectionRule({ accent = GOLD }: { accent?: string }) {
+  return (
+    <div aria-hidden style={{ position: "relative", height: 1, width: "100%", background: "linear-gradient(to right, var(--hairline-strong), var(--hairline) 45%, transparent)" }}>
+      <span style={{ position: "absolute", left: 0, top: "50%", width: 6, height: 6, marginTop: -3, borderRadius: "50%", background: accent, boxShadow: `0 0 10px ${accent}` }} />
+    </div>
+  );
+}
+
+/* Section — vertical rhythm anchored by a celestial rule. No heavy boxes. */
 export function Section({
   id,
   eyebrow,
@@ -149,26 +193,24 @@ export function Section({
   divider?: boolean;
 }) {
   const hasHead = Boolean(eyebrow || title || intro);
+  const gap = divider ? 38 : 0;
   return (
-    <section
-      id={id}
-      style={{
-        marginTop: 80,
-        paddingTop: divider ? 48 : 0,
-        borderTop: divider ? "1px solid var(--hairline)" : "none",
-        scrollMarginTop: 96,
-      }}
-    >
-      {eyebrow && <Eyebrow accent={accent}>{eyebrow}</Eyebrow>}
+    <section id={id} style={{ marginTop: 84, scrollMarginTop: 96 }}>
+      {divider && <SectionRule accent={accent} />}
+      {eyebrow && (
+        <div style={{ marginTop: gap }}>
+          <Eyebrow accent={accent}>{eyebrow}</Eyebrow>
+        </div>
+      )}
       {title && (
         <h2
           style={{
             fontFamily: fi,
-            fontSize: "clamp(28px, 4vw, 42px)",
-            lineHeight: 1.08,
-            letterSpacing: "-0.01em",
+            fontSize: "clamp(29px, 4.2vw, 44px)",
+            lineHeight: 1.06,
+            letterSpacing: "-0.015em",
             color: "var(--moonlight)",
-            margin: eyebrow ? "16px 0 0" : 0,
+            margin: eyebrow ? "16px 0 0" : `${gap}px 0 0`,
             maxWidth: 640,
           }}
         >
@@ -176,26 +218,26 @@ export function Section({
         </h2>
       )}
       {intro && <p style={{ fontFamily: fd, fontSize: 17, lineHeight: 1.65, color: "var(--dusk)", maxWidth: 600, margin: "18px 0 0" }}>{intro}</p>}
-      {children && <div style={{ marginTop: hasHead ? 32 : 0 }}>{children}</div>}
+      {children && <div style={{ marginTop: hasHead ? 32 : gap }}>{children}</div>}
     </section>
   );
 }
 
-/* Soft elevated card — hairline border, big radius, lifts on hover. No nesting. */
+/* Soft elevated card — gradient depth, accent crown-glow, lifts on hover. No nesting. */
 export function Card({ children, accent, style }: { children: ReactNode; accent?: string; style?: CSSProperties }) {
   return (
     <div
       className="access-card"
-      style={{
-        background: "var(--deep-canopy)",
-        border: "1px solid var(--hairline)",
-        borderRadius: "var(--radius-card)",
-        padding: 26,
-        ...(accent ? { borderTop: `2px solid ${accent}` } : null),
-        ...style,
-      }}
+      style={{ padding: 26, ...(accent ? { borderTopColor: `color-mix(in oklab, ${accent} 60%, var(--hairline))` } : null), ...style }}
     >
-      {children}
+      {accent && (
+        <div
+          aria-hidden
+          className="access-card-glow"
+          style={{ background: `radial-gradient(135% 72% at 50% 0%, color-mix(in oklab, ${accent} 13%, transparent), transparent 58%)` }}
+        />
+      )}
+      <div style={{ position: "relative", zIndex: 1 }}>{children}</div>
     </div>
   );
 }
@@ -289,15 +331,21 @@ export function StatStrip({ items }: { items: { label: string; value: string; to
   );
 }
 
-/* Closing call-to-action band — quiet, centered, generous. */
+/* Closing call-to-action band — a final accent glow, centered. */
 export function ClosingCTA({ line, href, label, accent = GOLD }: { line: string; href: string; label: string; accent?: string }) {
   return (
-    <section style={{ marginTop: 88, paddingTop: 56, borderTop: "1px solid var(--hairline)", textAlign: "center" }}>
-      <p style={{ fontFamily: fi, fontSize: "clamp(24px, 3.5vw, 34px)", fontStyle: "italic", color: "var(--moonlight)", margin: "0 auto 26px", maxWidth: 520, lineHeight: 1.25 }}>{line}</p>
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <PrimaryCTA href={href} accent={accent}>
-          {label}
-        </PrimaryCTA>
+    <section style={{ position: "relative", marginTop: 96, paddingTop: 60, borderTop: "1px solid var(--hairline)", textAlign: "center" }}>
+      <div
+        aria-hidden
+        style={{ position: "absolute", top: -10, left: "50%", transform: "translateX(-50%)", width: 460, height: 240, pointerEvents: "none", zIndex: 0, background: `radial-gradient(closest-side, color-mix(in oklab, ${accent} 12%, transparent), transparent)` }}
+      />
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <p style={{ fontFamily: fi, fontSize: "clamp(26px, 3.6vw, 36px)", fontStyle: "italic", color: "var(--moonlight)", margin: "0 auto 26px", maxWidth: 520, lineHeight: 1.25 }}>{line}</p>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <PrimaryCTA href={href} accent={accent}>
+            {label}
+          </PrimaryCTA>
+        </div>
       </div>
     </section>
   );
