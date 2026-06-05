@@ -70,7 +70,7 @@ export default function CameronAccessPage() {
         accent={ACCENT}
         title="Cameron's writing desk"
         lede="An AI operating layer tuned for long-form research writing: encoded judgment, citation checks, and adversarial review — loaded before you write a word."
-        primary={{ href: "/login?redirectTo=/dashboard", label: "Open your dashboard" }}
+        primary={{ href: "/access/cameron/workspace", label: "Enter your workspace" }}
         secondary={{ href: "#start", label: "Start here" }}
       />
       <AnchorNav items={anchors} />
@@ -162,7 +162,7 @@ export default function CameronAccessPage() {
         </CardGrid>
       </Section>
 
-      <ClosingCTA line="Charted, not guessed." href="/login?redirectTo=/dashboard" label="Open your dashboard" accent={ACCENT} />
+      <ClosingCTA line="Charted, not guessed." href="/access/cameron/workspace" label="Enter your workspace" accent={ACCENT} />
     </AccessShell>
   );
 }

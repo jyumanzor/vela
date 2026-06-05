@@ -68,7 +68,7 @@ export default function RishmikaAccessPage() {
         accent={ACCENT}
         title="Rishmika's build studio"
         lede="A front-end operating layer for shipping a real site: design-craft rules, color and layout discipline, and review agents that catch the rough edges before anyone else sees them."
-        primary={{ href: "/login?redirectTo=/dashboard", label: "Create your account" }}
+        primary={{ href: "/access/rishmika/workspace", label: "Enter your workspace" }}
         secondary={{ href: "#start", label: "Start here" }}
       />
       <AnchorNav items={anchors} />
@@ -160,7 +160,7 @@ export default function RishmikaAccessPage() {
         </CardGrid>
       </Section>
 
-      <ClosingCTA line="Charted, not guessed." href="/login?redirectTo=/dashboard" label="Create your account" accent={ACCENT} />
+      <ClosingCTA line="Charted, not guessed." href="/access/rishmika/workspace" label="Enter your workspace" accent={ACCENT} />
     </AccessShell>
   );
 }

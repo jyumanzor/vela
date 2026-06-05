@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Star {
   id: number;
@@ -34,7 +34,16 @@ function generateStars(): Star[] {
 }
 
 export function StarfieldBg() {
-  const [stars] = useState<Star[]>(generateStars);
+  // Generate after mount so server and client agree on an empty starfield first.
+  // Math.random() during render would otherwise produce a hydration mismatch.
+  const [stars, setStars] = useState<Star[]>([]);
+
+  useEffect(() => {
+    // Intentional: defer random star generation to the client so the server and
+    // client first agree on an empty starfield (avoids a hydration mismatch).
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setStars(generateStars());
+  }, []);
 
   return (
     <>
