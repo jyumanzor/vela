@@ -43,3 +43,25 @@ export function checkPassword(slug: string, input: string): boolean {
   if (!expected) return false;
   return safeEqual(input, expected);
 }
+
+/* ── Admin override ──────────────────────────────────────────────
+   One master password (VELA_ADMIN_PASSWORD) opens every client page.
+   It sets a separate, site-wide `vela-admin` cookie so Jenn can review
+   any workspace without juggling each client's password. */
+
+export const adminCookieName = 'vela-admin';
+
+export function adminToken(): string {
+  return createHmac('sha256', SECRET).update('vela:admin').digest('hex');
+}
+
+export function verifyAdmin(token: string | undefined): boolean {
+  if (!token) return false;
+  return safeEqual(token, adminToken());
+}
+
+export function checkAdminPassword(input: string): boolean {
+  const expected = process.env.VELA_ADMIN_PASSWORD;
+  if (!expected) return false;
+  return safeEqual(input, expected);
+}

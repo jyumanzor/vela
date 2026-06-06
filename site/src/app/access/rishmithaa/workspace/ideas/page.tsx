@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
-import { verifyToken, cookieName } from '@/lib/clientAuth';
+import { verifyToken, cookieName, verifyAdmin, adminCookieName } from '@/lib/clientAuth';
 import { SignInScreen } from '@/components/access/SignInScreen';
 import { RishmithaaGraph } from './Graph';
 import { fi, fd, fj } from '@/components/access/primitives';
@@ -16,7 +16,7 @@ const ACCENT = 'var(--ember-copper)';
 export default async function RishmithaaIdeasPage({ searchParams }: { searchParams: Promise<{ e?: string }> }) {
   const sp    = await searchParams;
   const store = await cookies();
-  const authed = verifyToken(SLUG, store.get(cookieName(SLUG))?.value);
+  const authed = verifyToken(SLUG, store.get(cookieName(SLUG))?.value) || verifyAdmin(store.get(adminCookieName)?.value);
 
   if (!authed) {
     return <SignInScreen slug={SLUG} name={NAME} accent={ACCENT} error={sp.e === '1'} />;
