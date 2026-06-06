@@ -188,8 +188,8 @@ export const clients: Client[] = [
     ],
   },
   {
-    slug: 'rishmika',
-    name: 'Rishmika',
+    slug: 'rishmithaa',
+    name: 'Rishmithaa',
     domain: 'first-site',
     domainLabel: 'First Site + Starter Workspace',
     domainKit: 'frontend',
@@ -209,9 +209,9 @@ export const clients: Client[] = [
       'operational-inheritance',
     ],
     setupSteps: [
-      { id: 'open-access-link', label: 'Open access link', description: 'Use the Rishmika-specific Vela access page', completed: true },
-      { id: 'create-account', label: 'Create Vela account', description: 'Sign up with the email Jenn should connect to Rishmika', completed: false },
-      { id: 'link-client-record', label: 'Link account to Rishmika', description: 'Jenn seeds the Rishmika client record after signup', completed: false },
+      { id: 'open-access-link', label: 'Open access link', description: 'Use the Rishmithaa-specific Vela access page', completed: true },
+      { id: 'create-account', label: 'Create Vela account', description: 'Sign up with the email Jenn should connect to Rishmithaa', completed: false },
+      { id: 'link-client-record', label: 'Link account to Rishmithaa', description: 'Jenn seeds the Rishmithaa client record after signup', completed: false },
       { id: 'choose-first-surface', label: 'Choose first surface', description: 'Decide whether the first build is a portfolio, site, or tool', completed: false },
       { id: 'first-session', label: 'Run first session', description: 'Start from the starter workspace and build one page cleanly', completed: false },
     ],

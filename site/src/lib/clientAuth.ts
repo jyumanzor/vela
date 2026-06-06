@@ -1,7 +1,7 @@
 import { createHmac, timingSafeEqual } from "crypto";
 
 /* Simple per-client password gate.
-   - Password lives in an env var per client: e.g. CAMERON_PASSWORD, RISHMIKA_PASSWORD.
+   - Password lives in an env var per client: e.g. CAMERON_PASSWORD, RISHMITHAA_PASSWORD.
    - On success we set a cookie whose value is an HMAC of the slug, signed with
      VELA_AUTH_SECRET. It can't be forged without the secret, but needs no DB.
    This is intentionally light — no accounts, no email, no Supabase. */

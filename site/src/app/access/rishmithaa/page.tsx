@@ -9,8 +9,8 @@ import {
 } from "@/data/access-content";
 
 export const metadata: Metadata = {
-  title: "Rishmika Access | Vela",
-  description: "Rishmika's Vela hub: a front-end kit for shipping a real site, with setup, resources, and a knowledge base.",
+  title: "Rishmithaa Access | Vela",
+  description: "Rishmithaa's Vela hub: a front-end kit for shipping a real site, with setup, resources, and a knowledge base.",
 };
 
 const ACCENT = "var(--ember-copper)";
@@ -60,15 +60,15 @@ const anchors = [
   { label: "How it compares", href: "#compare" },
 ];
 
-export default function RishmikaAccessPage() {
+export default function RishmithaaAccessPage() {
   return (
     <AccessShell>
       <Hero
         eyebrow="Vela · Client Access"
         accent={ACCENT}
-        title="Rishmika's build studio"
+        title="Rishmithaa's build studio"
         lede="A front-end operating layer for shipping a real site: design-craft rules, color and layout discipline, and review agents that catch the rough edges before anyone else sees them."
-        primary={{ href: "/access/rishmika/workspace", label: "Enter your workspace" }}
+        primary={{ href: "/access/rishmithaa/workspace", label: "Enter your workspace" }}
         secondary={{ href: "#start", label: "Start here" }}
       />
       <AnchorNav items={anchors} />
@@ -160,7 +160,7 @@ export default function RishmikaAccessPage() {
         </CardGrid>
       </Section>
 
-      <ClosingCTA line="Charted, not guessed." href="/access/rishmika/workspace" label="Enter your workspace" accent={ACCENT} />
+      <ClosingCTA line="Charted, not guessed." href="/access/rishmithaa/workspace" label="Enter your workspace" accent={ACCENT} />
     </AccessShell>
   );
 }

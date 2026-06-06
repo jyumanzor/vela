@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getClient } from "@/data/clients";
 import { AccessShell, Section, Card, CardGrid, Tags, StatStrip, LinkList, fi, fd, fj } from "./primitives";
 
@@ -96,6 +97,16 @@ export function ClientWorkspace({ slug, accent }: { slug: string; accent: string
           </Card>
         </CardGrid>
       </Section>
+
+      {slug === 'cameron' && (
+        <Section eyebrow="Network" title="Network of ideas" accent={accent} intro="Map your argument — thesis, claims, evidence, and sources as a live constellation.">
+          <Link href="/access/cameron/workspace/ideas" style={{ display: 'inline-flex', alignItems: 'center', gap: 12, padding: '14px 20px', background: 'linear-gradient(180deg,var(--understory),var(--deep-canopy))', border: '1px solid var(--hairline)', borderTopColor: accent, borderRadius: 'var(--radius-card)', textDecoration: 'none' }}>
+            <span aria-hidden style={{ width: 6, height: 6, borderRadius: '50%', background: accent, boxShadow: `0 0 8px ${accent}` }}/>
+            <span style={{ fontFamily: fd, fontSize: 15, fontWeight: 600, color: 'var(--moonlight)' }}>Open ideas network</span>
+            <span style={{ fontFamily: fj, fontSize: 12, color: 'var(--dusk)' }}>→</span>
+          </Link>
+        </Section>
+      )}
 
       <Section eyebrow="Jump to" title="Your resources" accent={accent}>
         <LinkList
