@@ -2,33 +2,52 @@
 
 import { useMemo, useState } from 'react';
 
-/* ── Types ───────────────────────────────────────────────────── */
-export type NodeType = 'thesis' | 'claim' | 'evidence' | 'source' | 'counter';
-export type EdgeType = 'supports' | 'challenges' | 'cites' | 'extends';
+/* ── Types (taxonomy is data-driven, not hardcoded) ───────────── */
+export interface GraphNode { id: string; label: string; type: string; note?: string; }
+export interface GraphEdge { from: string; to: string; type: string; }
+export interface GraphData { rootId: string; nodes: GraphNode[]; edges: GraphEdge[]; }
 
-export interface GraphNode { id: string; label: string; type: NodeType; note?: string; }
-export interface GraphEdge { from: string; to: string; type: EdgeType; }
-export interface GraphData { nodes: GraphNode[]; edges: GraphEdge[]; }
+interface NodeStyle { color: string; r: number; label: string; always?: boolean; }
+interface EdgeStyle { color: string; dash?: string; }
 
-/* ── Visual config ───────────────────────────────────────────── */
-const NODE_COLOR: Record<NodeType, string> = {
-  thesis: '#D4A843', claim: '#C8D4A8', evidence: '#8FA797', source: '#566B5C', counter: '#C87B56',
+/* Shared style registry — covers every client's taxonomy. A page's legend
+   only shows the types that actually appear in its data. */
+const NODE_STYLE: Record<string, NodeStyle> = {
+  // argument atlas (Cameron)
+  thesis:    { color: '#D4A843', r: 26, label: 'Thesis', always: true },
+  claim:     { color: '#C8D4A8', r: 18, label: 'Claim', always: true },
+  evidence:  { color: '#8FA797', r: 13, label: 'Evidence' },
+  source:    { color: '#566B5C', r: 11, label: 'Source' },
+  counter:   { color: '#C87B56', r: 15, label: 'Counter', always: true },
+  // site / design atlas (Rishmithaa)
+  site:      { color: '#C87B56', r: 26, label: 'Site', always: true },
+  page:      { color: '#C8D4A8', r: 18, label: 'Page', always: true },
+  component: { color: '#8FA797', r: 13, label: 'Component' },
+  token:     { color: '#D4A843', r: 11, label: 'Token' },
+  content:   { color: '#566B5C', r: 11, label: 'Content' },
 };
-const NODE_R: Record<NodeType, number> = { thesis: 26, claim: 18, evidence: 13, source: 11, counter: 15 };
-const EDGE_RGBA: Record<EdgeType, string> = {
-  supports: 'rgba(200,212,168,0.5)', challenges: 'rgba(200,123,86,0.6)',
-  cites: 'rgba(86,107,92,0.6)', extends: 'rgba(143,167,151,0.5)',
+
+const EDGE_STYLE: Record<string, EdgeStyle> = {
+  supports:   { color: 'rgba(200,212,168,0.5)' },
+  challenges: { color: 'rgba(200,123,86,0.6)', dash: '7 5' },
+  cites:      { color: 'rgba(86,107,92,0.6)', dash: '2 4' },
+  extends:    { color: 'rgba(143,167,151,0.5)', dash: '9 4' },
+  contains:   { color: 'rgba(200,212,168,0.5)' },
+  uses:       { color: 'rgba(212,168,67,0.55)', dash: '2 4' },
+  links:      { color: 'rgba(143,167,151,0.5)', dash: '9 4' },
+  feeds:      { color: 'rgba(86,107,92,0.6)', dash: '7 5' },
 };
-const EDGE_DASH: Record<EdgeType, string | undefined> = {
-  supports: undefined, challenges: '7 5', cites: '2 4', extends: '9 4',
-};
+
+const FALLBACK_NODE: NodeStyle = { color: '#8FA797', r: 13, label: 'Node' };
+const FALLBACK_EDGE: EdgeStyle = { color: 'rgba(143,167,151,0.5)' };
+const ns = (t: string) => NODE_STYLE[t] ?? FALLBACK_NODE;
+const es = (t: string) => EDGE_STYLE[t] ?? FALLBACK_EDGE;
 
 const VW = 1200, VH = 820;
 
-/* ── Deterministic radial layout ──────────────────────────────
-   Thesis at the centre, claims + counter on the first ring, then a
-   breadth-first fan outward (evidence, then sources). Pure function run
-   during render: identical on server and client, no effects, no physics. */
+/* ── Deterministic radial layout via BFS from the root ─────────
+   Pure function run during render: identical on server and client, no effects,
+   no measurement, no hydration mismatch. Works for any rooted graph. */
 interface Pos extends GraphNode { x: number; y: number; }
 
 function computeLayout(data: GraphData): Pos[] {
@@ -41,20 +60,20 @@ function computeLayout(data: GraphData): Pos[] {
   data.nodes.forEach(n => { adj[n.id] = []; });
   data.edges.forEach(e => { adj[e.from]?.push(e.to); adj[e.to]?.push(e.from); });
 
-  const thesis = data.nodes.find(n => n.type === 'thesis') ?? data.nodes[0];
-  pos[thesis.id] = { x: cx, y: cy };
-  angleOf[thesis.id] = -Math.PI / 2;
+  const root = data.nodes.find(n => n.id === data.rootId) ?? data.nodes[0];
+  pos[root.id] = { x: cx, y: cy };
+  angleOf[root.id] = -Math.PI / 2;
 
-  // Ring 1: claims + counter, evenly spaced spokes off the thesis
-  const spokes = data.nodes.filter(n => n.id !== thesis.id && (n.type === 'claim' || n.type === 'counter'));
-  spokes.forEach((s, i) => {
-    const a = -Math.PI / 2 + (i / Math.max(1, spokes.length)) * 2 * Math.PI;
-    pos[s.id] = { x: cx + R[1] * Math.cos(a), y: cy + R[1] * Math.sin(a) };
-    angleOf[s.id] = a;
+  // Ring 1: root's direct neighbours, evenly spaced
+  const ring1 = [...new Set(adj[root.id])].filter(id => id !== root.id);
+  ring1.forEach((id, i) => {
+    const a = -Math.PI / 2 + (i / Math.max(1, ring1.length)) * 2 * Math.PI;
+    pos[id] = { x: cx + R[1] * Math.cos(a), y: cy + R[1] * Math.sin(a) };
+    angleOf[id] = a;
   });
 
-  // BFS outward for the remaining tiers (evidence, sources)
-  let frontier = spokes.map(s => s.id);
+  // Outer rings: BFS, each child placed in an arc around its parent's angle
+  let frontier = ring1;
   for (let depth = 2; depth < R.length && frontier.length; depth++) {
     const next: string[] = [];
     for (const pid of frontier) {
@@ -70,7 +89,6 @@ function computeLayout(data: GraphData): Pos[] {
     frontier = next;
   }
 
-  // Anything still unplaced → spread on the outer ring
   const unplaced = data.nodes.filter(n => pos[n.id] === undefined);
   unplaced.forEach((n, i) => {
     const a = (i / Math.max(1, unplaced.length)) * 2 * Math.PI;
@@ -106,7 +124,7 @@ export function NetworkGraph({ data, accent = '#D4A843' }: { data: GraphData; ac
 
   const activeId = selectedId ?? hoveredId;
   const activeNode = activeId ? data.nodes.find(n => n.id === activeId) ?? null : null;
-  const activeCol = activeNode ? NODE_COLOR[activeNode.type] : accent;
+  const activeCol = activeNode ? ns(activeNode.type).color : accent;
   const connectedIds = new Set<string>();
   if (activeId) {
     for (const e of data.edges) {
@@ -114,6 +132,10 @@ export function NetworkGraph({ data, accent = '#D4A843' }: { data: GraphData; ac
       if (e.to === activeId) connectedIds.add(e.from);
     }
   }
+
+  // Legend shows only the node types present in this graph, in registry order
+  const present = new Set(data.nodes.map(n => n.type));
+  const legend = Object.entries(NODE_STYLE).filter(([t]) => present.has(t));
 
   return (
     <div style={{ display: 'flex', height: '100%' }}>
@@ -126,39 +148,38 @@ export function NetworkGraph({ data, accent = '#D4A843' }: { data: GraphData; ac
             </filter>
           </defs>
 
-          {/* edges */}
           {data.edges.map((e, i) => {
             const a = nodes[idx[e.from]], b = nodes[idx[e.to]];
             if (!a || !b) return null;
             const hi = e.from === activeId || e.to === activeId;
             const dim = activeId && !hi;
+            const st = es(e.type);
             return (
               <line key={i} x1={a.x} y1={a.y} x2={b.x} y2={b.y}
-                stroke={EDGE_RGBA[e.type]} strokeWidth={hi ? 2 : 1.2}
-                strokeOpacity={dim ? 0.12 : hi ? 1 : 0.6} strokeDasharray={EDGE_DASH[e.type]} />
+                stroke={st.color} strokeWidth={hi ? 2 : 1.2}
+                strokeOpacity={dim ? 0.12 : hi ? 1 : 0.6} strokeDasharray={st.dash} />
             );
           })}
 
-          {/* nodes */}
           {nodes.map((n) => {
-            const col = NODE_COLOR[n.type], r = NODE_R[n.type];
+            const st = ns(n.type);
             const sel = n.id === selectedId, hov = n.id === hoveredId;
             const related = n.id === activeId || connectedIds.has(n.id);
             const dim = activeId && !related;
-            const showLabel = hov || sel || related || n.type === 'thesis' || n.type === 'claim';
+            const showLabel = hov || sel || related || st.always;
             return (
               <g key={n.id}
                 onMouseEnter={() => setHoveredId(n.id)}
                 onMouseLeave={() => setHoveredId(h => (h === n.id ? null : h))}
                 onClick={() => setSelectedId(s => (s === n.id ? null : n.id))}
                 style={{ cursor: 'pointer', opacity: dim ? 0.4 : 1, transition: 'opacity 0.2s' }}>
-                {sel && <circle cx={n.x} cy={n.y} r={r + 7} fill="none" stroke={col} strokeOpacity={0.5} />}
-                <circle cx={n.x} cy={n.y} r={r} fill={col} fillOpacity={sel || hov ? 1 : 0.88}
+                {sel && <circle cx={n.x} cy={n.y} r={st.r + 7} fill="none" stroke={st.color} strokeOpacity={0.5} />}
+                <circle cx={n.x} cy={n.y} r={st.r} fill={st.color} fillOpacity={sel || hov ? 1 : 0.88}
                   filter={sel || hov ? 'url(#ng-glow)' : undefined} />
                 {showLabel && wrapLabel(n.label).map((line, li) => (
-                  <text key={li} x={n.x} y={n.y + r + 16 + li * 15} textAnchor="middle"
-                    fill={n.type === 'thesis' ? '#F0EDE6' : '#8FA797'}
-                    fontSize={n.type === 'thesis' ? 15 : 12.5}
+                  <text key={li} x={n.x} y={n.y + st.r + 16 + li * 15} textAnchor="middle"
+                    fill={st.always && st.r >= 18 ? '#F0EDE6' : '#8FA797'}
+                    fontSize={st.r >= 24 ? 15 : 12.5}
                     fontFamily="var(--font-dm-sans),sans-serif" style={{ pointerEvents: 'none' }}>{line}</text>
                 ))}
               </g>
@@ -168,10 +189,10 @@ export function NetworkGraph({ data, accent = '#D4A843' }: { data: GraphData; ac
 
         {/* Legend */}
         <div style={{ position: 'absolute', bottom: 16, left: 16, display: 'flex', flexDirection: 'column', gap: 7, pointerEvents: 'none' }}>
-          {(Object.entries(NODE_COLOR) as [NodeType, string][]).map(([type, col]) => (
-            <div key={type} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ width: 7, height: 7, borderRadius: '50%', background: col }} />
-              <span style={{ fontFamily: 'var(--font-jetbrains),monospace', fontSize: 10, color: 'var(--constellation)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{type}</span>
+          {legend.map(([t, st]) => (
+            <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: st.color }} />
+              <span style={{ fontFamily: 'var(--font-jetbrains),monospace', fontSize: 10, color: 'var(--constellation)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{st.label}</span>
             </div>
           ))}
         </div>
@@ -186,7 +207,7 @@ export function NetworkGraph({ data, accent = '#D4A843' }: { data: GraphData; ac
           <div style={{ width: 268, padding: '28px 22px', height: '100%', boxSizing: 'border-box', overflowY: 'auto' }}>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
               <span style={{ width: 8, height: 8, borderRadius: '50%', background: activeCol, boxShadow: `0 0 8px ${activeCol}` }} />
-              <span style={{ fontFamily: 'var(--font-jetbrains),monospace', fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--constellation)' }}>{activeNode.type}</span>
+              <span style={{ fontFamily: 'var(--font-jetbrains),monospace', fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--constellation)' }}>{ns(activeNode.type).label}</span>
             </div>
             <p style={{ fontFamily: 'var(--font-instrument),serif', fontSize: 21, lineHeight: 1.2, color: 'var(--moonlight)', margin: '0 0 14px' }}>{activeNode.label}</p>
             {activeNode.note && <p style={{ fontFamily: 'var(--font-dm-sans),sans-serif', fontSize: 13.5, lineHeight: 1.65, color: 'var(--dusk)', margin: 0 }}>{activeNode.note}</p>}
@@ -198,7 +219,7 @@ export function NetworkGraph({ data, accent = '#D4A843' }: { data: GraphData; ac
                 if (!other) return null;
                 return (
                   <button key={otherId + e.type} onClick={() => setSelectedId(otherId)}
-                    style={{ display: 'flex', gap: 10, alignItems: 'baseline', padding: '9px 0', borderTop: '1px solid var(--hairline)', cursor: 'pointer', background: 'none', border: 'none', borderTopStyle: 'solid', borderTopWidth: 1, borderTopColor: 'var(--hairline)', width: '100%', textAlign: 'left' }}>
+                    style={{ display: 'flex', gap: 10, alignItems: 'baseline', padding: '9px 0', cursor: 'pointer', background: 'none', border: 'none', borderTop: '1px solid var(--hairline)', width: '100%', textAlign: 'left' }}>
                     <span style={{ fontFamily: 'var(--font-jetbrains),monospace', fontSize: 10, color: 'var(--dusk)', flexShrink: 0 }}>{e.from === activeNode.id ? '→' : '←'} {e.type}</span>
                     <span style={{ fontFamily: 'var(--font-dm-sans),sans-serif', fontSize: 13, color: 'var(--dusk)', lineHeight: 1.4 }}>{other.label}</span>
                   </button>

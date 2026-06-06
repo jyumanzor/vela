@@ -5,6 +5,7 @@ import type { GraphData } from '@/components/access/NetworkGraph';
    with a counter-argument to test the central position.
    Cameron can drag nodes, click to read notes, and use this as his live outline. */
 export const cameronGraph: GraphData = {
+  rootId: 'thesis',
   nodes: [
     {
       id: 'thesis',
