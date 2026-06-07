@@ -10,6 +10,8 @@ const links = [
   { href: '/rules', label: 'Rules' },
   { href: '/tools', label: 'Tools' },
   { href: '/explainers', label: 'Explainers' },
+  { href: '/showcase', label: 'Showcase' },
+  { href: '/downloads', label: 'Downloads' },
   { href: '/blog', label: 'Blog' },
 ];
 

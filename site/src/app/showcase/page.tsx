@@ -10,7 +10,7 @@ const projects = [
     stack: ["Next.js", "React", "Tailwind", "Supabase"],
     desc: "Personal site and digital workspace. Editorial design system with data-driven musings, SVG visualizations, an IO command center, and a 39-chapter Claude Code guide.",
     features: ["Interactive SVG charts with hover states and annotations", "Graza-inspired warm palette with editorial typography", "IO dashboard for personal infrastructure (health, running, music)", "Published writing with research-grade citations"],
-    url: "https://jennumanzor.com", accent: "var(--lime)",
+    url: "https://jennumanzor.com/agentic-builder-guide", cta: "Read the Agentic AI guide", accent: "var(--lime)",
     pv: { bg: "#FAFAF7", tx: "#4A5D3A", ac: "#F2C94C", dom: "jennumanzor.com" },
   },
   {
@@ -18,7 +18,7 @@ const projects = [
     stack: ["Next.js", "TypeScript", "Puppeteer", "PptxGenJS"],
     desc: "Enterprise training platform for FTI Consulting\u2019s economic consulting practice. Interactive slide decks, AI guidelines, compliance tools, and a 28-chapter Claude Code implementation guide.",
     features: ["Interactive HTML training decks with PDF/PPTX export", "AI Hub with model comparison and tool evaluation", "Compliance assessment tools", "Speaker guide generation from deck data"],
-    url: "https://ldrhub.vercel.app", accent: "var(--star-gold)",
+    url: "https://jennumanzor.com/how-to-claude-code", cta: "Read the public Claude guide", accent: "var(--star-gold)",
     pv: { bg: "#003763", tx: "#FFFFFF", ac: "#00C9D4", dom: "ldrhub.vercel.app" },
   },
   {
@@ -26,7 +26,7 @@ const projects = [
     stack: ["Next.js", "Supabase Auth", "Anthropic API"],
     desc: "The platform you\u2019re looking at. Portable AI methodology, background agents, client sandboxes. Built to onboard people to Claude Code with encoded judgment from real project failures.",
     features: ["5 background agents (Citation Checker, Daubert Verification, Devil\u2019s Advocate)", "Portable rules library with 15 skills", "Client sandboxes with personalized dashboards", "Forest at Night design system"],
-    url: "https://vela-io.vercel.app", accent: "var(--ember-copper)",
+    url: "/downloads", cta: "Email a starter kit", accent: "var(--ember-copper)",
     pv: { bg: "#141E18", tx: "#F0EDE6", ac: "#D4A843", dom: "vela-io.vercel.app" },
   },
   {
@@ -34,7 +34,7 @@ const projects = [
     stack: ["Next.js", "Tailwind", "Instagram API"],
     desc: "Tattoo studio brand build and portfolio site. Clean grid layout, Instagram integration, and a custom pricing tool for client consultations.",
     features: ["Portfolio grid with category filtering", "Custom pricing/consultation tool", "Brand system from scratch (colors, typography, voice)", "Responsive mobile-first design"],
-    url: "https://doldol.studio", accent: "var(--nebula-amber)",
+    url: "https://doldolstudio.vercel.app", cta: "View live site", accent: "var(--nebula-amber)",
     pv: { bg: "#F5F0EB", tx: "#2C2C2C", ac: "#E8A849", dom: "doldol.studio" },
   },
 ];
@@ -87,10 +87,18 @@ export default function ShowcasePage() {
       {/* Hero */}
       <section style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", paddingTop: 140, paddingBottom: 40 }}>
         <p style={{ fontFamily: fj, fontSize: 11, letterSpacing: "0.15em", color: "var(--constellation)", textTransform: "uppercase", marginBottom: 16 }}>Portfolio</p>
-        <h1 style={{ fontFamily: fi, fontSize: "clamp(48px, 8vw, 80px)", color: "var(--moonlight)", lineHeight: 1.05 }}>Built with intention</h1>
+        <h1 style={{ fontFamily: fi, fontSize: "clamp(48px, 8vw, 80px)", color: "var(--moonlight)", lineHeight: 1.05 }}>Showcase</h1>
         <p style={{ fontFamily: fd, fontSize: 16, color: "var(--dusk)", marginTop: 16, maxWidth: 520, lineHeight: 1.6 }}>
-          Full-stack web applications, agent platforms, and brand systems. Each project designed to feel crafted, not generated.
+          Public guide, starter kits, and selected builds.
         </p>
+        <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginTop: 28 }}>
+          <a href="https://jennumanzor.com/agentic-builder-guide" target="_blank" rel="noreferrer" style={{ display: "inline-block", padding: "11px 24px", background: "var(--star-gold)", color: "var(--forest-floor)", fontFamily: fd, fontSize: 14, fontWeight: 600, borderRadius: 8, textDecoration: "none" }}>
+            Agentic AI Guide
+          </a>
+          <a href="/downloads" style={{ display: "inline-block", padding: "11px 24px", border: "1px solid var(--ember-copper)", color: "var(--ember-copper)", fontFamily: fd, fontSize: 14, fontWeight: 600, borderRadius: 8, textDecoration: "none" }}>
+            Email starter kit
+          </a>
+        </div>
       </section>
 
       <ConstellationDivider brightIndices={[1, 3]} />
@@ -115,8 +123,8 @@ export default function ShowcasePage() {
                     </li>
                   ))}
                 </ul>
-                <a href={p.url} target="_blank" rel="noopener noreferrer" style={{ fontFamily: fd, fontSize: 14, fontWeight: 600, color: p.accent, textDecoration: "none" }}>
-                  View Live {"\u2192"}
+                <a href={p.url} target={p.url.startsWith("http") ? "_blank" : undefined} rel={p.url.startsWith("http") ? "noopener noreferrer" : undefined} style={{ fontFamily: fd, fontSize: 14, fontWeight: 600, color: p.accent, textDecoration: "none" }}>
+                  {p.cta} {"\u2192"}
                 </a>
               </div>
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -147,8 +155,8 @@ export default function ShowcasePage() {
 
       {/* CTA */}
       <section style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", paddingTop: 40, paddingBottom: 120 }}>
-        <h2 style={{ fontFamily: fi, fontSize: "clamp(24px, 3vw, 32px)", color: "var(--moonlight)", marginBottom: 12 }}>Interested in working together?</h2>
-        <a href="mailto:jenn@jennumanzor.com" style={{ display: "inline-block", padding: "12px 32px", background: "var(--star-gold)", color: "var(--forest-floor)", fontFamily: fd, fontSize: 15, fontWeight: 600, borderRadius: 8, textDecoration: "none" }}>Get in Touch</a>
+        <h2 style={{ fontFamily: fi, fontSize: "clamp(24px, 3vw, 32px)", color: "var(--moonlight)", marginBottom: 12 }}>Contact</h2>
+        <a href="mailto:jenn@jennumanzor.com" style={{ display: "inline-block", padding: "12px 32px", background: "var(--star-gold)", color: "var(--forest-floor)", fontFamily: fd, fontSize: 15, fontWeight: 600, borderRadius: 8, textDecoration: "none" }}>Email Jenn</a>
       </section>
 
       <style>{`

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getClient } from "@/data/clients";
+import { getClientDownloadKit } from "@/data/client-downloads";
 import { AccessShell, Section, Card, CardGrid, Tags, StatStrip, LinkList, fi, fd, fj } from "./primitives";
 
 function humanize(id: string): string {
@@ -26,6 +27,7 @@ export function ClientWorkspace({ slug, accent }: { slug: string; accent: string
   const project = client.projects?.[0];
   const skills = client.loadedSkillIds.map(humanize);
   const agents = client.agents.map(humanize);
+  const downloadKit = getClientDownloadKit(slug);
 
   return (
     <AccessShell>
@@ -98,10 +100,30 @@ export function ClientWorkspace({ slug, accent }: { slug: string; accent: string
         </CardGrid>
       </Section>
 
+      {downloadKit && (
+        <Section
+          eyebrow="Downloads"
+          title="Actual markdown files"
+          intro="Open the .md library to copy or download the starter files, skills, and reviewer agents."
+          accent={accent}
+        >
+          <Card accent={accent}>
+            <LinkList
+              items={[
+                { label: "Open .md download library", href: `/access/${slug}/downloads`, note: "Every file displayed as readable markdown with copy and download actions." },
+                { label: "Download CLAUDE.md", href: `/kits/${slug}/CLAUDE.md`, note: "The project root instruction file." },
+                { label: "Download first skill", href: downloadKit.groups.find((group) => group.label === "Skills")?.files[0]?.href ?? `/access/${slug}/downloads`, note: "Operating rule for the first pass." },
+                { label: "Download first agent", href: downloadKit.groups.find((group) => group.label === "Agents")?.files[0]?.href ?? `/access/${slug}/downloads`, note: "A reviewer prompt ready to run or adapt." },
+              ]}
+            />
+          </Card>
+        </Section>
+      )}
+
       {(() => {
         const atlas: Record<string, { eyebrow: string; title: string; intro: string; label: string }> = {
-          cameron: { eyebrow: 'Network', title: 'Network of ideas', intro: 'Map your argument — thesis, claims, evidence, and sources as a live constellation.', label: 'Open ideas network' },
-          rishmithaa: { eyebrow: 'Atlas', title: 'Site atlas', intro: 'Map your site — pages, components, and the design system as a live constellation.', label: 'Open site atlas' },
+          cameron: { eyebrow: 'Network', title: 'Network of ideas', intro: 'Map the thesis, claims, evidence, and sources.', label: 'Open ideas network' },
+          rishmithaa: { eyebrow: 'Atlas', title: 'Site atlas', intro: 'Map pages, components, and design-system decisions.', label: 'Open site atlas' },
         };
         const a = atlas[slug];
         if (!a) return null;

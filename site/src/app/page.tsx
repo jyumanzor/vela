@@ -67,14 +67,25 @@ export default function Home() {
           </span>
         </h1>
         <p style={{ fontFamily: fi, fontSize: "clamp(18px, 2.5vw, 24px)", color: "var(--moonlight)", marginTop: 20, maxWidth: 560, lineHeight: 1.4 }}>
-          Portable rules. Background agents. Your own constellation.
+          Portable AI rules, reviewer agents, and client workspaces.
         </p>
         <p style={{ fontFamily: fd, fontSize: 15, color: "var(--dusk)", marginTop: 12 }}>
-          A system for building with AI &mdash; charted, not guessed.
+          Public guide, showcase, and downloadable `.md` starter kits.
         </p>
-        <Link href="/rules" style={{ display: "inline-block", marginTop: 36, padding: "12px 32px", background: "var(--star-gold)", color: "var(--forest-floor)", fontFamily: fd, fontSize: 15, fontWeight: 600, borderRadius: 8, textDecoration: "none", letterSpacing: "0.01em" }}>
-          Explore the Rules
-        </Link>
+        <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginTop: 36 }}>
+          <Link href="/showcase" style={{ display: "inline-block", padding: "12px 28px", background: "var(--star-gold)", color: "var(--forest-floor)", fontFamily: fd, fontSize: 15, fontWeight: 600, borderRadius: 8, textDecoration: "none", letterSpacing: "0.01em" }}>
+            Showcase
+          </Link>
+          <a href="https://jennumanzor.com/agentic-builder-guide" target="_blank" rel="noreferrer" style={{ display: "inline-block", padding: "12px 28px", border: "1px solid var(--star-gold)", color: "var(--star-gold)", fontFamily: fd, fontSize: 15, fontWeight: 600, borderRadius: 8, textDecoration: "none", letterSpacing: "0.01em" }}>
+            Agentic AI Guide
+          </a>
+          <Link href="/downloads" style={{ display: "inline-block", padding: "12px 28px", border: "1px solid var(--ember-copper)", color: "var(--ember-copper)", fontFamily: fd, fontSize: 15, fontWeight: 600, borderRadius: 8, textDecoration: "none", letterSpacing: "0.01em" }}>
+            Email Starter Kit
+          </Link>
+          <Link href="/rules" style={{ display: "inline-block", padding: "12px 28px", border: "1px solid var(--stardust)", color: "var(--dusk)", fontFamily: fd, fontSize: 15, fontWeight: 600, borderRadius: 8, textDecoration: "none", letterSpacing: "0.01em" }}>
+            Rules Library
+          </Link>
+        </div>
       </section>
 
       <ConstellationDivider brightIndices={[1, 3]} />
@@ -96,7 +107,7 @@ export default function Home() {
       <section style={{ paddingBottom: 48 }}>
         <SectionLabel>How It Works</SectionLabel>
         <h2 style={{ fontFamily: fi, fontSize: "clamp(28px, 4vw, 40px)", color: "var(--moonlight)", marginBottom: 40, lineHeight: 1.2 }}>
-          From zero to methodology in one session
+          Starter-kit flow
         </h2>
         <div style={{ display: "flex", flexDirection: "column", gap: 32, paddingLeft: 20 }}>
           {steps.map((s, i) => (
@@ -144,7 +155,7 @@ export default function Home() {
           Software 2.0 for knowledge workers
         </h2>
         <p style={{ fontFamily: fd, fontSize: 15, color: "var(--dusk)", lineHeight: 1.7, maxWidth: 560, marginBottom: 40 }}>
-          The models are interchangeable. The architecture isn&rsquo;t. Vela is the operating layer &mdash; skills are your training data, CLAUDE.md is your program, agents are your runtime, and the validation loop is your test suite. When the models improve, your system improves with them. When you switch models, your methodology stays.
+          Vela keeps the rules outside the model. Skills are training data, CLAUDE.md is the program, agents are runtime checks, and the validation loop is the test suite.
         </p>
         <svg viewBox="0 0 640 120" style={{ width: "100%", maxWidth: 600 }} aria-label="Architecture flow: Skills to Build Log with operational inheritance feedback loop">
           {diagramNodes.map((n) => (

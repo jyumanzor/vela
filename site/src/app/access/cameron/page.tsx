@@ -25,6 +25,7 @@ const skills = [
   "Operating Loop", "Build-Log Protocol", "Workspace Hygiene", "Testifying Expert",
   "Cross-Model Review", "Plausible-but-Wrong Numbers", "Silent Data Drop", "AI Data Smoothing",
   "Multi-Round Editing", "Word-Document Review", "Holistic Review", "Testing AI Output",
+  "Build-Time Enforcement", "Claude Handoff Notes", "Operational Inheritance",
 ];
 
 const agents = ["Citation Checker", "Daubert Verification", "Devil's Advocate", "Holistic Reviewer", "Argument Reviewer"];
@@ -55,6 +56,7 @@ const steps = [
 
 const anchors = [
   { label: "Start here", href: "#start" },
+  { label: "Downloads", href: "#downloads" },
   { label: "Your kit", href: "#kit" },
   { label: "For your work", href: "#work" },
   { label: "Setup", href: "#setup" },
@@ -70,8 +72,8 @@ export default function CameronAccessPage() {
         accent={ACCENT}
         title="Cameron's writing desk"
         lede="An AI operating layer tuned for long-form research writing: encoded judgment, citation checks, and adversarial review — loaded before you write a word."
-        primary={{ href: "/access/cameron/workspace", label: "Enter your workspace" }}
-        secondary={{ href: "#start", label: "Start here" }}
+        primary={{ href: "/downloads?kit=cameron", label: "Email me the .md kit" }}
+        secondary={{ href: "/access/cameron/workspace", label: "Enter workspace" }}
       />
       <AnchorNav items={anchors} />
 
@@ -79,22 +81,43 @@ export default function CameronAccessPage() {
         <StatStrip items={status} />
       </Section>
 
+      <Section id="downloads" eyebrow="Downloads" title="The actual markdown files." accent={ACCENT}
+        intro="Open, copy, or download the starter files, skills, and reviewer-agent prompts. These are literal .md files, not just labels on a page.">
+        <Card accent={ACCENT}>
+          <LinkList
+            items={[
+              { label: "Email Cameron's .md kit", href: "/downloads?kit=cameron", note: "Enter an email address and send the starter files, skills, and agent prompts." },
+              { label: "Preview Cameron's .md library", href: "/access/cameron/downloads", note: "Readable markdown with copy, download, and raw-file actions." },
+              { label: "Download CLAUDE.md", href: "/kits/cameron/CLAUDE.md", note: "The root instruction file for the white-paper workspace." },
+              { label: "Download Operating Loop skill", href: "/kits/cameron/skills/operating-loop.md", note: "The first skill to copy into the skills folder." },
+              { label: "Download Citation Checker agent", href: "/kits/cameron/agents/citation-checker.md", note: "A reviewer prompt Cameron can run against a draft." },
+            ]}
+          />
+        </Card>
+      </Section>
+
       <Section id="start" eyebrow="When you're starting" title="Read these first." accent={ACCENT}
         intro="The shortest path from zero to a working first session. Five pages, in order.">
         <LinkList items={claudeCodeStartHere} />
       </Section>
 
-      <Section id="kit" eyebrow="What's loaded" title="Twelve skills, five reviewers, deterministic hooks." accent={ACCENT}
+      <Section id="kit" eyebrow="What's loaded" title="Fifteen skills, five reviewers, deterministic hooks." accent={ACCENT}
         intro="Every session starts with the same encoded judgment — the lessons from real projects, already in context so you never re-explain them.">
         <CardGrid min={250}>
           <Card accent={ACCENT}>
             <Tags label="Skills" items={skills} />
+            <div style={{ marginTop: 18 }}>
+              <GhostCTA href="/access/cameron/downloads" accent={ACCENT} external={false}>Open skill .md files</GhostCTA>
+            </div>
           </Card>
           <Card>
             <Tags label="Background reviewers" items={agents} />
             <p style={{ fontFamily: fd, fontSize: 14, lineHeight: 1.6, color: "var(--dusk)", margin: "18px 0 0" }}>
               Upload a draft and these run in the background — checking citations, testing the argument, and flagging numbers that were never verified.
             </p>
+            <div style={{ marginTop: 18 }}>
+              <GhostCTA href="/access/cameron/downloads" accent={ACCENT} external={false}>Open agent .md files</GhostCTA>
+            </div>
           </Card>
           <Card>
             <p style={{ fontFamily: fd, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--constellation)", margin: "0 0 13px" }}>Hooks</p>
@@ -162,7 +185,7 @@ export default function CameronAccessPage() {
         </CardGrid>
       </Section>
 
-      <ClosingCTA line="Charted, not guessed." href="/access/cameron/workspace" label="Enter your workspace" accent={ACCENT} />
+      <ClosingCTA line="Markdown files ready." href="/downloads?kit=cameron" label="Email the .md kit" accent={ACCENT} />
     </AccessShell>
   );
 }
