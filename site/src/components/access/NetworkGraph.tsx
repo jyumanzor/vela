@@ -122,8 +122,10 @@ export function NetworkGraph({ data, accent = '#D4A843' }: { data: GraphData; ac
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
+  // traceId drives the hover/select highlight in the graph (responds to hover).
+  // The detail panel opens on CLICK only (selectedId), so it never flaps on hover.
   const activeId = selectedId ?? hoveredId;
-  const activeNode = activeId ? data.nodes.find(n => n.id === activeId) ?? null : null;
+  const activeNode = selectedId ? data.nodes.find(n => n.id === selectedId) ?? null : null;
   const activeCol = activeNode ? ns(activeNode.type).color : accent;
   const connectedIds = new Set<string>();
   if (activeId) {
@@ -138,8 +140,8 @@ export function NetworkGraph({ data, accent = '#D4A843' }: { data: GraphData; ac
   const legend = Object.entries(NODE_STYLE).filter(([t]) => present.has(t));
 
   return (
-    <div style={{ display: 'flex', height: '100%' }}>
-      <div style={{ flex: 1, position: 'relative', overflow: 'hidden', minWidth: 0 }}>
+    <div style={{ position: 'relative', height: '100%', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
         <svg viewBox={`0 0 ${VW} ${VH}`} width="100%" height="100%" preserveAspectRatio="xMidYMid meet" style={{ display: 'block' }}>
           <defs>
             <filter id="ng-glow" x="-60%" y="-60%" width="220%" height="220%">
@@ -201,10 +203,11 @@ export function NetworkGraph({ data, accent = '#D4A843' }: { data: GraphData; ac
         </div>
       </div>
 
-      {/* Detail panel */}
-      <div style={{ width: activeNode ? 268 : 0, flexShrink: 0, overflow: 'hidden', borderLeft: activeNode ? '1px solid var(--hairline)' : 'none', transition: 'width 0.3s cubic-bezier(0.22,1,0.36,1)' }}>
+      {/* Detail panel — absolute overlay; slides over the graph so the SVG never resizes/rescales */}
+      <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: 268, background: 'linear-gradient(180deg,var(--understory),var(--deep-canopy))', borderLeft: '1px solid var(--hairline)', boxShadow: activeNode ? '-14px 0 36px rgba(0,0,0,0.3)' : 'none', transform: activeNode ? 'translateX(0)' : 'translateX(100%)', transition: 'transform 0.3s cubic-bezier(0.22,1,0.36,1)', overflow: 'hidden' }}>
         {activeNode && (
           <div style={{ width: 268, padding: '28px 22px', height: '100%', boxSizing: 'border-box', overflowY: 'auto' }}>
+            <button onClick={() => setSelectedId(null)} aria-label="Close" style={{ position: 'absolute', top: 16, right: 16, background: 'none', border: 'none', color: 'var(--constellation)', fontFamily: 'var(--font-jetbrains),monospace', fontSize: 16, cursor: 'pointer', lineHeight: 1 }}>✕</button>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
               <span style={{ width: 8, height: 8, borderRadius: '50%', background: activeCol, boxShadow: `0 0 8px ${activeCol}` }} />
               <span style={{ fontFamily: 'var(--font-jetbrains),monospace', fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--constellation)' }}>{ns(activeNode.type).label}</span>
