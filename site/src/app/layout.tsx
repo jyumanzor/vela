@@ -26,7 +26,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "Vela",
-  description: "Charted, not guessed.",
+  description: "AI rules, reviewer agents, and client workspaces.",
 };
 
 export default function RootLayout({

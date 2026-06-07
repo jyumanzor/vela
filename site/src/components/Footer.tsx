@@ -30,7 +30,7 @@ export function Footer() {
           color: 'var(--dusk)',
         }}
       >
-        Charted, not guessed.
+        Rules, agents, and workspaces.
       </span>
     </footer>
   );
