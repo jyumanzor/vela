@@ -25,7 +25,7 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ slug: stri
     // site-wide cookie so the admin can open any client page
     res.cookies.set(adminCookieName, adminToken(), { httpOnly: true, secure, sameSite: "lax", path: "/", maxAge: COOKIE_MAX_AGE });
   } else {
-    res.cookies.set(cookieName(slug), tokenFor(slug), { httpOnly: true, secure, sameSite: "lax", path: `/access/${slug}`, maxAge: COOKIE_MAX_AGE });
+    res.cookies.set(cookieName(slug), tokenFor(slug), { httpOnly: true, secure, sameSite: "lax", path: "/", maxAge: COOKIE_MAX_AGE });
   }
   return res;
 }
@@ -36,6 +36,7 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ slug: strin
   const url = new URL(req.url);
   if (url.searchParams.get("signout")) {
     const res = NextResponse.redirect(new URL(`/access/${slug}`, req.url), 303);
+    res.cookies.set(cookieName(slug), "", { path: "/", maxAge: 0 });
     res.cookies.set(cookieName(slug), "", { path: `/access/${slug}`, maxAge: 0 });
     res.cookies.set(adminCookieName, "", { path: "/", maxAge: 0 });
     return res;
