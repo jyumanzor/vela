@@ -2,9 +2,9 @@ import Link from "next/link";
 import { ConstellationDivider } from "@/components/ConstellationDivider";
 
 const valueProps = [
-  { dot: "var(--star-gold)", title: "Encoded Judgment", body: "13 skills extracted from real project failures. Operating loops, provenance checks, failure modes \u2014 loaded into every session automatically." },
+  { dot: "var(--star-gold)", title: "Encoded Judgment", body: "13 skills extracted from real project failures. Operating loops, provenance checks, and failure modes load into every session automatically." },
   { dot: "var(--ember-copper)", title: "Background Agents", body: "Upload your work. An agent checks citations, reviews arguments, catches numbers that don\u2019t add up. Results on your dashboard, not in your way." },
-  { dot: "var(--lime)", title: "Right Tool, Right Task", body: "Claude Code for writing. Codex for review. Cursor for editing. Know when to use each \u2014 and how to make them share context." },
+  { dot: "var(--lime)", title: "Right Tool, Right Task", body: "Claude Code for writing. Codex for review. Cursor for editing. Know when to use each, and how to make them share context." },
 ];
 
 const steps = [
@@ -70,7 +70,7 @@ export default function Home() {
           Portable rules. Background agents. Your own constellation.
         </p>
         <p style={{ fontFamily: fd, fontSize: 15, color: "var(--dusk)", marginTop: 12 }}>
-          A system for building with AI &mdash; charted, not guessed.
+          The method travels with you. Charted, not guessed.
         </p>
         <Link href="/rules" style={{ display: "inline-block", marginTop: 36, padding: "12px 32px", background: "var(--star-gold)", color: "var(--forest-floor)", fontFamily: fd, fontSize: 15, fontWeight: 600, borderRadius: 8, textDecoration: "none", letterSpacing: "0.01em" }}>
           Explore the Rules
@@ -144,7 +144,7 @@ export default function Home() {
           Software 2.0 for knowledge workers
         </h2>
         <p style={{ fontFamily: fd, fontSize: 15, color: "var(--dusk)", lineHeight: 1.7, maxWidth: 560, marginBottom: 40 }}>
-          The models are interchangeable. The architecture isn&rsquo;t. Vela is the operating layer &mdash; skills are your training data, CLAUDE.md is your program, agents are your runtime, and the validation loop is your test suite. When the models improve, your system improves with them. When you switch models, your methodology stays.
+          The models are interchangeable. The architecture isn&rsquo;t. Vela is the operating layer: skills are your training data, CLAUDE.md is your program, agents are your runtime, and the validation loop is your test suite. When the models improve, your system improves with them. When you switch models, your methodology stays.
         </p>
         <svg viewBox="0 0 640 120" style={{ width: "100%", maxWidth: 600 }} aria-label="Architecture flow: Skills to Build Log with operational inheritance feedback loop">
           {diagramNodes.map((n) => (

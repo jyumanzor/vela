@@ -12,7 +12,7 @@ export interface LinkItem {
 
 /* "Start here" — the first Claude Code docs a new client should read, in order. */
 export const claudeCodeStartHere: LinkItem[] = [
-  { label: "Overview", href: "https://code.claude.com/docs/en/overview", note: "What Claude Code is and what it can do — a two-minute mental model." },
+  { label: "Overview", href: "https://code.claude.com/docs/en/overview", note: "What Claude Code is and what it can do: a two-minute mental model." },
   { label: "Quickstart", href: "https://code.claude.com/docs/en/quickstart", note: "Install, log in, and make your first change in one sitting." },
   { label: "How Claude Code works", href: "https://code.claude.com/docs/en/how-claude-code-works", note: "The agent loop, context window, sessions, and permissions." },
   { label: "Memory & CLAUDE.md", href: "https://code.claude.com/docs/en/memory", note: "Teach Claude your rules once; it reads them every session." },
@@ -23,7 +23,7 @@ export const claudeCodeStartHere: LinkItem[] = [
 export const canonicalDocs: LinkItem[] = [
   { label: "Agent Skills", href: "https://code.claude.com/docs/en/skills", note: "Reusable, model-invoked judgment, loaded by description." },
   { label: "Subagents", href: "https://code.claude.com/docs/en/sub-agents", note: "Parallel specialists for focused subtasks and review." },
-  { label: "Hooks", href: "https://code.claude.com/docs/en/hooks-guide", note: "Deterministic commands that always run — your guardrails." },
+  { label: "Hooks", href: "https://code.claude.com/docs/en/hooks-guide", note: "Deterministic commands that always run: your guardrails." },
   { label: "MCP", href: "https://code.claude.com/docs/en/mcp", note: "Connect external tools, data, and services." },
   { label: "Settings & permissions", href: "https://code.claude.com/docs/en/settings", note: "Configuration scopes, rules, and environment." },
 ];
@@ -32,26 +32,26 @@ export const canonicalDocs: LinkItem[] = [
 export const examplesToInspect: LinkItem[] = [
   { label: "Anthropic Cookbook", href: "https://github.com/anthropics/anthropic-cookbook", note: "Working recipes and patterns to copy from." },
   { label: "Anthropic Courses", href: "https://github.com/anthropics/courses", note: "Guided lessons on building with Claude." },
-  { label: "Claude Agent SDK", href: "https://code.claude.com/docs/en/agent-sdk/overview", note: "The same agent loop, as a library — skills, subagents, hooks." },
+  { label: "Claude Agent SDK", href: "https://code.claude.com/docs/en/agent-sdk/overview", note: "The same agent loop, as a library: skills, subagents, hooks." },
 ];
 
 /* Knowledge base. General enough for any client; honest about what loads. */
 export const faqGeneral: { q: string; a: string }[] = [
   {
     q: "Do I need to know how to code?",
-    a: "No. Claude Code does the technical work; you direct it in plain language. Your kit is set up so the right rules load automatically — you focus on the judgment, not the syntax.",
+    a: "No. Claude Code does the technical work; you direct it in plain language. Your kit is set up so the right rules load automatically. You focus on the judgment, not the syntax.",
   },
   {
     q: "What actually loads when I start a session?",
-    a: "Your CLAUDE.md rules plus your skills — encoded judgment from real projects. You never have to re-explain how you work; it's already in context.",
+    a: "Your CLAUDE.md rules plus your skills: encoded judgment from real projects. You never have to re-explain how you work; it's already in context.",
   },
   {
     q: "What's the difference between a skill, a subagent, and a hook?",
-    a: "A skill is reusable judgment Claude pulls in by description. A subagent is a separate reviewer that works in its own context. A hook is a deterministic check that always runs — your guardrail — whether or not the model decides to.",
+    a: "A skill is reusable judgment Claude pulls in by description. A subagent is a separate reviewer that works in its own context. A hook is a deterministic check (your guardrail) that always runs, whether or not the model decides to.",
   },
   {
     q: "How do the background reviewers help?",
-    a: "Point them at a draft and they review it the way a careful second reader would — citations, argument, numbers, layout — and report back before anyone else sees it.",
+    a: "Point them at a draft and they review it the way a careful second reader would: citations, argument, numbers, layout. They report back before anyone else sees it.",
   },
   {
     q: "Where do I keep my source material?",
@@ -59,7 +59,7 @@ export const faqGeneral: { q: string; a: string }[] = [
   },
   {
     q: "What if I get stuck?",
-    a: "Start from the Quickstart, then the Common Workflows recipes — both are linked on this page. And Jenn is one message away.",
+    a: "Start from the Quickstart, then the Common Workflows recipes; both are linked on this page. And Jenn is one message away.",
   },
 ];
 
@@ -89,4 +89,9 @@ export const harnessCompare: LinkItem[] = [
 ];
 
 export const harnessSynthesis =
-  "Vela's operating layer sits closest to the Claude Agent SDK's grain — skills carry portable, model-invoked judgment, while hooks supply non-negotiable, code-level enforcement that holds even when permission prompts are skipped. Separating judgment from enforcement is the best-in-class move: a deterministic floor that prompt-only instructions and handoff guardrails can't guarantee. The honest trade-off: LangGraph is stronger exactly where this is weakest — explicit typed state, checkpointing, and durable execution that resumes after a failure. The build log is a human-readable audit trail, not a runtime state machine.";
+  "Vela's operating layer sits closest to the Claude Agent SDK's grain: skills carry portable, model-invoked judgment, while hooks supply non-negotiable, code-level enforcement that holds even when permission prompts are skipped. Separating judgment from enforcement is the strongest part of the design, a deterministic floor that prompt-only instructions and handoff guardrails can't guarantee. The honest trade-off: LangGraph is stronger exactly where this is weakest. It has explicit typed state, checkpointing, and durable execution that resumes after a failure. The build log is a human-readable audit trail, not a runtime state machine.";
+
+/* Condensed version for the client hubs. The full comparison above stays
+   available behind a disclosure; clients don't need the framework tour up front. */
+export const harnessSummary =
+  "Vela runs on the Claude Agent SDK pattern: skills carry reusable judgment, and hooks enforce your rules in code. Frameworks like LangGraph, CrewAI, and the OpenAI Agents SDK are built for orchestrating fleets of agents; this kit is built for one person shipping careful work.";

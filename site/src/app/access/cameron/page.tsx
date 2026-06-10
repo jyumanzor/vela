@@ -5,7 +5,7 @@ import {
 } from "@/components/access/primitives";
 import {
   claudeCodeStartHere, canonicalDocs, examplesToInspect,
-  faqGeneral, harnessCompare, harnessSynthesis,
+  faqGeneral, harnessCompare, harnessSynthesis, harnessSummary,
 } from "@/data/access-content";
 
 export const metadata: Metadata = {
@@ -30,7 +30,7 @@ const skills = [
 const agents = ["Citation Checker", "Daubert Verification", "Devil's Advocate", "Holistic Reviewer", "Argument Reviewer"];
 
 const researchTips = [
-  "Tag every number PUBLISHED, DERIVED, or ANALYST. If you can't trace it, flag it — don't let it ship.",
+  "Tag every number PUBLISHED, DERIVED, or ANALYST. If you can't trace it, flag it; don't let it ship.",
   "Run each section through build → challenge → resolve → promote. The challenge pass is a subagent arguing against you.",
   "Keep papers, data, and drafts in separate reference folders. Claude cites better when the material is organized.",
   "Before you submit, run the provenance and citation check. A hook can make that automatic.",
@@ -69,7 +69,7 @@ export default function CameronAccessPage() {
         eyebrow="Vela · Client Access"
         accent={ACCENT}
         title="Cameron's writing desk"
-        lede="An AI operating layer tuned for long-form research writing: encoded judgment, citation checks, and adversarial review — loaded before you write a word."
+        lede="An AI operating layer tuned for long-form research writing: citation checks, provenance tags, and adversarial review, loaded before you write a word. The standard is a paper where every claim is cited and every number can be traced."
         primary={{ href: "/access/cameron/workspace", label: "Enter your workspace" }}
         secondary={{ href: "#start", label: "Start here" }}
       />
@@ -79,13 +79,13 @@ export default function CameronAccessPage() {
         <StatStrip items={status} />
       </Section>
 
-      <Section id="start" eyebrow="When you're starting" title="Read these first." accent={ACCENT}
+      <Section id="start" eyebrow="When you're starting" title="Where to start." accent={ACCENT}
         intro="The shortest path from zero to a working first session. Five pages, in order.">
         <LinkList items={claudeCodeStartHere} />
       </Section>
 
       <Section id="kit" eyebrow="What's loaded" title="Twelve skills, five reviewers, deterministic hooks." accent={ACCENT}
-        intro="Every session starts with the same encoded judgment — the lessons from real projects, already in context so you never re-explain them.">
+        intro="Every session starts with the same encoded judgment: lessons from real projects, already in context so you never re-explain them.">
         <CardGrid min={250}>
           <Card accent={ACCENT}>
             <Tags label="Skills" items={skills} />
@@ -93,13 +93,13 @@ export default function CameronAccessPage() {
           <Card>
             <Tags label="Background reviewers" items={agents} />
             <p style={{ fontFamily: fd, fontSize: 14, lineHeight: 1.6, color: "var(--dusk)", margin: "18px 0 0" }}>
-              Upload a draft and these run in the background — checking citations, testing the argument, and flagging numbers that were never verified.
+              Upload a draft and these run in the background: checking citations, testing the argument, and flagging numbers that were never verified.
             </p>
           </Card>
           <Card>
             <p style={{ fontFamily: fd, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--constellation)", margin: "0 0 13px" }}>Hooks</p>
             <p style={{ fontFamily: fd, fontSize: 14.5, lineHeight: 1.6, color: "var(--moonlight)", margin: 0 }}>
-              Turn your non-negotiables into checks that always run — provenance tags present, citations complete — even when you’re moving fast.
+              Turn your non-negotiables into checks that always run, even when you’re moving fast: provenance tags present, citations complete.
             </p>
             <div style={{ marginTop: 18 }}>
               <GhostCTA href="https://code.claude.com/docs/en/hooks-guide" accent={ACCENT}>How hooks work ↗</GhostCTA>
@@ -137,12 +137,17 @@ export default function CameronAccessPage() {
         <FAQ items={faqGeneral} />
       </Section>
 
-      <Section id="compare" eyebrow="Best in class" title="How this approach compares." accent={ACCENT}
-        intro="Honest framing against the leading agent frameworks — where Vela's skills-plus-hooks layer is strongest, and where the others are.">
-        <LinkList items={harnessCompare} />
-        <Card style={{ marginTop: 24 }}>
-          <p style={{ fontFamily: fd, fontSize: 14.5, lineHeight: 1.7, color: "var(--dusk)", margin: 0 }}>{harnessSynthesis}</p>
-        </Card>
+      <Section id="compare" eyebrow="Context" title="How this approach compares." accent={ACCENT}
+        intro={harnessSummary}>
+        <details>
+          <summary style={{ fontFamily: fd, fontSize: 13.5, color: "var(--constellation)", cursor: "pointer" }}>See the full comparison</summary>
+          <div style={{ marginTop: 16 }}>
+            <LinkList items={harnessCompare} />
+            <Card style={{ marginTop: 18 }}>
+              <p style={{ fontFamily: fd, fontSize: 14, lineHeight: 1.7, color: "var(--dusk)", margin: 0 }}>{harnessSynthesis}</p>
+            </Card>
+          </div>
+        </details>
       </Section>
 
       <Section eyebrow="Working together" title="Intake and scheduling." accent={ACCENT}>
@@ -150,7 +155,7 @@ export default function CameronAccessPage() {
           <Card>
             <p style={{ fontFamily: fd, fontSize: 15.5, fontWeight: 500, color: "var(--moonlight)", margin: 0 }}>Project intake</p>
             <p style={{ fontFamily: fd, fontSize: 14, lineHeight: 1.6, color: "var(--dusk)", margin: "10px 0 0" }}>
-              When you start something new, a short intake captures the goal, the sources, and the deadline — so your first session begins with the work, not setup.
+              When you start something new, a short intake captures the goal, the sources, and the deadline, so your first session begins with the work, not setup.
             </p>
           </Card>
           <Card>

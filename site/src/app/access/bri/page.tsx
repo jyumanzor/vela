@@ -5,7 +5,7 @@ import {
 } from "@/components/access/primitives";
 import {
   claudeCodeStartHere, canonicalDocs, examplesToInspect,
-  faqGeneral, harnessCompare, harnessSynthesis,
+  faqGeneral, harnessCompare, harnessSynthesis, harnessSummary,
 } from "@/data/access-content";
 
 export const metadata: Metadata = {
@@ -17,8 +17,8 @@ const ACCENT = "var(--lime)";
 
 const status = [
   { label: "Access page", value: "Live", tone: ACCENT },
-  { label: "Account", value: "Sign up first", tone: "var(--ember-copper)" },
-  { label: "First surface", value: "Open" },
+  { label: "Dashboard", value: "Open with password" },
+  { label: "First surface", value: "To be chosen" },
 ];
 
 const skills = [
@@ -32,22 +32,22 @@ const agents = ["Holistic Reviewer", "Argument Reviewer", "Devil's Advocate"];
 const frontendTips = [
   "Build one page, review it, then build the next. The review agents catch layout and hierarchy issues early.",
   "Keep your design tokens in one place. Consistency is what reads as 'designed,' not 'generated.'",
-  "Run the holistic-review agent before you call a page done — it reads the page the way a visitor would.",
+  "Run the holistic-review agent before you call a page done; it reads the page the way a visitor would.",
   "Whitespace is structure. When a section feels cramped, add room before you add elements.",
 ];
 
 const frontendHelpers = [
   { label: "Custom skills for your design system", href: "https://code.claude.com/docs/en/skills", note: "Encode your color, spacing, and layout rules once; load them every build." },
   { label: "Subagents for design review", href: "https://code.claude.com/docs/en/sub-agents", note: "A second agent reviews hierarchy, contrast, and copy before you ship." },
-  { label: "Hooks for guardrails", href: "https://code.claude.com/docs/en/hooks-guide", note: "Block the patterns you never want — banned fonts, off-palette colors — automatically." },
+  { label: "Hooks for guardrails", href: "https://code.claude.com/docs/en/hooks-guide", note: "Automatically block the patterns you never want: banned fonts, off-palette colors." },
   { label: "MCP for live data and tools", href: "https://code.claude.com/docs/en/mcp", note: "Pull real content, APIs, or design sources into the build." },
 ];
 
 const steps = [
-  { title: "Open this access link", body: "You're here — this is your front door into Vela.", done: true },
-  { title: "Create your Vela account", body: "Sign up with the email you want connected to your workspace." },
-  { title: "Jenn links your client record", body: "After signup, Jenn connects the account so the dashboard loads your kit." },
-  { title: "Choose your first surface", body: "A portfolio, a small site, or one focused tool — kept intentionally scoped." },
+  { title: "Open this access link", body: "You're here. This page is your entry point into Vela.", done: true },
+  { title: "Sign in to Vela", body: "Use the password from Jenn to open your dashboard." },
+  { title: "Jenn links your client record", body: "Once you're in, Jenn connects your workspace so the dashboard loads your kit." },
+  { title: "Choose your first surface", body: "A portfolio, a small site, or one focused tool, kept intentionally scoped." },
   { title: "Run your first session", body: "Start from the starter workspace and build one page cleanly." },
 ];
 
@@ -67,8 +67,8 @@ export default function BriAccessPage() {
         eyebrow="Vela · Client Access"
         accent={ACCENT}
         title="Bri's Vela workspace"
-        lede="A clean entry point for signup, account linking, and the first build. The access layer is ready; the first public project can stay intentionally scoped."
-        primary={{ href: "/login?redirectTo=/dashboard", label: "Create your account" }}
+        lede="A clean entry point for the first build: open your dashboard with the password from Jenn. The access layer is ready; the first public project can stay intentionally scoped."
+        primary={{ href: "/login?redirectTo=/dashboard", label: "Open your dashboard" }}
         secondary={{ href: "#start", label: "Start here" }}
       />
       <AnchorNav items={anchors} />
@@ -77,13 +77,13 @@ export default function BriAccessPage() {
         <StatStrip items={status} />
       </Section>
 
-      <Section id="start" eyebrow="When you're starting" title="Read these first." accent={ACCENT}
+      <Section id="start" eyebrow="When you're starting" title="Where to start." accent={ACCENT}
         intro="The shortest path from zero to a working first session. Five pages, in order.">
         <LinkList items={claudeCodeStartHere} />
       </Section>
 
       <Section id="kit" eyebrow="What's loaded" title="A frontend kit, ready to go." accent={ACCENT}
-        intro="The rules behind clean, deliberate interfaces — loaded into every session so your first build doesn't look like a first build.">
+        intro="The rules behind clean, deliberate interfaces, loaded into every session so your first build doesn't look like a first build.">
         <CardGrid min={250}>
           <Card accent={ACCENT}>
             <Tags label="Skills" items={skills} />
@@ -91,13 +91,13 @@ export default function BriAccessPage() {
           <Card>
             <Tags label="Background reviewers" items={agents} />
             <p style={{ fontFamily: fd, fontSize: 14, lineHeight: 1.6, color: "var(--dusk)", margin: "18px 0 0" }}>
-              Point them at a page and they review it the way a careful second set of eyes would — layout, hierarchy, and whether the copy actually reads.
+              Point them at a page and they review it the way a careful second set of eyes would: layout, hierarchy, and whether the copy actually reads.
             </p>
           </Card>
           <Card>
             <p style={{ fontFamily: fd, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--constellation)", margin: "0 0 13px" }}>Hooks</p>
             <p style={{ fontFamily: fd, fontSize: 14.5, lineHeight: 1.6, color: "var(--moonlight)", margin: 0 }}>
-              Turn your design rules into checks that always run — no banned fonts, no off-palette colors — even when you’re moving fast.
+              Turn your design rules into checks that always run, even when you’re moving fast: no banned fonts, no off-palette colors.
             </p>
             <div style={{ marginTop: 18 }}>
               <GhostCTA href="https://code.claude.com/docs/en/hooks-guide" accent={ACCENT}>How hooks work ↗</GhostCTA>
@@ -135,12 +135,17 @@ export default function BriAccessPage() {
         <FAQ items={faqGeneral} />
       </Section>
 
-      <Section id="compare" eyebrow="Best in class" title="How this approach compares." accent={ACCENT}
-        intro="Honest framing against the leading agent frameworks — where Vela's skills-plus-hooks layer is strongest, and where the others are.">
-        <LinkList items={harnessCompare} />
-        <Card style={{ marginTop: 24 }}>
-          <p style={{ fontFamily: fd, fontSize: 14.5, lineHeight: 1.7, color: "var(--dusk)", margin: 0 }}>{harnessSynthesis}</p>
-        </Card>
+      <Section id="compare" eyebrow="Context" title="How this approach compares." accent={ACCENT}
+        intro={harnessSummary}>
+        <details>
+          <summary style={{ fontFamily: fd, fontSize: 13.5, color: "var(--constellation)", cursor: "pointer" }}>See the full comparison</summary>
+          <div style={{ marginTop: 16 }}>
+            <LinkList items={harnessCompare} />
+            <Card style={{ marginTop: 18 }}>
+              <p style={{ fontFamily: fd, fontSize: 14, lineHeight: 1.7, color: "var(--dusk)", margin: 0 }}>{harnessSynthesis}</p>
+            </Card>
+          </div>
+        </details>
       </Section>
 
       <Section eyebrow="Working together" title="Intake and scheduling." accent={ACCENT}>
@@ -148,19 +153,19 @@ export default function BriAccessPage() {
           <Card>
             <p style={{ fontFamily: fd, fontSize: 15.5, fontWeight: 500, color: "var(--moonlight)", margin: 0 }}>Project intake</p>
             <p style={{ fontFamily: fd, fontSize: 14, lineHeight: 1.6, color: "var(--dusk)", margin: "10px 0 0" }}>
-              A short intake captures what you want to build, who it’s for, and the look you’re after — so your first session starts with direction.
+              A short intake captures what you want to build, who it’s for, and the look you’re after, so your first session starts with direction.
             </p>
           </Card>
           <Card>
             <p style={{ fontFamily: fd, fontSize: 15.5, fontWeight: 500, color: "var(--moonlight)", margin: 0 }}>Scheduling</p>
             <p style={{ fontFamily: fd, fontSize: 14, lineHeight: 1.6, color: "var(--dusk)", margin: "10px 0 0" }}>
-              Build sessions and reviews are booked with Jenn directly. Pick the rhythm that fits — a push to launch, or a steady weekly cadence.
+              Build sessions and reviews are booked with Jenn directly. Pick the rhythm that fits: a push to launch, or a steady weekly cadence.
             </p>
           </Card>
         </CardGrid>
       </Section>
 
-      <ClosingCTA line="Charted, not guessed." href="/login?redirectTo=/dashboard" label="Create your account" accent={ACCENT} />
+      <ClosingCTA line="Charted, not guessed." href="/login?redirectTo=/dashboard" label="Open your dashboard" accent={ACCENT} />
     </AccessShell>
   );
 }

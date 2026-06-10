@@ -5,7 +5,7 @@ import {
 } from "@/components/access/primitives";
 import {
   claudeCodeStartHere, canonicalDocs, examplesToInspect,
-  faqGeneral, harnessCompare, harnessSynthesis,
+  faqGeneral, harnessCompare, harnessSynthesis, harnessSummary,
 } from "@/data/access-content";
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ const agents = ["Holistic Reviewer", "Argument Reviewer", "Devil's Advocate", "C
 
 const dataTips = [
   "Never trust an API's sort order. Sort explicitly at the read boundary.",
-  "Tag data provenance — raw, derived, or estimated. Don't let interpolated points pass as measured.",
+  "Tag data provenance as raw, derived, or estimated. Don't let interpolated points pass as measured.",
   "When a number looks too smooth, check whether the AI filled a gap. Volatile data should look volatile.",
   "Keep music and health in separate workspaces. Health data stays local until the privacy boundary is set.",
 ];
@@ -85,13 +85,13 @@ export default function MattAccessPage() {
         <StatStrip items={status} />
       </Section>
 
-      <Section id="start" eyebrow="When you're starting" title="Read these first." accent={ACCENT}
+      <Section id="start" eyebrow="When you're starting" title="Where to start." accent={ACCENT}
         intro="The shortest path from zero to a working first session. Five pages, in order.">
         <LinkList items={claudeCodeStartHere} />
       </Section>
 
       <Section id="kit" eyebrow="What's loaded" title="A data kit, ready to go." accent={ACCENT}
-        intro="The same encoded judgment from real projects — catching unverified numbers and silent data drops before they ship.">
+        intro="The same encoded judgment from real projects, catching unverified numbers and silent data drops before they ship.">
         <CardGrid min={250}>
           <Card accent={ACCENT}>
             <Tags label="Skills" items={skills} />
@@ -99,13 +99,13 @@ export default function MattAccessPage() {
           <Card>
             <Tags label="Background reviewers" items={agents} />
             <p style={{ fontFamily: fd, fontSize: 14, lineHeight: 1.6, color: "var(--dusk)", margin: "18px 0 0" }}>
-              Point them at a dashboard or dataset and they check the way a careful analyst would — sources, sorting, and numbers that don’t add up.
+              Point them at a dashboard or dataset and they check the way a careful analyst would: sources, sorting, and numbers that don’t add up.
             </p>
           </Card>
           <Card>
             <p style={{ fontFamily: fd, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--constellation)", margin: "0 0 13px" }}>Hooks</p>
             <p style={{ fontFamily: fd, fontSize: 14.5, lineHeight: 1.6, color: "var(--moonlight)", margin: 0 }}>
-              Turn your data rules into checks that always run — no number ships without a provenance tag — even when you’re moving fast.
+              Turn your data rules into checks that always run, even when you’re moving fast: no number ships without a provenance tag.
             </p>
             <div style={{ marginTop: 18 }}>
               <GhostCTA href="https://code.claude.com/docs/en/hooks-guide" accent={ACCENT}>How hooks work ↗</GhostCTA>
@@ -158,12 +158,17 @@ export default function MattAccessPage() {
         <FAQ items={faqGeneral} />
       </Section>
 
-      <Section eyebrow="Best in class" title="How this approach compares." accent={ACCENT}
-        intro="Honest framing against the leading agent frameworks — where Vela's skills-plus-hooks layer is strongest, and where the others are.">
-        <LinkList items={harnessCompare} />
-        <Card style={{ marginTop: 24 }}>
-          <p style={{ fontFamily: fd, fontSize: 14.5, lineHeight: 1.7, color: "var(--dusk)", margin: 0 }}>{harnessSynthesis}</p>
-        </Card>
+      <Section eyebrow="Context" title="How this approach compares." accent={ACCENT}
+        intro={harnessSummary}>
+        <details>
+          <summary style={{ fontFamily: fd, fontSize: 13.5, color: "var(--constellation)", cursor: "pointer" }}>See the full comparison</summary>
+          <div style={{ marginTop: 16 }}>
+            <LinkList items={harnessCompare} />
+            <Card style={{ marginTop: 18 }}>
+              <p style={{ fontFamily: fd, fontSize: 14, lineHeight: 1.7, color: "var(--dusk)", margin: 0 }}>{harnessSynthesis}</p>
+            </Card>
+          </div>
+        </details>
       </Section>
 
       <ClosingCTA line="Charted, not guessed." href="/login?redirectTo=/dashboard" label="Open your dashboard" accent={ACCENT} />
