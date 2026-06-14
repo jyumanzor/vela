@@ -9,19 +9,14 @@ const fi = 'var(--font-instrument), serif';
 const fd = 'var(--font-dm-sans), sans-serif';
 const fj = 'var(--font-jetbrains), monospace';
 
-type Tab = 'signin' | 'signup';
-
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirectTo') || '/dashboard';
 
-  const [tab, setTab] = useState<Tab>('signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
   const supabase = createClient();
@@ -29,7 +24,6 @@ function LoginForm() {
   async function handleSignIn(e: React.FormEvent) {
     e.preventDefault();
     setError('');
-    setMessage('');
     setLoading(true);
 
     const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -42,41 +36,6 @@ function LoginForm() {
 
     router.push(redirectTo);
     router.refresh();
-  }
-
-  async function handleSignUp(e: React.FormEvent) {
-    e.preventDefault();
-    setError('');
-    setMessage('');
-
-    if (password !== confirmPassword) {
-      setError('Passwords do not match.');
-      return;
-    }
-
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters.');
-      return;
-    }
-
-    setLoading(true);
-
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback?next=${redirectTo}`,
-      },
-    });
-
-    if (error) {
-      setError(error.message);
-      setLoading(false);
-      return;
-    }
-
-    setMessage('Check your email for a confirmation link.');
-    setLoading(false);
   }
 
   const inputStyle: React.CSSProperties = {
@@ -154,45 +113,6 @@ function LoginForm() {
           </Link>
         </div>
 
-        {/* Tabs */}
-        <div
-          style={{
-            display: 'flex',
-            gap: 0,
-            marginBottom: 28,
-            borderBottom: '1px solid var(--stardust)',
-          }}
-        >
-          {(['signin', 'signup'] as Tab[]).map((t) => (
-            <button
-              key={t}
-              onClick={() => {
-                setTab(t);
-                setError('');
-                setMessage('');
-              }}
-              style={{
-                flex: 1,
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '10px 0 12px',
-                fontFamily: fd,
-                fontSize: 14,
-                fontWeight: 600,
-                color: tab === t ? 'var(--star-gold)' : 'var(--dusk)',
-                borderBottom:
-                  tab === t
-                    ? '2px solid var(--star-gold)'
-                    : '2px solid transparent',
-                transition: 'color 0.15s, border-color 0.15s',
-              }}
-            >
-              {t === 'signin' ? 'Sign In' : 'Sign Up'}
-            </button>
-          ))}
-        </div>
-
         {/* Error */}
         {error && (
           <div
@@ -212,28 +132,9 @@ function LoginForm() {
           </div>
         )}
 
-        {/* Success */}
-        {message && (
-          <div
-            style={{
-              fontFamily: fd,
-              fontSize: 13,
-              color: 'var(--lime)',
-              background: 'rgba(230, 241, 99, 0.08)',
-              border: '1px solid rgba(230, 241, 99, 0.2)',
-              borderRadius: 8,
-              padding: '10px 14px',
-              marginBottom: 20,
-              lineHeight: 1.5,
-            }}
-          >
-            {message}
-          </div>
-        )}
-
         {/* Form */}
         <form
-          onSubmit={tab === 'signin' ? handleSignIn : handleSignUp}
+          onSubmit={handleSignIn}
           style={{ display: 'flex', flexDirection: 'column', gap: 18 }}
         >
           <div>
@@ -272,26 +173,6 @@ function LoginForm() {
             />
           </div>
 
-          {tab === 'signup' && (
-            <div>
-              <label style={labelStyle}>Confirm Password</label>
-              <input
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Re-enter your password"
-                required
-                style={inputStyle}
-                onFocus={(e) =>
-                  (e.currentTarget.style.borderColor = 'var(--star-gold)')
-                }
-                onBlur={(e) =>
-                  (e.currentTarget.style.borderColor = 'var(--stardust)')
-                }
-              />
-            </div>
-          )}
-
           <button
             type="submit"
             disabled={loading}
@@ -310,11 +191,7 @@ function LoginForm() {
               marginTop: 4,
             }}
           >
-            {loading
-              ? 'Loading...'
-              : tab === 'signin'
-                ? 'Sign In'
-                : 'Create Account'}
+            {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
       </div>
