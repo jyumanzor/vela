@@ -45,6 +45,14 @@ const projects = [
     url: "https://drinkpacho.vercel.app", accent: "var(--meteor-red)",
     pv: { bg: "#FAF3E8", tx: "#3A1A12", ac: "#E0412A", dom: "drinkpacho.vercel.app" },
   },
+  {
+    num: "06", name: "Pacho Studio", role: "Brand Design Tool",
+    stack: ["HTML/CSS", "JavaScript", "Vercel"],
+    desc: "An interactive brand playground for Pacho. Live controls reshape the hero label in real time, and the whole look packs into a shareable URL — so the founder can tweak it and send it straight back.",
+    features: ["Live controls — every change updates the label instantly", "Shareable URL state — the full look encodes into the link", "Built on the Pacho brand system (tomato, leaf, cream)", "Hand-off ready for a non-designer to iterate"],
+    url: "https://drinkpacho.vercel.app/studio.html", accent: "var(--meteor-red)",
+    pv: { bg: "#FAF3E8", tx: "#3A1A12", ac: "#E0412A", dom: "drinkpacho.vercel.app/studio" },
+  },
 ];
 
 const caps = [
