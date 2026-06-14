@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client';
 import type { User } from '@supabase/supabase-js';
 
 const links = [
+  { href: '/showcase', label: 'Showcase' },
   { href: '/rules', label: 'Rules' },
   { href: '/tools', label: 'Tools' },
   { href: '/explainers', label: 'Explainers' },

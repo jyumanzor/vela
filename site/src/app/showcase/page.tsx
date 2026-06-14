@@ -48,7 +48,7 @@ const caps = [
 
 function Pill({ label, color, outlined }: { label: string; color?: string; outlined?: boolean }) {
   return (
-    <span style={{ fontFamily: fj, fontSize: 10, color: outlined ? color : "var(--dusk)", background: outlined ? "transparent" : "var(--understory)", border: outlined ? `1px solid ${color}` : "none", borderRadius: 4, padding: "2px 8px", opacity: outlined ? 0.85 : 1 }}>
+    <span style={{ fontFamily: fj, fontSize: 11, lineHeight: 1.4, letterSpacing: "0.02em", whiteSpace: "nowrap", color: outlined ? color : "var(--dusk)", background: outlined ? "transparent" : "var(--understory)", border: outlined ? `1px solid ${color}` : "1px solid var(--stardust)", borderRadius: 5, padding: "4px 11px", opacity: outlined ? 0.9 : 1 }}>
       {label}
     </span>
   );
@@ -102,7 +102,7 @@ export default function ShowcasePage() {
               <div>
                 <span style={{ fontFamily: fi, fontSize: 96, color: "var(--constellation)", opacity: 0.3, lineHeight: 1, display: "block", marginBottom: -20, userSelect: "none" }}>{p.num}</span>
                 <h2 style={{ fontFamily: fi, fontSize: 28, color: "var(--moonlight)", marginBottom: 12 }}>{p.name}</h2>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 16 }}>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
                   <Pill label={p.role} color={p.accent} outlined />
                   {p.stack.map((s) => <Pill key={s} label={s} />)}
                 </div>
