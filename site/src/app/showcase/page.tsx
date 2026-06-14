@@ -37,6 +37,14 @@ const projects = [
     url: "https://doldol.studio", accent: "var(--nebula-amber)",
     pv: { bg: "#F5F0EB", tx: "#2C2C2C", ac: "#E8A849", dom: "doldol.studio" },
   },
+  {
+    num: "05", name: "Pacho", role: "Brand & Web Build",
+    stack: ["HTML/CSS", "SVG", "Vercel"],
+    desc: "Brand identity and launch site for a Brooklyn gazpacho brand. A hand-built tomato mark, a palette pulled straight from the product, plus a wholesale line sheet and supplier-outreach kit.",
+    features: ["Hand-built tomato mark + Permanent Marker wordmark", "Palette drawn from the product — tomato red, leaf green, cream", "Launch site, wholesale line sheet, and outreach kit", "Reproducible SVG-to-PNG render pipeline"],
+    url: "https://drinkpacho.vercel.app", accent: "var(--meteor-red)",
+    pv: { bg: "#FAF3E8", tx: "#3A1A12", ac: "#E0412A", dom: "drinkpacho.vercel.app" },
+  },
 ];
 
 const caps = [
