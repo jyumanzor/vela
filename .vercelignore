@@ -1,0 +1,8 @@
+Clients/
+docs/
+scripts/
+.claude/
+**/.env*
+**/test-results/
+**/playwright-report/
+**/node_modules/

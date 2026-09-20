@@ -48,3 +48,11 @@
 - Matt's music site is now the first pinned Matt project with a real local app seed. Keep the health dashboard sample-only until the local-first privacy model is agreed.
 - Do not infer separate Vercel projects from branded domains alone. Check `.vercel/project.json` and `vercel inspect <domain>` first, since client domains may be aliases on another project
 - Before any Vercel deploy or env write, inspect the local `.vercel/project.json`; this workspace has had multiple similarly named projects (`site`, `vela`, `vela-io`, `cinque-photos`) and the local link is the operational truth
+
+## Vela consolidation — September 20, 2026
+
+Vela's public entry is now the project collection, backed by `site/src/data/portfolio.ts`, with notes at `/projects/[slug]`. Existing methods, downloads and client pages remain in the platform. `/access/jenn/workspace` is the private owner hub; `/access/jenn/workspace/lab` contains the recorded strategy-jenn-os AI lab behind the existing admin-password gate. `/workspaces` explains account versus workspace access. Public descriptions do not expose private lab observations.
+
+Jenn's retention decisions: **Doldol always stays. Cinque Photos remains paused for now.** Preserve these instructions during later hosting cleanup. Existing `vela` and `strategy-jenn-os` Vercel projects remain paused pending an explicit retirement decision after verifying this consolidation. The canonical platform stays `vela-io`; no paid domain has been purchased.
+
+The historical Vercel project `site` was deleted at Jenn's explicit request on September 20. Do not relink to it. The other deleted projects were jennsitepreviewdeploy947ea89, website, jenn-vercel-prod, romance-therapy-timeline, jenn-site-specificity-fix, symphony-hearing-library, closet-cart-transaction, ldrhub-staging, test-sandbox, jennsitepreviewdeploy701aefe, and pacho. These were Vercel deletions only; source repositories were preserved.

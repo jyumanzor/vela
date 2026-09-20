@@ -30,7 +30,7 @@ export function Footer() {
           color: 'var(--dusk)',
         }}
       >
-        Rules, agents, and workspaces.
+        Projects by Jenn Umanzor.
       </span>
     </footer>
   );
