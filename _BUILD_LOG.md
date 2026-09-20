@@ -151,3 +151,12 @@ Jenn requested one public portfolio with deeper project links plus private works
 Verification: lint/build pass; browser tests cover catalog filtering/empty recovery, detail routes/redirects, responsive navigation, scale/overflow, admin/wrong-password/sign-out/client-isolation, migrated routing boundaries, and missing-secret token rejection. Evidence and independent optical review are in docs/verification/2026-09-20-portfolio. Geometry PASS WITH DEBT: region-box and scale checks, not exhaustive glyph/target conformance. Doldol/Cinque and the other old projects are not unpaused or deleted by this change. Canonical deployment remains vela-io; the site brand is Vela. Release verification pending below.
 
 Private lab notes are held in encrypted Vercel production configuration VELA_PRIVATE_LAB_CONTENT because the Vela GitHub repository is public. The server-only loader reads them after authentication; the repository contains only types and an empty fallback. The initial draft branch briefly contained migrated observations before they were removed from branch history. No passwords or credentials were included.
+
+
+## Production release — September 20, 2026
+
+Merged PR #1 into main (c6c2e54). Production deployment dpl_3h4n3Qz4794v6f3vLfqcjKbTKSaX completed READY and is aliased at https://vela-io.vercel.app. Public homepage returns HTTP 200 with the new collection; signed-out lab access redirects to the password gate. Vela-io was unpaused for this release. Final account inventory: 12 projects retained, 7 active and 5 paused. Doldol, Cinque Photos, old Vela, strategy-jenn-os, and Carina remain paused.
+
+Production post-login verification is deferred: the existing admin password is non-readable Vercel sensitive configuration and no saved Vela auth artifact exists under ~/.jenn-os/auth. Local fixture tests verify successful admin login, lab routing, wrong-password rejection, client isolation, and sign-out. This is not evidence of successful production login. Next verification: Jenn signs in at /access/jenn/workspace with the existing password, then verify /access/jenn/workspace/lab and save an authorized local session outside the repository. No password was reset.
+
+The initial draft's removed lab notes may remain accessible through old commit hashes or remote caches; rewriting the draft branch does not guarantee complete removal from GitHub.
