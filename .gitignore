@@ -23,3 +23,6 @@ site/out/
 next-env.d.ts
 Clients/Cinque/assets/
 _local_archive/
+
+# Vercel project link (local deployment state)
+.vercel/

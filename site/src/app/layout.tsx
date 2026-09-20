@@ -26,7 +26,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "Vela",
-  description: "AI rules, reviewer agents, and client workspaces.",
+  description: "Websites, research tools and the work behind them. A project portfolio by Jenn Umanzor.",
 };
 
 export default function RootLayout({

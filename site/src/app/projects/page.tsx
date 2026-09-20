@@ -1,4 +1,5 @@
 import { PortfolioHome } from "@/components/portfolio/PortfolioHome";
-export default function Home() {
+export const metadata = { title: "Projects | Vela" };
+export default function ProjectsPage() {
   return <PortfolioHome />;
 }

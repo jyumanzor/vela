@@ -7,12 +7,10 @@ import { createClient } from '@/lib/supabase/client';
 import type { User } from '@supabase/supabase-js';
 
 const links = [
-  { href: '/rules', label: 'Rules' },
-  { href: '/tools', label: 'Tools' },
-  { href: '/explainers', label: 'Explainers' },
-  { href: '/showcase', label: 'Showcase' },
-  { href: '/downloads', label: 'Downloads' },
-  { href: '/blog', label: 'Blog' },
+ { href: '/projects', label: 'Projects' },
+ { href: '/rules', label: 'Methods' },
+ { href: '/downloads', label: 'Starter kits' },
+ { href: '/workspaces', label: 'Workspaces' },
 ];
 
 /* The gold "Sign In" pill, shared by the desktop row and the mobile bar. */
@@ -28,7 +26,10 @@ function SignInPill() {
         color: 'var(--star-gold)',
         border: '1px solid var(--star-gold)',
         borderRadius: 6,
-        padding: '5px 14px',
+        padding: '9px 14px',
+        minHeight: 44,
+        display: 'inline-flex',
+        alignItems: 'center',
         textDecoration: 'none',
         whiteSpace: 'nowrap',
         transition: 'background 0.15s ease, color 0.15s ease',
@@ -42,7 +43,7 @@ function SignInPill() {
         e.currentTarget.style.color = 'var(--star-gold)';
       }}
     >
-      Sign In
+      Account sign-in
     </Link>
   );
 }
@@ -51,11 +52,12 @@ export function Nav() {
   const pathname = usePathname();
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY));
   const [menuOpen, setMenuOpen] = useState(false);
   const burgerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) { return; }
     const supabase = createClient();
 
     async function getUser() {
@@ -77,6 +79,8 @@ export function Nav() {
 
   // Close the mobile menu whenever the route changes.
   useEffect(() => {
+    // Navigation is an external event that dismisses an open mobile menu.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMenuOpen(false);
   }, [pathname]);
 
@@ -396,8 +400,8 @@ export function Nav() {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          width: 40px;
-          height: 40px;
+          width: 44px;
+          height: 44px;
           margin-right: -10px;
           padding: 0;
           background: none;

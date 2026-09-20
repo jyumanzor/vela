@@ -6,12 +6,13 @@ import { createHmac, timingSafeEqual } from "crypto";
      VELA_AUTH_SECRET. It can't be forged without the secret, but needs no DB.
    This is intentionally light — no accounts, no email, no Supabase. */
 
-const SECRET = process.env.VELA_AUTH_SECRET || "vela-dev-secret-set-VELA_AUTH_SECRET-in-prod";
+const SECRET = process.env.VELA_AUTH_SECRET;
 
 export const cookieName = (slug: string) => `vela-access-${slug}`;
 
 /** The signed token we store in the cookie for a given client. */
 export function tokenFor(slug: string): string {
+  if (!SECRET) throw new Error("Workspace signing secret is not configured");
   return createHmac("sha256", SECRET).update(`vela:${slug}`).digest("hex");
 }
 
@@ -28,7 +29,7 @@ function safeEqual(a: string, b: string): boolean {
 
 /** Verify a cookie token matches the expected signed value for this slug. */
 export function verifyToken(slug: string, token: string | undefined): boolean {
-  if (!token) return false;
+  if (!SECRET || !token) return false;
   return safeEqual(token, tokenFor(slug));
 }
 
@@ -40,7 +41,7 @@ export function passwordFor(slug: string): string | undefined {
 /** True if the submitted password matches the configured one (constant-time). */
 export function checkPassword(slug: string, input: string): boolean {
   const expected = passwordFor(slug);
-  if (!expected) return false;
+  if (!SECRET || !expected) return false;
   return safeEqual(input, expected);
 }
 
@@ -49,19 +50,20 @@ export function checkPassword(slug: string, input: string): boolean {
    It sets a separate, site-wide `vela-admin` cookie so Jenn can review
    any workspace without juggling each client's password. */
 
-export const adminCookieName = 'vela-admin';
+export const adminCookieName = "vela-admin";
 
 export function adminToken(): string {
-  return createHmac('sha256', SECRET).update('vela:admin').digest('hex');
+  if (!SECRET) throw new Error("Workspace signing secret is not configured");
+  return createHmac("sha256", SECRET).update("vela:admin").digest("hex");
 }
 
 export function verifyAdmin(token: string | undefined): boolean {
-  if (!token) return false;
+  if (!SECRET || !token) return false;
   return safeEqual(token, adminToken());
 }
 
 export function checkAdminPassword(input: string): boolean {
   const expected = process.env.VELA_ADMIN_PASSWORD;
-  if (!expected) return false;
+  if (!SECRET || !expected) return false;
   return safeEqual(input, expected);
 }

@@ -1,0 +1,1019 @@
+{
+  "version": 1,
+  "surface_id": "vela-portfolio-rendered",
+  "snapshots": [
+    {
+      "id": "/-390",
+      "phase": "rendered",
+      "canvas": {
+        "width": 390,
+        "height": 4236
+      },
+      "objects": [
+        {
+          "id": "region-0",
+          "kind": "container",
+          "rect": [
+            24,
+            104,
+            342,
+            291.984375
+          ]
+        },
+        {
+          "id": "region-1",
+          "kind": "container",
+          "rect": [
+            24,
+            395.984375,
+            342,
+            125.390625
+          ]
+        },
+        {
+          "id": "region-2",
+          "kind": "container",
+          "rect": [
+            24,
+            521.375,
+            342,
+            232
+          ]
+        },
+        {
+          "id": "region-3",
+          "kind": "container",
+          "rect": [
+            24,
+            777.375,
+            342,
+            18
+          ]
+        },
+        {
+          "id": "region-4",
+          "kind": "container",
+          "rect": [
+            24,
+            803.375,
+            342,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-5",
+          "kind": "container",
+          "rect": [
+            24,
+            1059.15625,
+            342,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-6",
+          "kind": "container",
+          "rect": [
+            24,
+            1314.9375,
+            342,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-7",
+          "kind": "container",
+          "rect": [
+            24,
+            1570.71875,
+            342,
+            282.171875
+          ]
+        },
+        {
+          "id": "region-8",
+          "kind": "container",
+          "rect": [
+            24,
+            1852.890625,
+            342,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-9",
+          "kind": "container",
+          "rect": [
+            24,
+            2108.671875,
+            342,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-10",
+          "kind": "container",
+          "rect": [
+            24,
+            2364.453125,
+            342,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-11",
+          "kind": "container",
+          "rect": [
+            24,
+            2620.234375,
+            342,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-12",
+          "kind": "container",
+          "rect": [
+            24,
+            2876.015625,
+            342,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-13",
+          "kind": "container",
+          "rect": [
+            24,
+            3131.796875,
+            342,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-14",
+          "kind": "container",
+          "rect": [
+            24,
+            3387.578125,
+            342,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-15",
+          "kind": "container",
+          "rect": [
+            24,
+            3691.359375,
+            342,
+            340.578125
+          ]
+        }
+      ],
+      "evidence": "Playwright getBoundingClientRect at page scale 1; region boxes, not glyph outlines"
+    },
+    {
+      "id": "/projects/doldol-390",
+      "phase": "rendered",
+      "canvas": {
+        "width": 390,
+        "height": 1424
+      },
+      "objects": [
+        {
+          "id": "region-0",
+          "kind": "container",
+          "rect": [
+            24,
+            180,
+            342,
+            276.78125
+          ]
+        },
+        {
+          "id": "region-1",
+          "kind": "container",
+          "rect": [
+            24,
+            456.78125,
+            342,
+            604
+          ]
+        },
+        {
+          "id": "region-2",
+          "kind": "container",
+          "rect": [
+            24,
+            1124.78125,
+            342,
+            95
+          ]
+        }
+      ],
+      "evidence": "Playwright getBoundingClientRect at page scale 1; region boxes, not glyph outlines"
+    },
+    {
+      "id": "/workspaces-390",
+      "phase": "rendered",
+      "canvas": {
+        "width": 390,
+        "height": 908
+      },
+      "objects": [
+        {
+          "id": "region-0",
+          "kind": "container",
+          "rect": [
+            24,
+            138,
+            342,
+            44
+          ]
+        },
+        {
+          "id": "region-1",
+          "kind": "container",
+          "rect": [
+            24,
+            206,
+            342,
+            51.1875
+          ]
+        },
+        {
+          "id": "region-2",
+          "kind": "container",
+          "rect": [
+            24,
+            297.1875,
+            342,
+            224
+          ]
+        }
+      ],
+      "evidence": "Playwright getBoundingClientRect at page scale 1; region boxes, not glyph outlines"
+    },
+    {
+      "id": "/-768",
+      "phase": "rendered",
+      "canvas": {
+        "width": 768,
+        "height": 2781
+      },
+      "objects": [
+        {
+          "id": "region-0",
+          "kind": "container",
+          "rect": [
+            40,
+            112,
+            688,
+            309.59375
+          ]
+        },
+        {
+          "id": "region-1",
+          "kind": "container",
+          "rect": [
+            40,
+            421.59375,
+            688,
+            95.390625
+          ]
+        },
+        {
+          "id": "region-2",
+          "kind": "container",
+          "rect": [
+            40,
+            516.984375,
+            688,
+            180
+          ]
+        },
+        {
+          "id": "region-3",
+          "kind": "container",
+          "rect": [
+            40,
+            720.984375,
+            688,
+            18
+          ]
+        },
+        {
+          "id": "region-4",
+          "kind": "container",
+          "rect": [
+            40,
+            746.984375,
+            328,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-5",
+          "kind": "container",
+          "rect": [
+            400,
+            746.984375,
+            328,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-6",
+          "kind": "container",
+          "rect": [
+            40,
+            1002.765625,
+            328,
+            282.171875
+          ]
+        },
+        {
+          "id": "region-7",
+          "kind": "container",
+          "rect": [
+            400,
+            1002.765625,
+            328,
+            282.171875
+          ]
+        },
+        {
+          "id": "region-8",
+          "kind": "container",
+          "rect": [
+            40,
+            1284.9375,
+            328,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-9",
+          "kind": "container",
+          "rect": [
+            400,
+            1284.9375,
+            328,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-10",
+          "kind": "container",
+          "rect": [
+            40,
+            1540.71875,
+            328,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-11",
+          "kind": "container",
+          "rect": [
+            400,
+            1540.71875,
+            328,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-12",
+          "kind": "container",
+          "rect": [
+            40,
+            1796.5,
+            328,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-13",
+          "kind": "container",
+          "rect": [
+            400,
+            1796.5,
+            328,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-14",
+          "kind": "container",
+          "rect": [
+            40,
+            2052.28125,
+            328,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-15",
+          "kind": "container",
+          "rect": [
+            40,
+            2356.0625,
+            688,
+            220.578125
+          ]
+        }
+      ],
+      "evidence": "Playwright getBoundingClientRect at page scale 1; region boxes, not glyph outlines"
+    },
+    {
+      "id": "/projects/doldol-768",
+      "phase": "rendered",
+      "canvas": {
+        "width": 768,
+        "height": 1106
+      },
+      "objects": [
+        {
+          "id": "region-0",
+          "kind": "container",
+          "rect": [
+            40,
+            188,
+            688,
+            226.390625
+          ]
+        },
+        {
+          "id": "region-1",
+          "kind": "container",
+          "rect": [
+            40,
+            414.390625,
+            688,
+            355
+          ]
+        },
+        {
+          "id": "region-2",
+          "kind": "container",
+          "rect": [
+            40,
+            833.390625,
+            688,
+            69
+          ]
+        }
+      ],
+      "evidence": "Playwright getBoundingClientRect at page scale 1; region boxes, not glyph outlines"
+    },
+    {
+      "id": "/workspaces-768",
+      "phase": "rendered",
+      "canvas": {
+        "width": 768,
+        "height": 900
+      },
+      "objects": [
+        {
+          "id": "region-0",
+          "kind": "container",
+          "rect": [
+            40,
+            146,
+            688,
+            44
+          ]
+        },
+        {
+          "id": "region-1",
+          "kind": "container",
+          "rect": [
+            40,
+            214,
+            688,
+            28.796875
+          ]
+        },
+        {
+          "id": "region-2",
+          "kind": "container",
+          "rect": [
+            40,
+            282.796875,
+            688,
+            158
+          ]
+        }
+      ],
+      "evidence": "Playwright getBoundingClientRect at page scale 1; region boxes, not glyph outlines"
+    },
+    {
+      "id": "/-1440",
+      "phase": "rendered",
+      "canvas": {
+        "width": 1440,
+        "height": 2603
+      },
+      "objects": [
+        {
+          "id": "region-0",
+          "kind": "container",
+          "rect": [
+            160,
+            112,
+            1120,
+            343.1875
+          ]
+        },
+        {
+          "id": "region-1",
+          "kind": "container",
+          "rect": [
+            160,
+            455.1875,
+            1120,
+            95.390625
+          ]
+        },
+        {
+          "id": "region-2",
+          "kind": "container",
+          "rect": [
+            160,
+            550.578125,
+            1120,
+            74
+          ]
+        },
+        {
+          "id": "region-3",
+          "kind": "container",
+          "rect": [
+            160,
+            648.578125,
+            1120,
+            18
+          ]
+        },
+        {
+          "id": "region-4",
+          "kind": "container",
+          "rect": [
+            160,
+            674.578125,
+            528,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-5",
+          "kind": "container",
+          "rect": [
+            752,
+            674.578125,
+            528,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-6",
+          "kind": "container",
+          "rect": [
+            160,
+            930.359375,
+            528,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-7",
+          "kind": "container",
+          "rect": [
+            752,
+            930.359375,
+            528,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-8",
+          "kind": "container",
+          "rect": [
+            160,
+            1186.140625,
+            528,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-9",
+          "kind": "container",
+          "rect": [
+            752,
+            1186.140625,
+            528,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-10",
+          "kind": "container",
+          "rect": [
+            160,
+            1441.921875,
+            528,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-11",
+          "kind": "container",
+          "rect": [
+            752,
+            1441.921875,
+            528,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-12",
+          "kind": "container",
+          "rect": [
+            160,
+            1697.703125,
+            528,
+            229.390625
+          ]
+        },
+        {
+          "id": "region-13",
+          "kind": "container",
+          "rect": [
+            752,
+            1697.703125,
+            528,
+            229.390625
+          ]
+        },
+        {
+          "id": "region-14",
+          "kind": "container",
+          "rect": [
+            160,
+            1927.09375,
+            528,
+            229.390625
+          ]
+        },
+        {
+          "id": "region-15",
+          "kind": "container",
+          "rect": [
+            160,
+            2204.484375,
+            1120,
+            194.984375
+          ]
+        }
+      ],
+      "evidence": "Playwright getBoundingClientRect at page scale 1; region boxes, not glyph outlines"
+    },
+    {
+      "id": "/projects/doldol-1440",
+      "phase": "rendered",
+      "canvas": {
+        "width": 1440,
+        "height": 1133
+      },
+      "objects": [
+        {
+          "id": "region-0",
+          "kind": "container",
+          "rect": [
+            160,
+            188,
+            800,
+            252.78125
+          ]
+        },
+        {
+          "id": "region-1",
+          "kind": "container",
+          "rect": [
+            160,
+            440.78125,
+            1120,
+            355
+          ]
+        },
+        {
+          "id": "region-2",
+          "kind": "container",
+          "rect": [
+            160,
+            859.78125,
+            1120,
+            69
+          ]
+        }
+      ],
+      "evidence": "Playwright getBoundingClientRect at page scale 1; region boxes, not glyph outlines"
+    },
+    {
+      "id": "/workspaces-1440",
+      "phase": "rendered",
+      "canvas": {
+        "width": 1440,
+        "height": 900
+      },
+      "objects": [
+        {
+          "id": "region-0",
+          "kind": "container",
+          "rect": [
+            160,
+            146,
+            1120,
+            70.390625
+          ]
+        },
+        {
+          "id": "region-1",
+          "kind": "container",
+          "rect": [
+            160,
+            240.390625,
+            738.71875,
+            28.796875
+          ]
+        },
+        {
+          "id": "region-2",
+          "kind": "container",
+          "rect": [
+            160,
+            309.1875,
+            1120,
+            158
+          ]
+        }
+      ],
+      "evidence": "Playwright getBoundingClientRect at page scale 1; region boxes, not glyph outlines"
+    },
+    {
+      "id": "/-1920",
+      "phase": "rendered",
+      "canvas": {
+        "width": 1920,
+        "height": 2603
+      },
+      "objects": [
+        {
+          "id": "region-0",
+          "kind": "container",
+          "rect": [
+            400,
+            112,
+            1120,
+            343.1875
+          ]
+        },
+        {
+          "id": "region-1",
+          "kind": "container",
+          "rect": [
+            400,
+            455.1875,
+            1120,
+            95.390625
+          ]
+        },
+        {
+          "id": "region-2",
+          "kind": "container",
+          "rect": [
+            400,
+            550.578125,
+            1120,
+            74
+          ]
+        },
+        {
+          "id": "region-3",
+          "kind": "container",
+          "rect": [
+            400,
+            648.578125,
+            1120,
+            18
+          ]
+        },
+        {
+          "id": "region-4",
+          "kind": "container",
+          "rect": [
+            400,
+            674.578125,
+            528,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-5",
+          "kind": "container",
+          "rect": [
+            992,
+            674.578125,
+            528,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-6",
+          "kind": "container",
+          "rect": [
+            400,
+            930.359375,
+            528,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-7",
+          "kind": "container",
+          "rect": [
+            992,
+            930.359375,
+            528,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-8",
+          "kind": "container",
+          "rect": [
+            400,
+            1186.140625,
+            528,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-9",
+          "kind": "container",
+          "rect": [
+            992,
+            1186.140625,
+            528,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-10",
+          "kind": "container",
+          "rect": [
+            400,
+            1441.921875,
+            528,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-11",
+          "kind": "container",
+          "rect": [
+            992,
+            1441.921875,
+            528,
+            255.78125
+          ]
+        },
+        {
+          "id": "region-12",
+          "kind": "container",
+          "rect": [
+            400,
+            1697.703125,
+            528,
+            229.390625
+          ]
+        },
+        {
+          "id": "region-13",
+          "kind": "container",
+          "rect": [
+            992,
+            1697.703125,
+            528,
+            229.390625
+          ]
+        },
+        {
+          "id": "region-14",
+          "kind": "container",
+          "rect": [
+            400,
+            1927.09375,
+            528,
+            229.390625
+          ]
+        },
+        {
+          "id": "region-15",
+          "kind": "container",
+          "rect": [
+            400,
+            2204.484375,
+            1120,
+            194.984375
+          ]
+        }
+      ],
+      "evidence": "Playwright getBoundingClientRect at page scale 1; region boxes, not glyph outlines"
+    },
+    {
+      "id": "/projects/doldol-1920",
+      "phase": "rendered",
+      "canvas": {
+        "width": 1920,
+        "height": 1133
+      },
+      "objects": [
+        {
+          "id": "region-0",
+          "kind": "container",
+          "rect": [
+            400,
+            188,
+            800,
+            252.78125
+          ]
+        },
+        {
+          "id": "region-1",
+          "kind": "container",
+          "rect": [
+            400,
+            440.78125,
+            1120,
+            355
+          ]
+        },
+        {
+          "id": "region-2",
+          "kind": "container",
+          "rect": [
+            400,
+            859.78125,
+            1120,
+            69
+          ]
+        }
+      ],
+      "evidence": "Playwright getBoundingClientRect at page scale 1; region boxes, not glyph outlines"
+    },
+    {
+      "id": "/workspaces-1920",
+      "phase": "rendered",
+      "canvas": {
+        "width": 1920,
+        "height": 900
+      },
+      "objects": [
+        {
+          "id": "region-0",
+          "kind": "container",
+          "rect": [
+            400,
+            146,
+            1120,
+            70.390625
+          ]
+        },
+        {
+          "id": "region-1",
+          "kind": "container",
+          "rect": [
+            400,
+            240.390625,
+            738.71875,
+            28.796875
+          ]
+        },
+        {
+          "id": "region-2",
+          "kind": "container",
+          "rect": [
+            400,
+            309.1875,
+            1120,
+            158
+          ]
+        }
+      ],
+      "evidence": "Playwright getBoundingClientRect at page scale 1; region boxes, not glyph outlines"
+    }
+  ],
+  "constraints": {}
+}

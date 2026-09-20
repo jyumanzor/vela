@@ -8,7 +8,7 @@ export function SignInScreen({ slug, name, accent, error }: { slug: string; name
     <div style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "120px 24px 64px" }}>
       <div
         aria-hidden
-        style={{ position: "absolute", top: "20%", left: "50%", transform: "translateX(-50%)", width: 520, height: 360, pointerEvents: "none", background: `radial-gradient(closest-side, color-mix(in oklab, ${accent} 13%, transparent), transparent)` }}
+        style={{ position: "absolute", top: "20%", left: "50%", transform: "translateX(-50%)", width: "min(520px, 100%)", height: 360, pointerEvents: "none", background: `radial-gradient(closest-side, color-mix(in oklab, ${accent} 13%, transparent), transparent)` }}
       />
       <div
         style={{
@@ -39,6 +39,7 @@ export function SignInScreen({ slug, name, accent, error }: { slug: string; name
           <input
             type="password"
             name="password"
+            aria-label="Access password"
             required
             autoComplete="current-password"
             placeholder="Access password"

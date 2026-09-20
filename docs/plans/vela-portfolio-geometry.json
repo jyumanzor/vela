@@ -1,0 +1,209 @@
+{
+  "surface_id": "vela-portfolio",
+  "snapshots": [
+    {
+      "id": "390",
+      "phase": "precode",
+      "canvas": {
+        "width": 390,
+        "height": 1300
+      },
+      "objects": [
+        {
+          "id": "header",
+          "kind": "container",
+          "rect": [
+            24,
+            0,
+            342,
+            72
+          ]
+        },
+        {
+          "id": "intro",
+          "kind": "container",
+          "rect": [
+            24,
+            112,
+            342,
+            220
+          ]
+        },
+        {
+          "id": "filters",
+          "kind": "container",
+          "rect": [
+            24,
+            380,
+            342,
+            150
+          ]
+        },
+        {
+          "id": "list",
+          "kind": "container",
+          "rect": [
+            24,
+            570,
+            342,
+            600
+          ]
+        }
+      ]
+    },
+    {
+      "id": "768",
+      "phase": "precode",
+      "canvas": {
+        "width": 768,
+        "height": 1300
+      },
+      "objects": [
+        {
+          "id": "header",
+          "kind": "container",
+          "rect": [
+            40,
+            0,
+            688,
+            72
+          ]
+        },
+        {
+          "id": "intro",
+          "kind": "container",
+          "rect": [
+            40,
+            112,
+            688,
+            220
+          ]
+        },
+        {
+          "id": "filters",
+          "kind": "container",
+          "rect": [
+            40,
+            380,
+            688,
+            150
+          ]
+        },
+        {
+          "id": "list",
+          "kind": "container",
+          "rect": [
+            40,
+            570,
+            688,
+            600
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1440",
+      "phase": "precode",
+      "canvas": {
+        "width": 1440,
+        "height": 1300
+      },
+      "objects": [
+        {
+          "id": "header",
+          "kind": "container",
+          "rect": [
+            160.0,
+            0,
+            1120.0,
+            72
+          ]
+        },
+        {
+          "id": "intro",
+          "kind": "container",
+          "rect": [
+            160.0,
+            112,
+            1120.0,
+            220
+          ]
+        },
+        {
+          "id": "filters",
+          "kind": "container",
+          "rect": [
+            160.0,
+            380,
+            1120.0,
+            150
+          ]
+        },
+        {
+          "id": "list",
+          "kind": "container",
+          "rect": [
+            160.0,
+            570,
+            1120.0,
+            600
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1920",
+      "phase": "precode",
+      "canvas": {
+        "width": 1920,
+        "height": 1300
+      },
+      "objects": [
+        {
+          "id": "header",
+          "kind": "container",
+          "rect": [
+            400.0,
+            0,
+            1120.0,
+            72
+          ]
+        },
+        {
+          "id": "intro",
+          "kind": "container",
+          "rect": [
+            400.0,
+            112,
+            1120.0,
+            220
+          ]
+        },
+        {
+          "id": "filters",
+          "kind": "container",
+          "rect": [
+            400.0,
+            380,
+            1120.0,
+            150
+          ]
+        },
+        {
+          "id": "list",
+          "kind": "container",
+          "rect": [
+            400.0,
+            570,
+            1120.0,
+            600
+          ]
+        }
+      ]
+    }
+  ],
+  "constraints": {
+    "minimum_clearance": 16
+  },
+  "version": 1
+}
